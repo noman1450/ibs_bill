@@ -26,11 +26,6 @@ use App\Models\AssignedRoles;
 
 class PermissionsController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         return view("users.permission.permissionlist");
@@ -47,22 +42,22 @@ class PermissionsController extends Controller
     }
 
     public function getpermissionlist(){
-        $view_data = DB::select("SELECT 
+        $view_data = DB::select("SELECT
                                      id,name,display_name
-                                FROM 
+                                FROM
                                     permissions  WHERE permissions.isActive=1 ");
 
 
         $reservation_data   = collect($view_data);
         return DataTables::of($reservation_data)
         ->setRowId('id')
-        ->make(true);        
+        ->make(true);
     }
 
 
     public function role_permission_display(){
 
-        // $permission = DB::select("SELECT 
+        // $permission = DB::select("SELECT
         //             permissions.id,
         //             permissions.display_name,
         //             permission_role.permission_id AS permission_id,
@@ -72,7 +67,7 @@ class PermissionsController extends Controller
         //                 LEFT JOIN
         //             permission_role ON permission_role.permission_id = permissions.id
         //             WHERE permissions.isActive=1 ;");
-        
+
         // $all_permission = Permission::all();
         // $all_roles = Role::all();
         return view('users.permission.role_permission');
@@ -81,12 +76,12 @@ class PermissionsController extends Controller
 
       public function store(Request $request)
     {
-        
 
-        $validator = Validator::make($request->all(), [    
+
+        $validator = Validator::make($request->all(), [
             'permission_name'  => 'required|unique:permissions,name',
             'display_name'     => 'required'
-        ]);           
+        ]);
 
         if( $validator->fails() ){
            return Response::json(array(
@@ -94,7 +89,7 @@ class PermissionsController extends Controller
                'messages'  => implode(",",$validator->getMessageBag()->all()),
                // 'errors'    => $validator->getMessageBag()->toArray()
            ));
-       } 
+       }
 
         $permission                 = new Permission;
         $permission->name           = $request->permission_name;
@@ -102,7 +97,7 @@ class PermissionsController extends Controller
         $permission->isActive       = 1;
         $permission->save();
 
-        // $request->session()->flash('alert-success', 'data has been successfully added!');        
+        // $request->session()->flash('alert-success', 'data has been successfully added!');
         // return Redirect::to('permission');
 
          return response::json(array(
@@ -118,7 +113,7 @@ class PermissionsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-  
 
- 
+
+
 }
