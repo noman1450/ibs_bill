@@ -10,28 +10,20 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 class SendMail extends Mailable
 {
     use Queueable, SerializesModels;
+
     public $data;
-    /**
-     * Create a new message instance.
-     *
-     * @return void
-     */
+
     public function __construct($data)
     {
         $this->data = $data;
     }
 
-    /**
-     * Build the message.
-     *
-     * @return $this
-     */
-    public function build()
+    public function build(): SendMail
     {
-        // dd($this);
-
-        return $this->from($this->data['email'])->subject($this->data['subject'])->view('mails.mail')->with('data', $this->data);
-        // return $this->from($this->data['email'])->subject($this->data['subject'])->view('feedback')->with('data', $this->data);
+        return $this->from($this->data['email'])
+            ->subject($this->data['subject'])
+            ->view('mails.mail')
+            ->with('data', $this->data);
     }
 }
 

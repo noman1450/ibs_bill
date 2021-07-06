@@ -24,15 +24,6 @@ use App\Http\Requests\PostRequest;
 
 class BranchController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }      
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         return view("MasterSetting.branch.index");
@@ -49,7 +40,7 @@ class BranchController extends Controller
                     JOIN
                     company_infos ON branchs.company_infos_id = company_infos.id");
 
-        
+
 
                     $branchs = collect($branch);
                     return Datatables::of($branchs)
@@ -81,8 +72,8 @@ class BranchController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {  
-       
+    {
+
 
 
         $validator = Validator::make($request->all(), [
@@ -98,9 +89,9 @@ class BranchController extends Controller
                'messages'  => implode(",",$validator->getMessageBag()->all()),
                // 'errors'    => $validator->getMessageBag()->toArray()
            ));
-       } 
+       }
 
- 
+
 
         DB::beginTransaction();
         try {
@@ -119,23 +110,23 @@ class BranchController extends Controller
         } catch (\Exception $e) {
             DB::rollback();
             return Redirect()->back()->withErrors($e->getMessage())->withInput();
-        }   
+        }
 
 
         return response::json(array(
            'success'   => true,
            // 'id'        => Crypt::encrypt($insert_data->id),
            'messages'  => 'Successfully insert!'
-         //   'messages'  => 
+         //   'messages'  =>
         ));
 
-  
+
          // return back(),
 
- 
 
-        // $request->session()->flash('alert-success', 'data has been successfully added!');        
-        // return Redirect::to('branchs');           
+
+        // $request->session()->flash('alert-success', 'data has been successfully added!');
+        // return Redirect::to('branchs');
     }
 
     /**
@@ -159,7 +150,7 @@ class BranchController extends Controller
     {
         $branch  = Branch::findOrFail(Crypt::decrypt($id));
           $companys=Company::all();
-        return view('MasterSetting.branch.edit', compact('branch','companys'));        
+        return view('MasterSetting.branch.edit', compact('branch','companys'));
     }
 
     /**
@@ -181,7 +172,7 @@ class BranchController extends Controller
        ]);
 
 
-       
+
 
        if( $validator->fails() ){
            return Response::json(array(
@@ -189,7 +180,7 @@ class BranchController extends Controller
                'messages'  => implode(",",$validator->getMessageBag()->all()),
                // 'errors'    => $validator->getMessageBag()->toArray()
            ));
-       } 
+       }
 
 
 
@@ -210,10 +201,10 @@ class BranchController extends Controller
         } catch (\Exception $e) {
             DB::rollback();
             return Redirect()->back()->withErrors($e->getMessage())->withInput();
-        }     
+        }
 
-        //$request->session()->flash('alert-success', 'data has been successfully update!');        
-       // return Redirect::to('branchs');  
+        //$request->session()->flash('alert-success', 'data has been successfully update!');
+       // return Redirect::to('branchs');
 
          return response::json(array(
            'success'   => true,

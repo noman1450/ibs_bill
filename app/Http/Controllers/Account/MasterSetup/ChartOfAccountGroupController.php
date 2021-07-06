@@ -18,13 +18,6 @@ use Exception;
 
 class ChartOfAccountGroupController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    //test 
-
     public function index()
     {
         //
@@ -52,14 +45,14 @@ class ChartOfAccountGroupController extends Controller
         var_dump($request->name);
         $id = DB::table('users')->insertGetId(
             [
-                'name' => $request->name, 
-                'nett_debit_credit_balance' => $request->nett_debit_credit_balance, 
-                'use_calculation_taxes_discount ' => $request->use_calculation_taxes_discount, 
-                'group_behaves_sub_ledger' => $request->group_behaves_sub_ledger, 
-                'nature_of_group' => $request->group_nature, 
-                'group_status' => $request->group_status, 
-                'valid' => 1, 
-                'acc_chart_of_account_groups_id' => $request->group_nature, 
+                'name' => $request->name,
+                'nett_debit_credit_balance' => $request->nett_debit_credit_balance,
+                'use_calculation_taxes_discount ' => $request->use_calculation_taxes_discount,
+                'group_behaves_sub_ledger' => $request->group_behaves_sub_ledger,
+                'nature_of_group' => $request->group_nature,
+                'group_status' => $request->group_status,
+                'valid' => 1,
+                'acc_chart_of_account_groups_id' => $request->group_nature,
                 'gross_profit' => 1,
                 'company_infos_id' => 1
             ]

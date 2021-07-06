@@ -31,18 +31,6 @@ use App\Mail\SendMail;
 
 class EmployeeJoinController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }      
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-
-
-
     public function employeeidcard()
     {
         $user_id = Auth::user()->id;
@@ -51,7 +39,7 @@ class EmployeeJoinController extends Controller
         return view('MasterSetting.join_employee.employeeidcard')
         -> with('customer',  $customer) ;
     }
-    
+
 
 
 
@@ -62,7 +50,7 @@ class EmployeeJoinController extends Controller
     public function employeeidcardlistdata(Request $request){
 
 
-        $data   = DB::select("SELECT 
+        $data   = DB::select("SELECT
                                     s.id,
                                     CONCAT(c.client_name) AS customer,
                                     s.to_information,
@@ -78,7 +66,7 @@ class EmployeeJoinController extends Controller
                                         AND s.valid = 1
                                 WHERE
                                     s.valid = 1
-                                        AND s.id NOT IN (SELECT 
+                                        AND s.id NOT IN (SELECT
                                             service_confiq_id
                                         FROM
                                             maintenace_bill
@@ -86,7 +74,7 @@ class EmployeeJoinController extends Controller
                                             year_id = $request->year_id AND month_id = $request->month_id)");
 
 
-        return json_encode(array('data' => $data)); 
+        return json_encode(array('data' => $data));
 
     }
 
@@ -98,41 +86,41 @@ class EmployeeJoinController extends Controller
 
 
 
-       
-   
+
+
         $count_row  = count($request->id);
 
         for($r = 0; $r <$count_row; $r++) {
 
             $service_confiq_id            = $request->id[$r];
-         
-    
+
+
             $code = Service::leftjoin('client_information as c','c.id','=','service_confiq.client_information_id')
             ->select('c.address','c.client_name','c.client_code','c.contact_person','c.email','c.created_at','service_confiq.id','service_confiq.to_information','service_confiq.from_information','service_confiq.software_name','service_confiq.send_to','service_confiq.amount')
-            ->where('service_confiq.id', $service_confiq_id)->first(); 
+            ->where('service_confiq.id', $service_confiq_id)->first();
 
 
 
 
 
             if (empty($code)){
-               $request->session()->flash('alert-danger', 'Please Check This List,Some Employees has no finger code!');        
-               return Redirect()->back();    
+               $request->session()->flash('alert-danger', 'Please Check This List,Some Employees has no finger code!');
+               return Redirect()->back();
             }
 
 
-         
 
-        
+
+
 
         try{
 
- 
-       $word =Terbilang::make($code->amount); 
+
+       $word =Terbilang::make($code->amount);
        $emailsInfo = $code->to_information;
        $emails     = explode(',',$emailsInfo);
 
-  
+
         $bill_no = $this->generate_tr_number("maintenace_bill","bill_no");
 
 
@@ -147,7 +135,7 @@ class EmployeeJoinController extends Controller
         $insertedId = $insert_in->id;
 
 
-        $dt=$code->created_at->toFormattedDateString(); 
+        $dt=$code->created_at->toFormattedDateString();
 
         $data["name"]='BD accounts';
         $data["subject"]="Maintenace charge for $code->software_name";
@@ -165,13 +153,13 @@ class EmployeeJoinController extends Controller
         $data["word"]=  $word;
         $data["emailsinfo"]=  $emails;
 
-     
+
 
 
        $pdf = PDF::loadView('mails.pdf',$data);
 
 
-    
+
             Mail::send('mails.mail', $data, function($message)use($data,$pdf) {
             $message->to($data['emailsinfo'], $data["email"])
             ->subject($data["subject"])
@@ -183,7 +171,7 @@ class EmployeeJoinController extends Controller
         }
 
 
-      
+
 
 
 
@@ -192,11 +180,11 @@ class EmployeeJoinController extends Controller
         $data_in->payableamount                   = $code->amount;
         $data_in->receiving_amount                = 0;
         $data_in->save();
-      
+
 
 
           if (Mail::failures()) {
-            
+
                return response::json(array(
            'success'   => true,
            // 'id'        => Crypt::encrypt($insert_data->id),
@@ -227,7 +215,7 @@ class EmployeeJoinController extends Controller
 
 
         $search  = DB::select("SELECT MAX(RIGHT($column_name,8)) As invno FROM $table_name ");
-        
+
 
 
         foreach ($search as $key)
@@ -252,7 +240,7 @@ class EmployeeJoinController extends Controller
             } else {
 
                 $a = "0001";
-                $new_invoice_no = $yearid . $monthid . $a;    
+                $new_invoice_no = $yearid . $monthid . $a;
 
             }
         }

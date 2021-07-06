@@ -26,28 +26,10 @@ use App\Models\AssignedRoles;
 
 class AssignedRoleController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    
-
- 
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-  
-
-
-
-    public function user_role_display(){
+    public function user_role_display()
+    {
         $roles = DB::table('roles')->select('id','name')->get();
-        $query_users = "SELECT 
+        $query_users = "SELECT
                             users.id AS users_id,
                             users.name AS username,
                             GROUP_CONCAT(roles.name) as name
@@ -57,20 +39,17 @@ class AssignedRoleController extends Controller
                             assigned_roles ON users.id = assigned_roles.users_id
                                 LEFT JOIN
                             roles ON assigned_roles.roles_id = roles.id
-GROUP BY users.id";
+                                GROUP BY users.id";
         $users = DB::select($query_users);
         // dd($user);
-        return view('users.assigned_roles.user_role')->with('users',$users)->with('roles', $roles);        
+        return view('users.assigned_roles.user_role')->with('users',$users)->with('roles', $roles);
     }
 
-    public function submit_user_role($id){
-
-        // dd($id);
-
+    public function submit_user_role($id)
+    {
         $user       = DB::table('users')->select('id','name','email')->where('id',$id)->first();
-        // $all_roles  = DB::table('roles')->select('id','name')->get();
-        
-        $query_roles="SELECT 
+
+        $query_roles="SELECT
                             roles.id AS roles_id, roles.name AS role_name,assigned_roles.roles_id as assigned_roles_id
                         FROM
                             roles
@@ -80,17 +59,16 @@ GROUP BY users.id";
 
         $roles=DB::select($query_roles);
 
-
-        if(sizeof($roles)==0){
+        if(sizeof($roles)==0) {
             return view('users.assigned_roles.user_role_create')
                 ->with('user',$user);
-                // ->with('all_roles',$all_roles);
-        }else{
+            // ->with('all_roles',$all_roles);
+        } else {
             return view('users.assigned_roles.user_role_create')
-                    ->with('user',$user)
-                    // ->with('all_roles',$all_roles)
-                    ->with('roles',$roles);
-        }        
+                ->with('user',$user)
+                // ->with('all_roles',$all_roles)
+                ->with('roles',$roles);
+        }
     }
 
     public function add_user_role(Request $request){
@@ -101,7 +79,7 @@ GROUP BY users.id";
         $user  = User::where('id', $request->users_id)->first();
 
         DB::table('assigned_roles')->where('users_id', '=', $request->users_id)->delete();
-     //   DB::table('role_user')->where('user_id', '=', $request->user_id)->delete();
+        //   DB::table('role_user')->where('user_id', '=', $request->user_id)->delete();
 
 
 
@@ -116,7 +94,7 @@ GROUP BY users.id";
 
             // $roleuser= new RoleUser;
             // $roleuser->user_id         =$request->user_id;
-            // $roleuser->role_id         =$role;                           
+            // $roleuser->role_id         =$role;
             // $roleuser->save();
 
 
@@ -125,10 +103,10 @@ GROUP BY users.id";
 
 
 
-   return response::json(array(
-           'success'   => true,
-           // 'id'        => Crypt::encrypt($insert_data->id),
-           'messages'  => 'Data has been successfully updated!'
+        return response::json(array(
+            'success'   => true,
+            // 'id'        => Crypt::encrypt($insert_data->id),
+            'messages'  => 'Data has been successfully updated!'
         ));
     }
 

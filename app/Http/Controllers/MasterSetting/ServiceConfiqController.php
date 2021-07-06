@@ -24,19 +24,8 @@ use App\Http\Requests\PostRequest;
 
 class ServiceConfiqController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }      
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-
-        
         return view("MasterSetting.service.index");
     }
 
@@ -50,7 +39,7 @@ class ServiceConfiqController extends Controller
                     JOIN
                     client_information ON service_confiq.client_information_id = client_information.id");
 
-        
+
 
                     $services = collect($service);
                     return Datatables::of($services)
@@ -82,8 +71,8 @@ class ServiceConfiqController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {  
-       
+    {
+
 
 
         $validator = Validator::make($request->all(), [
@@ -100,9 +89,9 @@ class ServiceConfiqController extends Controller
                'messages'  => implode(",",$validator->getMessageBag()->all()),
                // 'errors'    => $validator->getMessageBag()->toArray()
            ));
-       } 
+       }
 
- 
+
 
         DB::beginTransaction();
         try {
@@ -121,23 +110,23 @@ class ServiceConfiqController extends Controller
         } catch (\Exception $e) {
             DB::rollback();
             return Redirect()->back()->withErrors($e->getMessage())->withInput();
-        }   
+        }
 
 
         return response::json(array(
            'success'   => true,
            // 'id'        => Crypt::encrypt($insert_data->id),
            'messages'  => 'Successfully insert!'
-         //   'messages'  => 
+         //   'messages'  =>
         ));
 
-  
+
          // return back(),
 
- 
 
-        // $request->session()->flash('alert-success', 'data has been successfully added!');        
-        // return Redirect::to('branchs');           
+
+        // $request->session()->flash('alert-success', 'data has been successfully added!');
+        // return Redirect::to('branchs');
     }
 
     /**
@@ -161,7 +150,7 @@ class ServiceConfiqController extends Controller
     {
         $service  = Service::findOrFail(Crypt::decrypt($id));
           $clients=Clients::all();
-        return view('MasterSetting.service.edit', compact('service','clients'));        
+        return view('MasterSetting.service.edit', compact('service','clients'));
     }
 
     /**
@@ -184,7 +173,7 @@ class ServiceConfiqController extends Controller
        ]);
 
 
-       
+
 
        if( $validator->fails() ){
            return Response::json(array(
@@ -192,7 +181,7 @@ class ServiceConfiqController extends Controller
                'messages'  => implode(",",$validator->getMessageBag()->all()),
                // 'errors'    => $validator->getMessageBag()->toArray()
            ));
-       } 
+       }
 
 
 
@@ -213,10 +202,10 @@ class ServiceConfiqController extends Controller
         } catch (\Exception $e) {
             DB::rollback();
             return Redirect()->back()->withErrors($e->getMessage())->withInput();
-        }     
+        }
 
-        //$request->session()->flash('alert-success', 'data has been successfully update!');        
-       // return Redirect::to('branchs');  
+        //$request->session()->flash('alert-success', 'data has been successfully update!');
+       // return Redirect::to('branchs');
 
          return response::json(array(
            'success'   => true,
@@ -250,8 +239,8 @@ class ServiceConfiqController extends Controller
         // dd("NOMAN");
 
 
-       session()->flash('alert-success', 'data has been successfully update!');        
-       return Redirect::to('services'); 
+       session()->flash('alert-success', 'data has been successfully update!');
+       return Redirect::to('services');
     }
 
 
@@ -269,7 +258,7 @@ class ServiceConfiqController extends Controller
         // dd("NOMAN");
 
 
-       session()->flash('alert-success', 'data has been successfully deleted!');        
-       return Redirect::to('services'); 
+       session()->flash('alert-success', 'data has been successfully deleted!');
+       return Redirect::to('services');
     }
 }

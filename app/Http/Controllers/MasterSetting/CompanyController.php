@@ -20,15 +20,6 @@ use Crypt;
 
 class CompanyController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }      
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         return view("MasterSetting.companys.index");
@@ -36,13 +27,13 @@ class CompanyController extends Controller
 
     public function getCompany(){
 
- 
+
         $company  =  DB::SELECT("SELECT * FROM company_infos ");
 
         $companys = collect($company);
 
 
-   
+
         return Datatables::of($companys)
         ->addColumn('Link', function ($companys) {
 
@@ -51,7 +42,7 @@ class CompanyController extends Controller
         ->editColumn('id', '{{$id}}')
         ->setRowId('id')
         ->rawColumns(['Link'])
-        ->make(true);  
+        ->make(true);
     }
 
     /**
@@ -71,7 +62,7 @@ class CompanyController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {  
+    {
         $validator = Validator::make($request->all(), [
               'full_name'            => 'required',
             'short_name'            => 'required',
@@ -86,7 +77,7 @@ class CompanyController extends Controller
                'messages'  => implode(",",$validator->getMessageBag()->all()),
                // 'errors'    => $validator->getMessageBag()->toArray()
            ));
-       } 
+       }
 
 
         DB::beginTransaction();
@@ -109,17 +100,17 @@ class CompanyController extends Controller
         } catch (\Exception $e) {
             DB::rollback();
             return Redirect()->back()->withErrors($e->getMessage())->withInput();
-        }     
+        }
 
-       // $request->session()->flash('alert-success', 'data has been successfully added!');        
-      //  return Redirect::to('companys'); 
+       // $request->session()->flash('alert-success', 'data has been successfully added!');
+      //  return Redirect::to('companys');
 
 
        return response::json(array(
            'success'   => true,
            // 'id'        => Crypt::encrypt($insert_data->id),
            'messages'  => 'Successfully update!'
-        ));          
+        ));
     }
 
     /**
@@ -142,7 +133,7 @@ class CompanyController extends Controller
     public function edit($id)
     {
         $company  = Company::findOrFail(Crypt::decrypt($id));
-        return view('MasterSetting.companys.edit', compact('company'));        
+        return view('MasterSetting.companys.edit', compact('company'));
     }
 
     /**
@@ -169,7 +160,7 @@ class CompanyController extends Controller
                'messages'  => implode(",",$validator->getMessageBag()->all()),
                // 'errors'    => $validator->getMessageBag()->toArray()
            ));
-       } 
+       }
 
         DB::beginTransaction();
         try {
@@ -190,10 +181,10 @@ class CompanyController extends Controller
         } catch (\Exception $e) {
             DB::rollback();
             return Redirect()->back()->withErrors($e->getMessage())->withInput();
-        }     
+        }
 
-     //   $request->session()->flash('alert-success', 'data has been successfully update!');        
-      //  return Redirect::to('companys');  
+     //   $request->session()->flash('alert-success', 'data has been successfully update!');
+      //  return Redirect::to('companys');
 
          return response::json(array(
            'success'   => true,
