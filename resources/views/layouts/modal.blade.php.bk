@@ -1,0 +1,96 @@
+<!-- Modal -->
+<div id="parent_modal">
+  <div class="modal fade" id="myModalBody_0" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" id="close_0" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="myModalLabel">New Group </h4>
+        </div>
+        <div class="modal-body">
+        <form id="form_0">
+          <div class="form-group">
+            <label>Name</label>
+            <input id="name_0" type="text" class="form-control" placeholder="Enter name of group" required="required">
+          </div>
+          <div class="form-group">
+            <label>Alias</label>
+            <input id="alias_0" type="text" class="form-control" placeholder="Enter alias">
+          </div>
+          <div class="form-group">
+            <div class="col-6">
+              <label>Nature of Group</label>
+              <select id="group_nature_0" class="form-control select2 group_nature">
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+              <div class="col-6">
+                <label>Group behave as Sub-Ledger</label><br/>
+                <label>
+                  <input type="radio" name="is_subleger_0" id="is_subleger_yes_0"> YES &nbsp;
+                </label>
+                <label>
+                  <input type="radio" name="is_subleger_0" id="is_subleger_no_0" Checked>NO
+                </label>
+              </div>
+          </div>
+          <div class="form-group">
+              <div class="col-6">
+                <label>Nett Debit/Credit Balance for Reporting</label><br/>
+                <label>
+                  <input type="radio" name="balance_reporting_0" id="balance_reporting_yes_0"> YES &nbsp;
+                </label>
+                <label>
+                  <input type="radio" name="balance_reporting_0" id="balance_reporting_no_0" Checked>NO
+                </label>
+              </div>
+          </div>
+          <div class="form-group">
+              <div class="col-6">
+                <label>Used for Calculation (eg. Taxes, Discount)<br/><span style="font-weight: normal;">(for Sales Invoice Entry)</span></label><br/>
+                <label>
+                  <input type="radio" name="is_calculation_0" id="is_calculation_yes_0"> YES &nbsp;
+                </label>
+                <label>
+                  <input type="radio" name="is_calculation_0" id="is_calculation_no_0" Checked>NO
+                </label>
+              </div>
+          </div>
+          <div class="form-group">
+              <div class="col-6">
+                <label>Method to Allocate when used in Purchase Invoice: <span style="font-weight: normal;">Not Applicable</span></label>
+              </div>
+          </div>
+          <div id = "new_modal_button">
+            <button type="button" id="modalButton_1" class="btn btn-primary" data-toggle="modal" data-target="#myModalBody_1" onClick="createNewModal(this)">
+              Launch demo modal
+            </button>
+          </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" id="cancel_0" data-dismiss="modal">Close</button>
+          <button type="button" id="group_data_submit_0" class="btn btn-primary submit">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="{{ asset('js/account_group/modal.js') }}"></script>
+<script type="text/javascript">
+    
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
