@@ -132,7 +132,7 @@
             font-size: 18px;
             text-align: center;
             padding-top: 5px;
-            background-image: url({{asset("images/background4_1.jpg")}});
+            background-image: url(<?php echo e(asset("images/background4_1.jpg")); ?>);
         }
     </style>
 </head>
@@ -189,7 +189,7 @@
                                 <div style="border-top:3px solid #479FD0; border-left:3px solid #479FD0; border-bottom:3px solid #479FD0; border-right:3px solid #479FD0; padding-top:0px; padding-bottom:5px; padding-right: 0px; padding-left: 0px;">
                                     <!--<![endif]-->
                                     <div align="center" class="img-container center autowidth" style="padding-right: 0px;padding-left: 0px;">
-                                        <!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr style="line-height:0px"><td style="padding-right: 0px;padding-left: 0px;" align="center"><![endif]--><img align="center" alt="Alternate text" border="0" class="center autowidth" src="{{asset('images/background2.jpg')}}" style="text-decoration: none; -ms-interpolation-mode: bicubic; height: auto; border: 0; width: 100%; max-width: 694px; display: block;" title="Alternate text" width="694"/>
+                                        <!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr style="line-height:0px"><td style="padding-right: 0px;padding-left: 0px;" align="center"><![endif]--><img align="center" alt="Alternate text" border="0" class="center autowidth" src="<?php echo e(asset('images/background2.jpg')); ?>" style="text-decoration: none; -ms-interpolation-mode: bicubic; height: auto; border: 0; width: 100%; max-width: 694px; display: block;" title="Alternate text" width="694"/>
                                         <!--[if mso]></td></tr></table><![endif]-->
                                     </div>
 
@@ -198,11 +198,12 @@
                                         <div style="line-height: 1.2; font-size: 12px; color: #555555; font-family: Montserrat, Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif; mso-line-height-alt: 14px;">
                                             <p style="font-size: 14px; line-height: 1.2; word-break: break-word; mso-line-height-alt: 17px; margin: 0;">
                                                 <span style="color: #000000;">
-                                                    Reference: <strong>{{ $client_code }}</strong>
+                                                    Reference: <strong><?php echo e($client_code); ?></strong>
                                                 </span>
                                                 <br/>
                                                 <span style="color: #000000;">
-                                                    Date: {{ $created_at }}
+                                                    Date: <?php echo e($created_at); ?>
+
 											    </span>
                                             </p>
 
@@ -211,16 +212,17 @@
                                                 <span style="color: #000000;">To</span>
                                                 <br/>
                                                 <span style="color: #000000;">
-                                                    {{ $send_to }}
+                                                    <?php echo e($send_to); ?>
+
                                                 </span>
 
                                                 <br/>
 
-                                                <strong><span style="color: #000000;">{{ $client_name }}</span></strong>
+                                                <strong><span style="color: #000000;"><?php echo e($client_name); ?></span></strong>
 
-                                                <span style="color: #000000;"></span><br/><span style="color: #000000;font-size: 12px;}">{{ $address }}</span></p>
+                                                <span style="color: #000000;"></span><br/><span style="color: #000000;font-size: 12px;}"><?php echo e($address); ?></span></p>
 
-                                            <p style="font-size: 14px; line-height: 1.2; word-break: break-word; mso-line-height-alt: 17px; margin: 0;"><span style="color: #000000;font-size: 12px;">{{ $client_email }}</span></p>
+                                            <p style="font-size: 14px; line-height: 1.2; word-break: break-word; mso-line-height-alt: 17px; margin: 0;"><span style="color: #000000;font-size: 12px;"><?php echo e($client_email); ?></span></p>
                                         </div>
                                     </div>
 
@@ -250,22 +252,22 @@
                                             </tr>
                                             <tr style="height: 150px;font-size:12px;">
                                                 <td>1</td>
-                                                <td>{{ $softwarename }}</td>
-                                                <td>1@ {{ $amount }}/= Tk.</td>
-                                                <td>{{ $amount }}/= TK.</td>
+                                                <td><?php echo e($softwarename); ?></td>
+                                                <td>1@ <?php echo e($amount); ?>/= Tk.</td>
+                                                <td><?php echo e($amount); ?>/= TK.</td>
                                             </tr>
                                             <tr class="font-size:12px;">
                                                 <td></td>
                                                 <td></td>
                                                 <td>TOTAL</td>
-                                                <td>{{ $amount }}/= TK.</td>
+                                                <td><?php echo e($amount); ?>/= TK.</td>
                                             </tr>
                                         </table>
                                     </div>
 
                                     <div style="color:#555555;font-family:Montserrat, Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif;line-height:1.2;padding-top:10px;padding-right:10px;padding-bottom:10px;padding-left:10px;">
                                         <div style="line-height: 1.2; font-size: 12px; color: #555555; font-family: Montserrat, Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif; mso-line-height-alt: 14px;">
-                                            <p style="font-size: 14px; line-height: 1.2; word-break: break-word; mso-line-height-alt: 17px; margin: 0;"><span style="color: #000000;">In-Words: {{ $word }} only</span></p>
+                                            <p style="font-size: 14px; line-height: 1.2; word-break: break-word; mso-line-height-alt: 17px; margin: 0;"><span style="color: #000000;">In-Words: <?php echo e($word); ?> only</span></p>
                                         </div>
                                     </div>
 
@@ -279,7 +281,7 @@
 
                                     <!--[if mso]></td></tr></table><![endif]-->
                                     <div align="right" class="img-container right autowidth" style="padding-right: 0px;padding-left: 0px;">
-                                        <!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr style="line-height:0px"><td style="padding-right: 0px;padding-left: 0px;" align="right"><![endif]--><img align="right" alt="" border="0" class="right autowidth" src="{{asset('images/background3.jpg')}}" style="text-decoration: none; -ms-interpolation-mode: bicubic; height: auto; border: 0; width: 100%; max-width: 195px; float: none; display: block;" title="Alternate text" width="195"/>
+                                        <!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr style="line-height:0px"><td style="padding-right: 0px;padding-left: 0px;" align="right"><![endif]--><img align="right" alt="" border="0" class="right autowidth" src="<?php echo e(asset('images/background3.jpg')); ?>" style="text-decoration: none; -ms-interpolation-mode: bicubic; height: auto; border: 0; width: 100%; max-width: 195px; float: none; display: block;" title="Alternate text" width="195"/>
                                         <br/>
                                         ------------------------------------
                                         <br/>    Authorized Signature
@@ -316,3 +318,4 @@
 <!--[if (IE)]></div><![endif]-->
 </body>
 </html>
+<?php /**PATH C:\work\ibs_accounts_mail_version\resources\views/mails/pdf.blade.php ENDPATH**/ ?>

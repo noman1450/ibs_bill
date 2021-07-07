@@ -23,7 +23,6 @@ return array(
     'App\\Http\\Controllers\\MasterSetting\\EmployeeJoinController' => $baseDir . '/app/Http/Controllers/MasterSetting/EmployeeJoinController.php',
     'App\\Http\\Controllers\\MasterSetting\\ServiceConfiqController' => $baseDir . '/app/Http/Controllers/MasterSetting/ServiceConfiqController.php',
     'App\\Http\\Controllers\\User\\AssignedRoleController' => $baseDir . '/app/Http/Controllers/User/AssignedRoleController.php',
-    'App\\Http\\Controllers\\User\\Controller' => $baseDir . '/app/Http/Controllers/User/Controller.php',
     'App\\Http\\Controllers\\User\\PermissionsController' => $baseDir . '/app/Http/Controllers/User/PermissionsController.php',
     'App\\Http\\Controllers\\User\\RoleController' => $baseDir . '/app/Http/Controllers/User/RoleController.php',
     'App\\Http\\Controllers\\User\\RolePermissionsController' => $baseDir . '/app/Http/Controllers/User/RolePermissionsController.php',

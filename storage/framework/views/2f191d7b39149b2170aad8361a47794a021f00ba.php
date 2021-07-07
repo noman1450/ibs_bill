@@ -1,6 +1,4 @@
-@extends('layouts.main')
-
-@section('styles')
+<?php $__env->startSection('styles'); ?>
     <style type="text/css">
         .table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
             padding: 5px;
@@ -17,13 +15,14 @@
             background-color: #C1C2C7;
         }
     </style>
-@endsection
+<?php $__env->stopSection(); ?>
 
 
-@section('content')
+<?php $__env->startSection('content'); ?>
     <div class="box box-default">
-        <form  method="POST" action="{{url('submitemployeeidcard')}}" onkeypress="return event.keyCode != 13;" id="all_frm_data">
-            {{ csrf_field() }}
+        <form  method="POST" action="<?php echo e(url('submitemployeeidcard')); ?>" onkeypress="return event.keyCode != 13;" id="all_frm_data">
+            <?php echo e(csrf_field()); ?>
+
             <div class="box-header with-border">
                 <h3 class="box-title">Service Id Card Print</h3>
 
@@ -102,17 +101,17 @@
             </div>
         </form>
     </div>
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section('script')
+<?php $__env->startSection('script'); ?>
     <script>
         $(document).ready(function($) {
             $("#search").click(function(){
                 $.ajax({
                     type:   'POST',
-                    url :   "{{URL::to('/')}}/employeeidcardlistdata",
+                    url :   "<?php echo e(URL::to('/')); ?>/employeeidcardlistdata",
                     headers:{
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        'X-CSRF-TOKEN': '<?php echo e(csrf_token()); ?>'
                     },
                     data:   {
                         year_id : $("#year").val(),
@@ -199,4 +198,6 @@
             })
         });
     </script>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.main', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\work\ibs_accounts_mail_version\resources\views/MasterSetting/join_employee/employeeidcard.blade.php ENDPATH**/ ?>

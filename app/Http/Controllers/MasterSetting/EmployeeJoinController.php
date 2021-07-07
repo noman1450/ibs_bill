@@ -2,256 +2,103 @@
 
 namespace App\Http\Controllers\MasterSetting;
 
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-
-use App\Http\Requests;
-use Illuminate\Support\Facades\Hash;
-
-use App\Models\MasterSetting\Service;
-use App\Models\MasterSetting\Clients;
+use App\Jobs\SendMailToClientJob;
 use App\Models\MasterSetting\Maintenace;
 use App\Models\MasterSetting\MaintenaceBillLedger;
-
-use Validator;
-use Response;
-use Redirect;
-use Auth;
-use DB;
-use Entrust;
-use Yajra\DataTables\DataTables;
-use Crypt;
-use App\Post;
-use App\Http\Requests\PostRequest;
-use DateTime;
-use PDF;
-use Mail;
-use Terbilang;
-use App\Mail\SendMail;
+use App\Models\MasterSetting\Service;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 
 class EmployeeJoinController extends Controller
 {
     public function employeeidcard()
     {
-        $user_id = Auth::user()->id;
-        $customer = DB::select("SELECT s.id,s.from_information,s.software_name,s.send_to FROM service_confiq s JOIN client_information c ON c.id=s.client_information_id");
+        $customer = DB::select("
+            select s.id, s.from_information, s.software_name, s.send_to
+                from
+            service_confiq s
+                join
+            client_information c on c.id = s.client_information_id
+        ");
 
         return view('MasterSetting.join_employee.employeeidcard')
-        -> with('customer',  $customer) ;
+            ->with('customer', $customer);
     }
 
-
-
-
-
-
-
-
-    public function employeeidcardlistdata(Request $request){
-
-
-        $data   = DB::select("SELECT
-                                    s.id,
-                                    CONCAT(c.client_name) AS customer,
-                                    s.to_information,
-                                    s.from_information,
-                                    s.software_name,
-                                    s.valid,
-                                    s.send_to,
-                                    s.amount
-                                FROM
-                                    service_confiq s
-                                        JOIN
-                                    client_information c ON s.client_information_id = c.id
-                                        AND s.valid = 1
-                                WHERE
-                                    s.valid = 1
-                                        AND s.id NOT IN (SELECT
-                                            service_confiq_id
-                                        FROM
-                                            maintenace_bill
-                                        WHERE
-                                            year_id = $request->year_id AND month_id = $request->month_id)");
-
-
-        return json_encode(array('data' => $data));
-
-    }
-
-
-
-
- public function submitemployeeidcard(Request $request)
+    public function employeeidcardlistdata(Request $request)
     {
+        $data = DB::select("
+            select s.id, CONCAT(c.client_name) AS customer, s.to_information, s.from_information,
+                   s.software_name, s.valid, s.send_to, s.amount
+                from
+            service_confiq s
+                join
+            client_information c on s.client_information_id = c.id
+                and s.valid = 1
+                where s.valid = 1
+                and s.id not in (
+                    select service_confiq_id
+                        from
+                    maintenace_bill
+                        where
+                            year_id = $request->year_id
+                        and
+                            month_id = $request->month_id
+                    )
+        ");
 
+        return response()->json(['data' => $data]);
+    }
 
+    public function submitemployeeidcard(Request $request)
+    {
+        if (empty($request->ids)) {
+            $request->session()->flash('alert-danger', 'Please Check This List,Some Employees has no finger code!');
+            return redirect()->back();
+        }
 
+        $sendMailToClients = DB::table('service_confiq')
+            ->leftjoin('client_information as c', 'c.id', '=', 'service_confiq.client_information_id')
+            ->select('c.address', 'c.client_name', 'c.client_code', 'c.contact_person', 'c.email', 'c.created_at',
+                'service_confiq.id', 'service_confiq.to_information', 'service_confiq.from_information',
+                'service_confiq.software_name', 'service_confiq.send_to', 'service_confiq.amount'
+            )
+            ->whereIn('service_confiq.id', $request->ids)
+            ->get();
 
+        SendMailToClientJob::dispatch($sendMailToClients);
 
-        $count_row  = count($request->id);
+        $this->fillOtherTable($request, $sendMailToClients);
 
-        for($r = 0; $r <$count_row; $r++) {
+        return response()->json([
+            'success'   => true,
+            'messages'  => 'Successfully update!'
+        ]);
+    }
 
-            $service_confiq_id            = $request->id[$r];
+    protected function fillOtherTable($request, $sendMailToClients)
+    {
+        foreach ($sendMailToClients as $service) {
 
+            $bill_no = Service::generate_tr_number("maintenace_bill", "bill_no");
 
-            $code = Service::leftjoin('client_information as c','c.id','=','service_confiq.client_information_id')
-            ->select('c.address','c.client_name','c.client_code','c.contact_person','c.email','c.created_at','service_confiq.id','service_confiq.to_information','service_confiq.from_information','service_confiq.software_name','service_confiq.send_to','service_confiq.amount')
-            ->where('service_confiq.id', $service_confiq_id)->first();
+            DB::transaction(function () use ($service, $request, $bill_no) {
+                $maintenance = new Maintenace;
+                $maintenance->service_confiq_id = $service->id;
+                $maintenance->year_id = $request->year;
+                $maintenance->month_id = $request->month;
+                $maintenance->bill_no = 'IBS-'.$bill_no;
+                $maintenance->amount = $service->amount;
+                $maintenance->send_to = $service->send_to;
+                $maintenance->save();
 
-
-
-
-
-            if (empty($code)){
-               $request->session()->flash('alert-danger', 'Please Check This List,Some Employees has no finger code!');
-               return Redirect()->back();
-            }
-
-
-
-
-
-
-        try{
-
-
-       $word =Terbilang::make($code->amount);
-       $emailsInfo = $code->to_information;
-       $emails     = explode(',',$emailsInfo);
-
-
-        $bill_no = $this->generate_tr_number("maintenace_bill","bill_no");
-
-
-        $insert_in     = new Maintenace;
-        $insert_in->service_confiq_id              = $service_confiq_id;
-        $insert_in->year_id                        = $request->year;
-        $insert_in->month_id                       = $request->month;
-        $insert_in->bill_no                        = 'IBS-'.$bill_no;
-        $insert_in->amount                         = $code->amount;
-        $insert_in->send_to                        =  $code->send_to;
-        $insert_in->save();
-        $insertedId = $insert_in->id;
-
-
-        $dt=$code->created_at->toFormattedDateString();
-
-        $data["name"]='BD accounts';
-        $data["subject"]="Maintenace charge for $code->software_name";
-        $data["to_information"]= $code->to_information;
-        $data["email"]=$code->from_information;
-        $data["amount"]=$code->amount;
-        $data["softwarename"]= 'Maintenace charge for '.$code->software_name;
-        $data["address"]= $code->address;
-        $data["client_name"]=  $code->client_name;
-        $data["client_code"]= 'IBS-'.$bill_no;
-        $data["contact_person"]= $code->contact_person;
-        $data["client_email"]=$code->email;
-        $data["send_to"]=  $code->send_to;
-        $data["created_at"]=  $dt;
-        $data["word"]=  $word;
-        $data["emailsinfo"]=  $emails;
-
-
-
-
-       $pdf = PDF::loadView('mails.pdf',$data);
-
-
-
-            Mail::send('mails.mail', $data, function($message)use($data,$pdf) {
-            $message->to($data['emailsinfo'], $data["email"])
-            ->subject($data["subject"])
-            ->attachData($pdf->output(), "invoice.pdf");
+                $data_in = new MaintenaceBillLedger;
+                $data_in->maintenace_bill_id = $maintenance->id;
+                $data_in->payableamount = $service->amount;
+                $data_in->receiving_amount = 0;
+                $data_in->save();
             });
-        }catch(JWTException $exception){
-            $this->serverstatuscode = "0";
-            $this->serverstatusdes = $exception->getMessage();
         }
-
-
-
-
-
-
-        $data_in     = new MaintenaceBillLedger;
-        $data_in->maintenace_bill_id              = $insertedId;
-        $data_in->payableamount                   = $code->amount;
-        $data_in->receiving_amount                = 0;
-        $data_in->save();
-
-
-
-          if (Mail::failures()) {
-
-               return response::json(array(
-           'success'   => true,
-           // 'id'        => Crypt::encrypt($insert_data->id),
-           'messages'  => 'Successfully update!'
-
-        ));
-
-        }
-
-
-
-
-        }
-
-         return response::json(array(
-           'success'   => true,
-           // 'id'        => Crypt::encrypt($insert_data->id),
-           'messages'  => 'Successfully update!'
-
-        ));
-
     }
-
-
-
-     function generate_tr_number($table_name, $column_name){
-
-
-
-        $search  = DB::select("SELECT MAX(RIGHT($column_name,8)) As invno FROM $table_name ");
-
-
-
-        foreach ($search as $key)
-            $maxinvoiceno = $key->invno;
-        // var_dump($maxinvoiceno);
-        // die("try");
-        $yearid     = date("y");
-        $monthid    = date("m");
-        $datevalue  = $yearid . $monthid;
-        $invoice_no = substr($maxinvoiceno, 0,4);
-
-        if ($maxinvoiceno==0){
-
-            $a = "0001";
-            $new_invoice_no = $yearid . $monthid . $a;
-        } else {
-            if ($invoice_no==$datevalue){
-
-                $maxinvoiceno = substr($maxinvoiceno, 4) + 1;
-                $maxinvoiceno = sprintf("%04s\n", $maxinvoiceno);
-                $new_invoice_no = $datevalue . $maxinvoiceno;
-            } else {
-
-                $a = "0001";
-                $new_invoice_no = $yearid . $monthid . $a;
-
-            }
-        }
-
-
-
-        return  trim($new_invoice_no);
-    }
-
-
-
-
-
 }
