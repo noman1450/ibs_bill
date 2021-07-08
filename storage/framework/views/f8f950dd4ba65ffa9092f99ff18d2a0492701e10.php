@@ -110,4 +110,4 @@
     </section>
     <!-- /.sidebar -->
 </aside>
-<?php /**PATH /home/ibs/Documents/Project/ibs_account_beta_mail_version/resources/views/partials/left_sidebar.blade.php ENDPATH**/ ?>
+<?php /**PATH C:\work\ibs_accounts_mail_version\resources\views/partials/left_sidebar.blade.php ENDPATH**/ ?>

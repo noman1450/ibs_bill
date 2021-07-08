@@ -59,7 +59,7 @@ class EmployeeJoinController extends Controller
         }
 
         $sendMailToClients = DB::table('service_confiq')
-            ->leftjoin('client_information as c', 'c.id', '=', 'service_confiq.client_information_id')
+            ->leftJoin('client_information as c', 'c.id', '=', 'service_confiq.client_information_id')
             ->select('c.address', 'c.client_name', 'c.client_code', 'c.contact_person', 'c.email', 'c.created_at',
                 'service_confiq.id', 'service_confiq.to_information', 'service_confiq.from_information',
                 'service_confiq.software_name', 'service_confiq.send_to', 'service_confiq.amount'
