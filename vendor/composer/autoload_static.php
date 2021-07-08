@@ -747,7 +747,6 @@ class ComposerStaticInit98e36d60bb16f0c250aef7b8f02c6ae8
         'App\\Http\\Controllers\\MasterSetting\\EmployeeJoinController' => __DIR__ . '/../..' . '/app/Http/Controllers/MasterSetting/EmployeeJoinController.php',
         'App\\Http\\Controllers\\MasterSetting\\ServiceConfiqController' => __DIR__ . '/../..' . '/app/Http/Controllers/MasterSetting/ServiceConfiqController.php',
         'App\\Http\\Controllers\\User\\AssignedRoleController' => __DIR__ . '/../..' . '/app/Http/Controllers/User/AssignedRoleController.php',
-        'App\\Http\\Controllers\\User\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/User/Controller.php',
         'App\\Http\\Controllers\\User\\PermissionsController' => __DIR__ . '/../..' . '/app/Http/Controllers/User/PermissionsController.php',
         'App\\Http\\Controllers\\User\\RoleController' => __DIR__ . '/../..' . '/app/Http/Controllers/User/RoleController.php',
         'App\\Http\\Controllers\\User\\RolePermissionsController' => __DIR__ . '/../..' . '/app/Http/Controllers/User/RolePermissionsController.php',

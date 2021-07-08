@@ -14,12 +14,12 @@ class InstalledVersions
 private static $installed = array (
   'root' => 
   array (
-    'pretty_version' => 'dev-main',
-    'version' => 'dev-main',
+    'pretty_version' => 'dev-master',
+    'version' => 'dev-master',
     'aliases' => 
     array (
     ),
-    'reference' => '63377634ffdd1460c5e30c161f18bba7a1018ba1',
+    'reference' => '193cdca8a3b2ca708485660fc952d384763dad4f',
     'name' => 'laravel/laravel',
   ),
   'versions' => 
@@ -493,12 +493,12 @@ private static $installed = array (
     ),
     'laravel/laravel' => 
     array (
-      'pretty_version' => 'dev-main',
-      'version' => 'dev-main',
+      'pretty_version' => 'dev-master',
+      'version' => 'dev-master',
       'aliases' => 
       array (
       ),
-      'reference' => '63377634ffdd1460c5e30c161f18bba7a1018ba1',
+      'reference' => '193cdca8a3b2ca708485660fc952d384763dad4f',
     ),
     'laravel/passport' => 
     array (
