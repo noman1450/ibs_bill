@@ -57,7 +57,7 @@
             background-size: cover;
             height: 25px;
             padding-top: 5px;
-            background-image: url({{asset("images/background4_1.jpg")}});
+            background-image: url(<?php echo e(asset("images/background4_1.jpg")); ?>);
         }
     </style>
 </head>
@@ -109,14 +109,14 @@
                         <!--[if (mso)|(IE)]><table width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:transparent;"><tr><td align="center"><table cellpadding="0" cellspacing="0" border="0" style="width:700px"><tr class="layout-full-width" style="background-color:#ffffff"><![endif]-->
                         <!--[if (mso)|(IE)]><td align="center" width="700" style="background-color:#ffffff;width:700px; border:3px solid #479FD0;" valign="top"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding-right: 0px; padding-left: 0px; padding-top:0px; padding-bottom:5px;"><![endif]-->
                         <div class="col num12" style="min-width: 320px; max-width: 700px; display: table-cell; vertical-align: top; width: 694px;">
-{{--                            <img src="https://i-infotechsolution.com/assets/img/logo.png">--}}
+
                             <div style="width:100% !important;">
                                 <!--[if (!mso)&(!IE)]><!-->
                                 <div style="border:3px solid #479FD0;padding: 0px 0px 5px;">
                                     <!--<![endif]-->
                                     <div align="center" class="img-container center autowidth" style="padding-right: 0px;padding-left: 0px;">
                                         <!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr style="line-height:0px"><td style="padding-right: 0px;padding-left: 0px;" align="center"><![endif]-->
-                                        <img align="center" alt="Alternate text" border="0" class="center autowidth" src="{{asset('images/background2.jpg')}}" style="height:auto;width:100%;max-width:694px;display:block;" title="Alternate text" width="694"/>
+                                        <img align="center" alt="Alternate text" border="0" class="center autowidth" src="<?php echo e(asset('images/background2.jpg')); ?>" style="height:auto;width:100%;max-width:694px;display:block;" title="Alternate text" width="694"/>
                                         <!--[if mso]></td></tr></table><![endif]-->
                                     </div>
 
@@ -125,11 +125,12 @@
                                         <div style="line-height: 1.2; font-size: 12px; color: #555555; font-family: Montserrat, Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif; mso-line-height-alt: 14px;">
                                             <p style="font-size: 14px; line-height: 1.2; word-break: break-word; mso-line-height-alt: 17px; margin: 0;">
                                                 <span style="color: #000000;">
-                                                    Bill No: <strong>{{ $client_code ?? '' }}</strong>
+                                                    Bill No: <strong><?php echo e($client_code ?? ''); ?></strong>
                                                 </span>
                                                 <br/>
                                                 <span style="color: #000000;">
-                                                    Date: {{ $created_at ?? '' }}
+                                                    Date: <?php echo e($created_at ?? ''); ?>
+
 											    </span>
                                             </p>
 
@@ -139,25 +140,27 @@
                                                 <span style="color: #000000;">To</span>
                                                 <br/>
                                                 <span style="color: #000000;">
-                                                    <b>{{ $send_to ?? '' }}</b>
+                                                    <b><?php echo e($send_to ?? ''); ?></b>
                                                 </span>
 
                                                 <br/>
 
                                                 <strong>
                                                     <span style="color: #000000;font-size:18px">
-                                                        {{ $client_name ?? '' }}
+                                                        <?php echo e($client_name ?? ''); ?>
+
                                                     </span>
                                                 </strong>
                                                 <br/>
                                                 <span style="color: #000000;font-size: 14px;">
-                                                    <em>{{ $address ?? '' }}</em>
+                                                    <em><?php echo e($address ?? ''); ?></em>
                                                 </span>
                                             </p>
 
                                             <p style="font-size: 14px; line-height: 1.2; word-break: break-word; mso-line-height-alt: 17px; margin: 0;">
                                                 <span style="color: #000000;font-size: 12px;">
-                                                    {{ $client_email ?? '' }}
+                                                    <?php echo e($client_email ?? ''); ?>
+
                                                 </span>
                                             </p>
                                         </div>
@@ -186,25 +189,26 @@
                                                 <td>1</td>
                                                 <td style="vertical-align:middle" height="100">
                                                     <span style="font-size:18px">
-                                                        {{ $softwarename ?? '' }}
+                                                        <?php echo e($softwarename ?? ''); ?>
+
                                                     </span>
                                                 </td>
-                                                <td style="vertical-align:middle;font-size:14px;"><b>1@ Tk. {{ $amount ?? '' }}/=</b></td>
-                                                <td style="vertical-align:middle;font-size:14px;"><b>Tk. {{ $amount ?? '' }}/=</b></td>
+                                                <td style="vertical-align:middle;font-size:14px;"><b>1@ Tk. <?php echo e($amount ?? ''); ?>/=</b></td>
+                                                <td style="vertical-align:middle;font-size:14px;"><b>Tk. <?php echo e($amount ?? ''); ?>/=</b></td>
                                             </tr>
                                             <tr class="font-size:12px;">
                                                 <td colspan="3" style="text-align:right">
                                                     <p style="padding:0;margin:0;"><b>TOTAL</b></p>
                                                     <p style="padding:0;margin:0;font-size:12px">(<em>excluding vat & tax</em>)</p>
                                                 </td>
-                                                <td><b>TK. {{ $amount ?? '' }}/=</b></td>
+                                                <td><b>TK. <?php echo e($amount ?? ''); ?>/=</b></td>
                                             </tr>
                                         </table>
                                     </div>
 
                                     <div style="padding-left:18px;margin-top:10px;font-size:12px;color:#555555;font-family: Montserrat, Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif;mso-line-height-alt:14px;">
                                         <p style="font-size: 14px; line-height: 1.2; word-break: break-word; mso-line-height-alt: 17px; margin: 0;">
-                                            <span style="color: #000000;">In-Words: <b>{{ $word ?? '' }} only</b></span>
+                                            <span style="color: #000000;">In-Words: <b><?php echo e($word ?? ''); ?> only</b></span>
                                         </p>
                                     </div>
 
@@ -218,7 +222,7 @@
                                     <!--[if mso]></td></tr></table><![endif]-->
                                     <div align="right" class="img-container right autowidth" style="padding-right: 18px;padding-left:0;">
                                         <!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding-right: 0px;padding-left: 0px;" align="right"><![endif]-->
-                                        <img align="right" alt="" border="0" class="right autowidth" src="{{asset('images/signature.jpg')}}" style="height: auto; width: 100%; max-width: 150px; float: none; display: block;" width="150"/>
+                                        <img align="right" alt="" border="0" class="right autowidth" src="<?php echo e(asset('images/signature.jpg')); ?>" style="height: auto; width: 100%; max-width: 150px; float: none; display: block;" width="150"/>
                                         <br/>
                                         ------------------------------------
                                         <br/>    Authorized Signature
@@ -260,3 +264,4 @@
 <!--[if (IE)]></div><![endif]-->
 </body>
 </html>
+<?php /**PATH C:\work\ibs_accounts_mail_version\resources\views/mails/pdf.blade.php ENDPATH**/ ?>
