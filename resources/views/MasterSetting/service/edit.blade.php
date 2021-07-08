@@ -20,7 +20,7 @@
         <form method="POST" action="{{ route('services.update',$service->id) }}" onkeypress = "return event.keyCode != 13;" id="frm_data">
         	@method('PATCH')
         	@php $form_type='edit' @endphp
-    		@include('MasterSetting/Service/_form')
+    		@include('MasterSetting/service/_form')
         </form>		
 	</div>		
 </section>
