@@ -160,7 +160,7 @@ class DueCollectionController extends Controller
         $data["word"]=  $word;
         $data["emailsinfo"]=  $emails;
 
-
+dd("working");
 
 
        $pdf = PDF::loadView('mails.pdf',$data);
