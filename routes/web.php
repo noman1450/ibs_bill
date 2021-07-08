@@ -14,6 +14,10 @@ Route::middleware('auth')->group(function() {
     Route::get('/home', 'HomeController@index')->name('home');
     Route::get('/test', 'HomeController@test')->name('test');
 
+    Route::get('/pdf', function() {
+        return view('mails.pdf');
+    });
+
 //Group List
     Route::post('/coagrouplist', 'Account\MasterSetup\ChartOfAccountGroupController@getGroupList');
     Route::resource('/coagroup', 'Account\MasterSetup\ChartOfAccountGroupController');

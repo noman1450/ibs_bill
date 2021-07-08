@@ -26,5 +26,3 @@ class SendMail extends Mailable
             ->with('data', $this->data);
     }
 }
-
-?>
