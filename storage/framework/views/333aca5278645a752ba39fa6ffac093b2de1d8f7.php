@@ -18,7 +18,7 @@
         <form method="POST" action="<?php echo e(route('services.update',$service->id)); ?>" onkeypress = "return event.keyCode != 13;" id="frm_data">
         	<?php echo method_field('PATCH'); ?>
         	<?php $form_type='edit' ?>
-    		<?php echo $__env->make('MasterSetting/Service/_form', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+    		<?php echo $__env->make('MasterSetting/service/_form', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
         </form>		
 	</div>		
 </section>

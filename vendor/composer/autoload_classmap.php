@@ -37,6 +37,7 @@ return array(
     'App\\Http\\Middleware\\TrustHosts' => $baseDir . '/app/Http/Middleware/TrustHosts.php',
     'App\\Http\\Middleware\\TrustProxies' => $baseDir . '/app/Http/Middleware/TrustProxies.php',
     'App\\Http\\Middleware\\VerifyCsrfToken' => $baseDir . '/app/Http/Middleware/VerifyCsrfToken.php',
+    'App\\Jobs\\SendMailToClientJob' => $baseDir . '/app/Jobs/SendMailToClientJob.php',
     'App\\Mail\\SendMail' => $baseDir . '/app/Mail/SendMail.php',
     'App\\Models\\AssignedRoles' => $baseDir . '/app/Models/AssignedRoles.php',
     'App\\Models\\MasterSetting\\Branch' => $baseDir . '/app/Models/MasterSetting/Branch.php',
