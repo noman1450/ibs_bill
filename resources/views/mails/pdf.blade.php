@@ -30,6 +30,70 @@
         }
     </style>
 
+    <style id="media-query">
+        @media (max-width: 720px) {
+            .block-grid,
+            .col {
+                min-width: 320px !important;
+                max-width: 100% !important;
+                display: block !important;
+            }
+            .block-grid {
+                width: 100% !important;
+            }
+            .col {
+                width: 100% !important;
+            }
+            .col>div {
+                margin: 0 auto;
+            }
+            img.fullwidth,
+            img.fullwidthOnMobile {
+                max-width: 100% !important;
+            }
+            .no-stack .col {
+                min-width: 0 !important;
+                display: table-cell !important;
+            }
+            .no-stack.two-up .col {
+                width: 50% !important;
+            }
+            .no-stack .col.num4 {
+                width: 33% !important;
+            }
+            .no-stack .col.num8 {
+                width: 66% !important;
+            }
+            .no-stack .col.num4 {
+                width: 33% !important;
+            }
+            .no-stack .col.num3 {
+                width: 25% !important;
+            }
+            .no-stack .col.num6 {
+                width: 50% !important;
+            }
+            .no-stack .col.num9 {
+                width: 75% !important;
+            }
+            .video-block {
+                max-width: none !important;
+            }
+            .mobile_hide {
+                min-height: 0;
+                max-height: 0;
+                max-width: 0;
+                display: none;
+                overflow: hidden;
+                font-size: 0;
+            }
+            .desktop_hide {
+                display: block !important;
+                max-height: none !important;
+            }
+        }
+    </style>
+
     <style>
         #customers {
             font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
@@ -41,10 +105,14 @@
             border: 1px solid #000;
             padding: 8px;
         }
-
+        #customers tr {
+            font-size: 12px;
+        }
         #customers th {
             padding: 8px 0;
             text-align: center;
+            background-color: #fff;
+            color: #000;
             font-size: 12px;
         }
 
@@ -107,16 +175,14 @@
                 <div class="block-grid" style="Margin: 0 auto; min-width: 320px; max-width: 700px; overflow-wrap: break-word; word-wrap: break-word; word-break: break-word; background-color: #ffffff;">
                     <div style="border-collapse: collapse;display: table;width: 100%;background-color:#ffffff;">
                         <!--[if (mso)|(IE)]><table width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:transparent;"><tr><td align="center"><table cellpadding="0" cellspacing="0" border="0" style="width:700px"><tr class="layout-full-width" style="background-color:#ffffff"><![endif]-->
-                        <!--[if (mso)|(IE)]><td align="center" width="700" style="background-color:#ffffff;width:700px; border:3px solid #479FD0;" valign="top"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding-right: 0px; padding-left: 0px; padding-top:0px; padding-bottom:5px;"><![endif]-->
+                        <!--[if (mso)|(IE)]><td align="center" width="700" style="background-color:#ffffff;width:700px;border:3px solid #479FD0;" valign="top"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding-right: 0px; padding-left: 0px; padding-top:0px; padding-bottom:5px;"><![endif]-->
                         <div class="col num12" style="min-width: 320px; max-width: 700px; display: table-cell; vertical-align: top; width: 694px;">
-{{--                            <img src="https://i-infotechsolution.com/assets/img/logo.png">--}}
                             <div style="width:100% !important;">
                                 <!--[if (!mso)&(!IE)]><!-->
-                                <div style="border:3px solid #479FD0;padding: 0px 0px 5px;">
+                                <div style="border:3px solid #479FD0;padding: 0 0 5px;">
                                     <!--<![endif]-->
                                     <div align="center" class="img-container center autowidth" style="padding-right: 0px;padding-left: 0px;">
-                                        <!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr style="line-height:0px"><td style="padding-right: 0px;padding-left: 0px;" align="center"><![endif]-->
-                                        <img align="center" alt="Alternate text" border="0" class="center autowidth" src="{{asset('images/background2.jpg')}}" style="height:auto;width:100%;max-width:694px;display:block;" title="Alternate text" width="694"/>
+                                        <!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr style="line-height:0px"><td style="padding-right: 0px;padding-left: 0px;" align="center"><![endif]--><img align="center" alt="Alternate text" border="0" class="center autowidth" src="{{asset('images/background2.jpg')}}" style="text-decoration: none; -ms-interpolation-mode: bicubic; height: auto; border: 0; width: 100%; max-width: 694px; display: block;" title="Alternate text" width="694"/>
                                         <!--[if mso]></td></tr></table><![endif]-->
                                     </div>
 
@@ -125,72 +191,58 @@
                                         <div style="line-height: 1.2; font-size: 12px; color: #555555; font-family: Montserrat, Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif; mso-line-height-alt: 14px;">
                                             <p style="font-size: 14px; line-height: 1.2; word-break: break-word; mso-line-height-alt: 17px; margin: 0;">
                                                 <span style="color: #000000;">
-                                                    Bill No: <strong>{{ $client_code ?? '' }}</strong>
+                                                    Reference: <strong>{{ $client_code ?? 'IBS-21060004' }}</strong>
                                                 </span>
                                                 <br/>
                                                 <span style="color: #000000;">
-                                                    Date: {{ $created_at ?? '' }}
+                                                    Date: {{ $created_at ?? 'June 05, 2021' }}
 											    </span>
                                             </p>
 
-                                            <p style="font-size:14px;line-height:1.5;word-break:break-word;margin:0;">
-                                                <br/>
+                                            <p style="font-size: 14px; line-height: 1.5; word-break: break-word; mso-line-height-alt: 17px; margin: 0;"><br/>
 
                                                 <span style="color: #000000;">To</span>
                                                 <br/>
                                                 <span style="color: #000000;">
-                                                    <b>{{ $send_to ?? '' }}</b>
+                                                    <b>{{ $send_to ?? 'Managing Director' }}</b>
                                                 </span>
 
                                                 <br/>
 
-                                                <strong>
-                                                    <span style="color: #000000;font-size:18px">
-                                                        {{ $client_name ?? '' }}
-                                                    </span>
-                                                </strong>
-                                                <br/>
-                                                <span style="color: #000000;font-size: 14px;">
-                                                    <em>{{ $address ?? '' }}</em>
-                                                </span>
-                                            </p>
+                                                <strong><span style="color: #000000;font-size:18px">{{ $client_name ?? 'The Homeo Research Laboratory (BD) Ltd.' }}</span></strong>
 
-                                            <p style="font-size: 14px; line-height: 1.2; word-break: break-word; mso-line-height-alt: 17px; margin: 0;">
-                                                <span style="color: #000000;font-size: 12px;">
-                                                    {{ $client_email ?? '' }}
-                                                </span>
-                                            </p>
+                                                <span style="color: #000000;"></span><br/><span style="color: #000000;font-size: 14px;}"><em>{{ $address ?? '49/3 Rajabo, Ghorashal, Palash, Narsingdi' }}</em></span></p>
+
+                                            <p style="font-size: 14px; line-height: 1.2; word-break: break-word; mso-line-height-alt: 17px; margin: 0;"><span style="color: #000000;font-size: 12px;">{{ $client_email ?? 'email@gmail.com' }}</span></p>
                                         </div>
                                     </div>
 
+
+
                                     <br/>
                                     <br/>
                                     <br/>
 
-                                    <div style="color:#555555;font-family:Montserrat, Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif;line-height:1.2;padding:10px;text-align:center;font-weight:bold;">
-                                        <u>
-                                            <span style="font-size:20px; color: #000000;">Subject : BILL</span>
-                                        </u>
+                                    <div style="color:#555555;font-family:Montserrat, Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif;line-height:1.2;padding-top:10px;padding-right:10px;padding-bottom:10px;padding-left:10px;">
+                                        <div style="line-height: 1.2; font-size: 12px; color: #555555; font-family: Montserrat, Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif; mso-line-height-alt: 14px;">
+                                            <p style="font-size: 14px; line-height: 1.2; word-break:break-word;text-align:center;mso-line-height-alt:17px;margin:0;font-weight:bold;"><u><span style="font-size:20px;color:#000000;">Subject : BILL</span></u></p>
+                                        </div>
                                     </div>
 
                                     <!--[if mso]></td></tr></table><![endif]-->
-                                    <div style="text-align:center;font-family:Montserrat, Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif;padding:0 18px;">
+                                    <div style="padding:0 18px;font-size:16px;text-align:center;font-family:Montserrat, Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif">
                                         <table id="customers">
-                                            <tr>
+                                            <tr style="height: 10px;font-size: 10px;">
                                                 <th style="width:30px;">SL</th>
                                                 <th>PARTICULARS</th>
                                                 <th style="width:130px">QTY</th>
                                                 <th style="width:130px">AMOUNT TK</th>
                                             </tr>
-                                            <tr style="font-size:12px;">
+                                            <tr style="height: 150px;font-size:12px;">
                                                 <td>1</td>
-                                                <td style="vertical-align:middle" height="100">
-                                                    <span style="font-size:18px">
-                                                        {{ $softwarename ?? '' }}
-                                                    </span>
-                                                </td>
-                                                <td style="vertical-align:middle;font-size:14px;"><b>1@ Tk. {{ $amount ?? '' }}/=</b></td>
-                                                <td style="vertical-align:middle;font-size:14px;"><b>Tk. {{ $amount ?? '' }}/=</b></td>
+                                                <td>{{ $softwarename ?? '' }}</td>
+                                                <td style="font-size:14px;"><b>1@ Tk. {{ $amount ?? '' }}/=</b></td>
+                                                <td style="font-size:14px;"><b>Tk. {{ $amount ?? '' }}/=</b></td>
                                             </tr>
                                             <tr class="font-size:12px;">
                                                 <td colspan="3" style="text-align:right">
@@ -202,11 +254,12 @@
                                         </table>
                                     </div>
 
-                                    <div style="padding-left:18px;margin-top:10px;font-size:12px;color:#555555;font-family: Montserrat, Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif;mso-line-height-alt:14px;">
-                                        <p style="font-size: 14px; line-height: 1.2; word-break: break-word; mso-line-height-alt: 17px; margin: 0;">
-                                            <span style="color: #000000;">In-Words: <b>{{ $word ?? '' }} only</b></span>
-                                        </p>
+                                    <div style="padding-left:18px;margin-top:10px;font-size:12px;color:#555555;font-family:Montserrat, Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif;line-height:1.2;">
+                                        <div style="line-height: 1.2; font-size: 12px; color: #555555; font-family: Montserrat, Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif; mso-line-height-alt: 14px;">
+                                            <p style="font-size: 14px; line-height: 1.2; word-break: break-word; mso-line-height-alt: 17px; margin: 0;"><span style="color: #000000;">In-Words: <b>{{ $word ?? '' }} only</b></span></p>
+                                        </div>
                                     </div>
+
 
                                     <br/>
                                     <br/>
@@ -216,9 +269,8 @@
                                     <br/>
 
                                     <!--[if mso]></td></tr></table><![endif]-->
-                                    <div align="right" class="img-container right autowidth" style="padding-right: 18px;padding-left:0;">
-                                        <!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding-right: 0px;padding-left: 0px;" align="right"><![endif]-->
-                                        <img align="right" alt="" border="0" class="right autowidth" src="{{asset('images/signature.jpg')}}" style="height: auto; width: 100%; max-width: 150px; float: none; display: block;" width="150"/>
+                                    <div align="right" class="img-container right autowidth" style="padding-right: 18px;padding-left: 0;">
+                                        <!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr style="line-height:0"><td style="padding-right: 0;padding-left: 0;" align="right"><![endif]--><img align="right" alt="" border="0" class="right autowidth" src="{{asset('images/signature.jpg')}}" style="text-decoration: none; -ms-interpolation-mode: bicubic; height: auto; width: 100%; max-width: 150px; float: none; display: block;" width="150"/>
                                         <br/>
                                         ------------------------------------
                                         <br/>    Authorized Signature
@@ -227,18 +279,13 @@
                                         <!--[if mso]></td></tr></table><![endif]-->
                                     </div>
 
-                                    <div class="footer-img" style="margin-top:20px;font-size:16px;text-align:center;font-family:Montserrat, Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif">
-                                        <a href="https://i-infotechsolution.com/" style="text-decoration:none;display:block;margin-top:3px;color:#000;">
-                                            i-infotechsolution.com
-                                        </a>
-                                    </div>
+
+                                    <div style="font-size:16px;text-align:center;font-family:Montserrat, Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif"></div>
+                                    <div class="footer-img" style="font-size:16px;text-align:center;font-family:Montserrat, Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif"><a href="http://www.i-infotechsolution.com/" style="text-decoration:none;display:block;margin-top:3px;color:#000;">www.i-infotechsolution.com</a></div>
                                     <!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding-right: 10px; padding-left: 10px; padding-top: 10px; padding-bottom: 10px; font-family: Tahoma, sans-serif"><![endif]-->
                                     <div style="color:#555555;font-family:Montserrat, Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif;line-height:1.2;padding-top:10px;padding-right:10px;padding-bottom:10px;padding-left:10px;">
                                         <div style="line-height: 1.2; font-size: 12px; color: #555555; font-family: Montserrat, Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif; mso-line-height-alt: 14px;">
-                                            <p style="font-size: 14px; line-height: 1.2; word-break: break-word; mso-line-height-alt: 17px; margin: 0;">
-                                                <span style="color: #000000;font-size:16px"><strong>I Infotech Business Solution</strong></span>
-                                                <br/><span style="color: #000000;">House :1266,3rd floor,Road-10,Avenue-2,DOHS, Mirpur, Dhaka-1216</span>
-                                            </p>
+                                            <p style="font-size: 14px; line-height: 1.2; word-break: break-word; mso-line-height-alt: 17px; margin: 0;"><span style="color: #000000;"><strong>I Infotech Business Solution</strong></span><br/><span style="color: #000000;">House :1266,3rd floor,Road-10,Avenue-2,DOHS, Mirpur, Dhaka-1216</span></p>
                                         </div>
                                     </div>
                                     <!--[if mso]></td></tr></table><![endif]-->
