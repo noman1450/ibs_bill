@@ -3,15 +3,10 @@
 namespace App\Http\Controllers\MasterSetting;
 
 use PDF;
-use Exception;
-
 use Terbilang;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Mail;
-use App\Models\MasterSetting\Service;
-use App\Models\MasterSetting\Maintenace;
 use App\Models\MasterSetting\MaintenaceBillLedger;
 
 class DueCollectionController extends Controller
@@ -49,12 +44,7 @@ class DueCollectionController extends Controller
 
     public function collectduesubmit(Request $request)
     {
-        if (empty($request->service_conf_ids)) {
-            return back()->with('alert-danger', 'Please Check This List,Some Employees has no finger code!');
-        }
-
         $collection = DB::table('service_confiq as a')
-            // ->leftJoin('client_information as b', 'b.id', '=', 'a.client_information_id')
             ->join('maintenace_bill as c', 'c.service_confiq_id', '=', 'a.id')
             ->join('maintenace_bill_ledger as e', 'e.maintenace_bill_id', '=', 'c.id')
             ->selectRaw('a.id, a.software_name, a.send_to, a.amount,
@@ -65,20 +55,32 @@ class DueCollectionController extends Controller
             ->whereIn('a.id', $request->service_conf_ids)
             ->get();
 
-        // dd($collection);
+        if ($request->submit_btn === 'collect') {
+            if (empty($request->service_conf_ids)) {
+                return back()->with('alert-danger', 'Please Check This List,Some Employees has no finger code!');
+            }
 
-        foreach ($collection as $collect) {
-            $billLedger = new MaintenaceBillLedger;
-            $billLedger->maintenace_bill_id = $collect->maintenace_bill_id;
-            $billLedger->payableamount = 0;
-            $billLedger->receiving_amount = $collect->collect_amount;
-            $billLedger->save();
+            foreach ($collection as $collect) {
+                $billLedger = new MaintenaceBillLedger;
+                $billLedger->maintenace_bill_id = $collect->maintenace_bill_id;
+                $billLedger->payableamount = 0;
+                $billLedger->receiving_amount = $collect->collect_amount;
+                $billLedger->save();
+            }
         }
 
+        if ($request->submit_btn === 'print') {
+            return view('MasterSetting.duecollection.print-preview', compact('collection'));
+        }
 
-        return response()->json([
-           'success' => true,
-           'messages' => 'Successfully updated!'
-        ]);
+        // return response()->json([
+        //    'success' => true,
+        //    'messages' => 'Successfully updated!'
+        // ]);
+    }
+
+    public function gotoprint(Request $request)
+    {
+        dd($request->all());
     }
 }

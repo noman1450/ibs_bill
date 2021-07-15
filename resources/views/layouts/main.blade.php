@@ -31,6 +31,15 @@
          folder instead of downloading all of them to reduce the load. -->
     <link rel="stylesheet" href="{{ asset('/admin/dist/css/skins/_all-skins.min.css') }}">
 
+    <style>
+        @media print
+        {
+            .noprint {
+                display:none !important;
+                visibility:hidden !important;
+            }
+        }
+    </style>
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -69,7 +78,7 @@
     <!-- /.content-wrapper -->
 
 
-    <footer class="main-footer" style="text-align: end;">
+    <footer class="main-footer noprint" style="text-align: end;">
         <strong>
             <a href="http://i-infotechsolution.com"><b>Version</b> 2.3.0</a>
         </strong>

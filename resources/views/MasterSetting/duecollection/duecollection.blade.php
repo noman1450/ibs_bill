@@ -5,7 +5,6 @@
 	.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
 	    padding: 5px;
 	}
-
 	table.dataTable thead > tr > th {
 	    padding-right: 25px;
 	}
@@ -16,15 +15,14 @@
 		font-size: smaller;
         background-color: #fff;
 	}
-
 </style>
 @endsection
 
 @section('content')
 <div class="box box-default">
-    <form  method="post" action="{{ url('collectduesubmit') }}" onkeypress="return event.keyCode != 13;" id="all_frm_data">
+    <form method="post" action="{{ url('collectduesubmit') }}" onkeypress="return event.keyCode != 13;" id="all_frm_data">
         {{ csrf_field() }}
-	    <div class="box-header with-border">
+	    <div class="box-header with-border noprint">
 		    <h3 class="box-title" style="margin-left:10px;">Customer List Information</h3>
 
             <div class="row" style="margin-left:10px;">
@@ -46,10 +44,10 @@
 		    <div class="row">
 			    <div class="form-group col-lg-12 col-md-12 col-xs-12">
                     <table id="designation_list_table" class="table table-striped table-bordered" width="100%">
-                        <thead >
+                        <thead>
                             <tr>
-                                <th  style="width: 5%">
-                                    <input name="select_all" value="1" id="example-select-all" type="checkbox" />
+                                <th style="width: 5%">
+                                    <input name="select_all noprint" value="1" id="example-select-all" type="checkbox" />
                                 </th>
                                 <th style="width: 25%">Customer Name</th>
                                 <th style="width: 25%">Month</th>
@@ -63,9 +61,9 @@
 			    </div>
 
                 <div>
-                    <input type="submit" class="btn btn-success btn-flat pull-right" value="Collection" id="btnSubmit" style="margin-right: 10px;">
+                    <button type="submit" class="btn btn-success btn-flat pull-right" name="submit_btn" value="collect" id="btnSubmit" style="margin-right: 10px;">Collection</button>
 
-                    <input type="button" class="btn btn-info btn-flat pull-right" value="Print Due" id="btnDue" style="margin-right: 10px;">
+                    <button type="submit" class="btn btn-info btn-flat pull-right" name="submit_btn" value="print" id="btnPrint" style="margin-right: 10px;">Print Preview</button>
                 </div>
 
 		    </div>
@@ -126,10 +124,9 @@ $(document).ready(function($) {
                     bInfo:      true,
                     "data":     dataSet,
                     "columns": [
-
                         { "data": "checkbox",
                             "mRender": function (data, type, full) {
-                                return '<input type="checkbox"  name="service_conf_ids[]" value="'+full.id+'">';
+                                return '<input type="checkbox" name="service_conf_ids[]" value="'+full.id+'">';
                             }
                         },
                         { "data": "customer" },
@@ -150,7 +147,7 @@ $(document).ready(function($) {
     });
 
     $('#designation_list_table tbody').on('change', 'input[type="checkbox"]', function() {
-        if(!this.checked){
+        if(!this.checked) {
             var el = $('#example-select-all').get(0);
             if(el && el.checked && ('indeterminate' in el)) {
                 el.indeterminate = true;
@@ -158,49 +155,49 @@ $(document).ready(function($) {
         }
     });
 
-    $( "#all_frm_data" ).submit(function(event) {
-        event.preventDefault();
+    // $(document).on('submit', '#all_frm_data', function(event) {
+    //     event.preventDefault();
 
-        $("#btnSubmit").attr("disabled", true);
-        $("#btnSubmit").val('Please wait..');
-        var $form = $(this),
+    //     $("#btnSubmit").attr("disabled", true);
+    //     $("#btnSubmit").text('Please wait..');
 
-        url = $form.attr( "action" );
-        console.log(url)
+    //     var form = new FormData($('#all_frm_data').get(0));
 
-        token = $("[name='_token']").val();
+    //     var url = $('#all_frm_data').attr( "action" );
 
-        $.ajax({
-            type  : 'POST', // define the type of HTTP verb we want to use (POST for our form)
-            url : url, // the url where we want to POST
-            data : $form.serialize(),
-            dataType : 'json', // what type of data do we expect back from the server
-            encode : true,
-            _token : token
-        })
-        .done(function(data) {
-            if(data['success']) {
-                $('#btnSubmit').attr("disabled", false);
-                $("#btnSubmit").val('Submit');
+    //     var token = $("[name='_token']").val();
 
-                toastr.success(data.messages)
-                var audio = new Audio('http://localhost/info/accounts/public/audio/audio_file.mp3');
-                    audio.play();
+    //     $.ajax({
+    //         type  : 'POST', // define the type of HTTP verb we want to use (POST for our form)
+    //         url : url, // the url where we want to POST
+    //         data : form,
+    //         dataType : 'json', // what type of data do we expect back from the server
+    //         cache: false,
+    //         contentType: false,
+    //         processData: false,
+    //         _token : token
+    //     })
+    //     .done(function(data) {
+    //         if(data['success']) {
+    //             $('#btnSubmit').attr("disabled", false);
+    //             $("#btnSubmit").text('Submit');
 
-                setTimeout(function () {
-                    window.location.reload();
-                }, 3000)
+    //             toastr.success(data.messages)
 
-            } else {
-                toastr.error(data.messages);
-                var audio = new Audio('http://localhost/info/accounts/public/audio/audio_file1.mp3');
-                audio.play();
 
-                $('#btnSubmit').attr("disabled", false);
-                $("#btnSubmit").val('Submit');
-            }
-        });
-    })
+
+    //             setTimeout(function () {
+    //                 window.location.reload();
+    //             }, 3000)
+
+    //         } else {
+    //             toastr.error(data.messages);
+
+    //             $('#btnSubmit').attr("disabled", false);
+    //             $("#btnSubmit").text('Submit');
+    //         }
+    //     });
+    // })
 });
 </script>
 @endsection
