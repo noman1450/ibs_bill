@@ -16,8 +16,14 @@
                     </thead>
                     <tbody>
                         @foreach ($collection as $item)
+                            @php $rj = $item->customer @endphp
                             <tr>
-                                <td>{{ $item->customer }}</td>
+                                @if($rj !== $reserve)
+                                    <td rowspan="{{ $loop->index }}" style="vertical-align:middle; text-align:center;text-transform:capitalize">
+                                        <strong>{{ $item->customer }}</strong>
+                                    </td>
+                                    @php $reserve = $item->customer @endphp
+                                @endif
                                 <td>{{ $item->month_name }}</td>
                                 <td>{{ $item->collect_amount }}</td>
                                 <td>{{ $item->software_name }}</td>

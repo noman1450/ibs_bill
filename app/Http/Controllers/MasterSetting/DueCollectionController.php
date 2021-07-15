@@ -44,21 +44,21 @@ class DueCollectionController extends Controller
 
     public function collectduesubmit(Request $request)
     {
-        $collection = DB::table('service_confiq as a')
-            ->join('maintenace_bill as c', 'c.service_confiq_id', '=', 'a.id')
-            ->join('maintenace_bill_ledger as e', 'e.maintenace_bill_id', '=', 'c.id')
-            ->selectRaw('a.id, a.software_name, a.send_to, a.amount,
-                sum(e.payableamount - e.receiving_amount) as collect_amount,
-                c.id as maintenace_bill_id'
-            )
-            ->groupBy('c.id')
-            ->whereIn('a.id', $request->service_conf_ids)
-            ->get();
-
-        if ($request->submit_btn === 'collect') {
+        if ($request->submit === 'collect') {
             if (empty($request->service_conf_ids)) {
                 return back()->with('alert-danger', 'Please Check This List,Some Employees has no finger code!');
             }
+
+            $collection = DB::table('service_confiq as a')
+                ->join('maintenace_bill as c', 'c.service_confiq_id', '=', 'a.id')
+                ->join('maintenace_bill_ledger as e', 'e.maintenace_bill_id', '=', 'c.id')
+                ->selectRaw('a.id, a.software_name, a.send_to, a.amount,
+                sum(e.payableamount - e.receiving_amount) as collect_amount,
+                c.id as maintenace_bill_id'
+                )
+                ->groupBy('c.id')
+                ->whereIn('a.id', $request->service_conf_ids)
+                ->get();
 
             foreach ($collection as $collect) {
                 $billLedger = new MaintenaceBillLedger;
@@ -69,8 +69,21 @@ class DueCollectionController extends Controller
             }
         }
 
-        if ($request->submit_btn === 'print') {
-            return view('MasterSetting.duecollection.print-preview', compact('collection'));
+        if ($request->submit === 'print') {
+            $collection = DB::table('service_confiq as a')
+                ->where('a.valid', 1)
+                ->join('client_information as b', 'a.client_information_id', '=', 'b.id')
+                ->join('maintenace_bill as c', 'c.service_confiq_id', '=', 'a.id')
+                ->join('month as d', 'c.month_id', '=', 'd.id')
+                ->join('maintenace_bill_ledger as e', 'e.maintenace_bill_id', '=', 'c.id')
+                ->whereIn('a.id', $request->service_conf_ids)
+                ->selectRaw('a.id, group_concat(distinct b.client_name) as customer, a.software_name, a.valid, sum(e.payableamount - e.receiving_amount) as collect_amount, d.name as month_name')
+                ->groupBy('c.id')
+                ->get();
+
+            $reserve = 'dsfdsfds';
+
+            return view('MasterSetting.duecollection.print-preview', compact('collection', 'reserve'));
         }
 
         // return response()->json([
