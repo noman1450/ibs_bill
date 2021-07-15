@@ -103,8 +103,8 @@
 
 <script src="{{asset('js/formsubmitscript.js')}}"></script>
 @include('layouts/modal')
-</body>
-
 
 @yield('script')
+
+</body>
 </html>

@@ -1,6 +1,4 @@
-@extends('layouts.main')
-
-@section('style')
+<?php $__env->startSection('style'); ?>
 <style type="text/css">
 	.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
 	    padding: 5px;
@@ -18,12 +16,13 @@
 	}
 
 </style>
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section('content')
+<?php $__env->startSection('content'); ?>
 <div class="box box-default">
-    <form  method="post" action="{{ url('collectduesubmit') }}" onkeypress="return event.keyCode != 13;" id="all_frm_data">
-        {{ csrf_field() }}
+    <form  method="post" action="<?php echo e(url('collectduesubmit')); ?>" onkeypress="return event.keyCode != 13;" id="all_frm_data">
+        <?php echo e(csrf_field()); ?>
+
 	    <div class="box-header with-border">
 		    <h3 class="box-title" style="margin-left:10px;">Customer List Information</h3>
 
@@ -72,9 +71,9 @@
 	    </div>
     </form>
 </div>
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section('script')
+<?php $__env->startSection('script'); ?>
 
 <script>
 
@@ -85,7 +84,7 @@ $(document).ready(function($) {
         allowClear: true,
         ajax: {
             dataType: 'json',
-            url: "{{URL::to('/')}}/customer_name_list",
+            url: "<?php echo e(URL::to('/')); ?>/customer_name_list",
             delay: 250,
             data: function(params) {
                 return {
@@ -108,9 +107,9 @@ $(document).ready(function($) {
     $("#search").click(function() {
         $.ajax({
             type:   'GET',
-            url :   "{{ URL::to('/') }}/client_information_data_list",
+            url :   "<?php echo e(URL::to('/')); ?>/client_information_data_list",
             headers: {
-                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                'X-CSRF-TOKEN': '<?php echo e(csrf_token()); ?>'
             },
             data:  {
                 customer : $("#customer").val(),
@@ -203,4 +202,6 @@ $(document).ready(function($) {
     })
 });
 </script>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.main', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH H:\xammp\htdocs\ibs_accounts_mail_version\resources\views/MasterSetting/duecollection/duecollection.blade.php ENDPATH**/ ?>

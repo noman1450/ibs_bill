@@ -14,16 +14,7 @@ class EmployeeJoinController extends Controller
 {
     public function employeeidcard()
     {
-        $customer = DB::select("
-            select s.id, s.from_information, s.software_name, s.send_to
-                from
-            service_confiq s
-                join
-            client_information c on c.id = s.client_information_id
-        ");
-
-        return view('MasterSetting.join_employee.employeeidcard')
-            ->with('customer', $customer);
+        return view('MasterSetting.join_employee.employeeidcard');
     }
 
     public function employeeidcardlistdata(Request $request)
@@ -54,17 +45,16 @@ class EmployeeJoinController extends Controller
     public function submitemployeeidcard(Request $request)
     {
         if (empty($request->ids)) {
-            $request->session()->flash('alert-danger', 'Please Check This List,Some Employees has no finger code!');
-            return redirect()->back();
+            return back()->with('alert-danger', 'Please Check This List,Some Employees has no finger code!');
         }
 
-        $sendMailToClients = DB::table('service_confiq')
-            ->leftJoin('client_information as c', 'c.id', '=', 'service_confiq.client_information_id')
+        $sendMailToClients = DB::table('service_confiq as a')
+            ->leftJoin('client_information as c', 'c.id', '=', 'a.client_information_id')
             ->select('c.address', 'c.client_name', 'c.client_code', 'c.contact_person', 'c.email', 'c.created_at',
-                'service_confiq.id', 'service_confiq.to_information', 'service_confiq.from_information',
-                'service_confiq.software_name', 'service_confiq.send_to', 'service_confiq.amount'
+                'a.id', 'a.to_information', 'a.from_information',
+                'a.software_name', 'a.send_to', 'a.amount'
             )
-            ->whereIn('service_confiq.id', $request->ids)
+            ->whereIn('a.id', $request->ids)
             ->get();
 
         SendMailToClientJob::dispatch($sendMailToClients);
