@@ -37,6 +37,6 @@ class Service extends Model
            }
        }
 
-       return  trim($new_invoice_no);
+       return trim($new_invoice_no);
    }
 }

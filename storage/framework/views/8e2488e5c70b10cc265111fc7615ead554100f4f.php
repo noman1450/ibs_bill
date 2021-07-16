@@ -14,13 +14,13 @@
                     </thead>
                     <tbody>
                         <?php $__currentLoopData = $collection; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                            <?php $rj = $item->customer ?>
+                            <?php $rj = $item->client_name ?>
                             <tr>
                                 <?php if($rj !== $reserve): ?>
                                     <td rowspan="<?php echo e($loop->index); ?>" style="vertical-align:middle; text-align:center;text-transform:capitalize">
-                                        <strong><?php echo e($item->customer); ?></strong>
+                                        <strong><?php echo e($item->client_name); ?></strong>
                                     </td>
-                                    <?php $reserve = $item->customer ?>
+                                    <?php $reserve = $item->client_name ?>
                                 <?php endif; ?>
                                 <td><?php echo e($item->month_name); ?></td>
                                 <td><?php echo e($item->collect_amount); ?></td>
@@ -39,4 +39,4 @@
 </div>
 <?php $__env->stopSection(); ?>
 
-<?php echo $__env->make('layouts.main', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH H:\xammp\htdocs\ibs_accounts_mail_version\resources\views/MasterSetting/duecollection/print-preview.blade.php ENDPATH**/ ?>
+<?php echo $__env->make('layouts.main', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH H:\xammp\htdocs\ibs_accounts_mail_version\resources\views/MasterSetting/duecollection/print-pdf.blade.php ENDPATH**/ ?>

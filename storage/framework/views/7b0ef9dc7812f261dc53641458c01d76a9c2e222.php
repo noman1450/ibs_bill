@@ -60,9 +60,9 @@
 			    </div>
 
                 <div>
-                    <button type="submit" class="btn btn-success btn-flat pull-right" name="submit_btn" value="collect" id="btnSubmit" style="margin-right: 10px;">Collection</button>
+                    <button type="submit" class="btn btn-success btn-flat pull-right" name="submit" value="collect" id="btnSubmit" style="margin-right: 10px;">Collection</button>
 
-                    <button type="submit" class="btn btn-info btn-flat pull-right" name="submit_btn" value="print" id="btnPrint" style="margin-right: 10px;">Print Preview</button>
+                    <button type="submit" class="btn btn-info btn-flat pull-right" name="submit" value="print" id="btnPrint" style="margin-right: 10px;">Print Preview</button>
                 </div>
 
 		    </div>
@@ -125,7 +125,7 @@ $(document).ready(function($) {
                     "columns": [
                         { "data": "checkbox",
                             "mRender": function (data, type, full) {
-                                return '<input type="checkbox" name="service_conf_ids[]" value="'+full.id+'">';
+                                return '<input type="checkbox" name="maintenace_bill_id[]" value="'+full.id+'">';
                             }
                         },
                         { "data": "customer" },

@@ -15,7 +15,7 @@ Route::middleware('auth')->group(function() {
     Route::get('/test', 'HomeController@test')->name('test');
 
     Route::get('/pdf', function() {
-        return view('mails.pdf');
+        return view('MasterSetting.duecollection.pdf');
     });
 
 //Group List

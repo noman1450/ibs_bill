@@ -16,13 +16,13 @@
                     </thead>
                     <tbody>
                         @foreach ($collection as $item)
-                            @php $rj = $item->customer @endphp
+                            @php $rj = $item->client_name @endphp
                             <tr>
                                 @if($rj !== $reserve)
                                     <td rowspan="{{ $loop->index }}" style="vertical-align:middle; text-align:center;text-transform:capitalize">
-                                        <strong>{{ $item->customer }}</strong>
+                                        <strong>{{ $item->client_name }}</strong>
                                     </td>
-                                    @php $reserve = $item->customer @endphp
+                                    @php $reserve = $item->client_name @endphp
                                 @endif
                                 <td>{{ $item->month_name }}</td>
                                 <td>{{ $item->collect_amount }}</td>
@@ -33,8 +33,8 @@
                 </table>
             </div>
 
-            <div>
-                <button type="button" class="btn btn-info btn-flat pull-right" id="btnPrint" style="margin-right: 10px;">Print</button>
+            <div class="noprint">
+                <button type="button" class="btn btn-info btn-flat pull-right" id="btnPrint" onclick="print()" style="margin-right: 10px;">Print</button>
             </div>
         </div>
     </div>

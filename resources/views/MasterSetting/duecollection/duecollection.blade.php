@@ -126,7 +126,7 @@ $(document).ready(function($) {
                     "columns": [
                         { "data": "checkbox",
                             "mRender": function (data, type, full) {
-                                return '<input type="checkbox" name="service_conf_ids[]" value="'+full.id+'">';
+                                return '<input type="checkbox" name="maintenace_bill_id[]" value="'+full.id+'">';
                             }
                         },
                         { "data": "customer" },

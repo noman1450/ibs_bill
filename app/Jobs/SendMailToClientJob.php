@@ -2,15 +2,15 @@
 
 namespace App\Jobs;
 
-use App\Models\MasterSetting\Service;
+use PDF;
 use Illuminate\Bus\Queueable;
+use Illuminate\Support\Facades\Mail;
+use App\Models\MasterSetting\Service;
+use Illuminate\Queue\SerializesModels;
+use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Mail;
-use PDF;
-use Terbilang;
+use Riskihajar\Terbilang\Facades\Terbilang;
 
 class SendMailToClientJob implements ShouldQueue
 {
