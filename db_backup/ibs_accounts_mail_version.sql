@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.0.4
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 07, 2021 at 10:32 PM
--- Server version: 10.4.19-MariaDB
--- PHP Version: 7.4.20
+-- Generation Time: Jul 16, 2021 at 12:52 PM
+-- Server version: 10.4.17-MariaDB
+-- PHP Version: 8.0.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -274,7 +274,7 @@ CREATE TABLE `client_information` (
 
 INSERT INTO `client_information` (`id`, `client_code`, `client_name`, `contact_person`, `address`, `email`, `activity`, `city_id`, `client_category_id`, `acc_chart_of_account_id`, `user_id`, `created_at`, `updated_at`) VALUES
 (1, 'qfl', 'quality feed limited', 'shuvo', 'dhaka', 'qfl@gmail.com', 1, NULL, NULL, NULL, NULL, '2021-07-07 06:29:29', '2021-07-07 06:29:29'),
-(2, 'amg', 'al mostafa geroup', 'dfdfd', 'dhaka', 'amg@gmail.com', NULL, NULL, NULL, NULL, NULL, '2021-07-07 06:29:29', '2021-07-07 06:29:29');
+(2, 'amg', 'al mostafa group', 'dfdfd', 'dhaka', 'amg@gmail.com', NULL, NULL, NULL, NULL, NULL, '2021-07-07 06:29:29', '2021-07-07 06:29:29');
 
 -- --------------------------------------------------------
 
@@ -336,6 +336,17 @@ CREATE TABLE `jobs` (
   `created_at` int(10) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `jobs`
+--
+
+INSERT INTO `jobs` (`id`, `queue`, `payload`, `attempts`, `reserved_at`, `available_at`, `created_at`) VALUES
+(5, 'default', '{\"uuid\":\"ba259331-4d27-4770-acd5-9f6841c995c8\",\"displayName\":\"App\\\\Jobs\\\\SendMailToClientJob\",\"job\":\"Illuminate\\\\Queue\\\\CallQueuedHandler@call\",\"maxTries\":null,\"maxExceptions\":null,\"delay\":null,\"timeout\":null,\"timeoutAt\":null,\"data\":{\"commandName\":\"App\\\\Jobs\\\\SendMailToClientJob\",\"command\":\"O:28:\\\"App\\\\Jobs\\\\SendMailToClientJob\\\":9:{s:17:\\\"sendMailToClients\\\";O:29:\\\"Illuminate\\\\Support\\\\Collection\\\":1:{s:8:\\\"\\u0000*\\u0000items\\\";a:3:{i:0;O:8:\\\"stdClass\\\":12:{s:7:\\\"address\\\";s:5:\\\"dhaka\\\";s:11:\\\"client_name\\\";s:20:\\\"quality feed limited\\\";s:11:\\\"client_code\\\";s:3:\\\"qfl\\\";s:14:\\\"contact_person\\\";s:5:\\\"shuvo\\\";s:5:\\\"email\\\";s:13:\\\"qfl@gmail.com\\\";s:10:\\\"created_at\\\";s:19:\\\"2021-07-07 06:29:29\\\";s:2:\\\"id\\\";i:1;s:14:\\\"to_information\\\";s:21:\\\"saifsabbir4@gmail.com\\\";s:16:\\\"from_information\\\";s:16:\\\"Accounts Manager\\\";s:13:\\\"software_name\\\";s:12:\\\"HRM Software\\\";s:7:\\\"send_to\\\";s:18:\\\"Account Department\\\";s:6:\\\"amount\\\";d:8000;}i:1;O:8:\\\"stdClass\\\":12:{s:7:\\\"address\\\";s:5:\\\"dhaka\\\";s:11:\\\"client_name\\\";s:17:\\\"al mostafa geroup\\\";s:11:\\\"client_code\\\";s:3:\\\"amg\\\";s:14:\\\"contact_person\\\";s:5:\\\"dfdfd\\\";s:5:\\\"email\\\";s:13:\\\"amg@gmail.com\\\";s:10:\\\"created_at\\\";s:19:\\\"2021-07-07 06:29:29\\\";s:2:\\\"id\\\";i:2;s:14:\\\"to_information\\\";s:21:\\\"noman27.ibs@gmail.com\\\";s:16:\\\"from_information\\\";s:16:\\\"Accounts Manager\\\";s:13:\\\"software_name\\\";s:12:\\\"HRM Software\\\";s:7:\\\"send_to\\\";s:16:\\\"Managin Director\\\";s:6:\\\"amount\\\";d:5000;}i:2;O:8:\\\"stdClass\\\":12:{s:7:\\\"address\\\";s:5:\\\"dhaka\\\";s:11:\\\"client_name\\\";s:17:\\\"al mostafa geroup\\\";s:11:\\\"client_code\\\";s:3:\\\"amg\\\";s:14:\\\"contact_person\\\";s:5:\\\"dfdfd\\\";s:5:\\\"email\\\";s:13:\\\"amg@gmail.com\\\";s:10:\\\"created_at\\\";s:19:\\\"2021-07-07 06:29:29\\\";s:2:\\\"id\\\";i:3;s:14:\\\"to_information\\\";s:21:\\\"noman27.ibs@gmail.com\\\";s:16:\\\"from_information\\\";s:16:\\\"Accounts Manager\\\";s:13:\\\"software_name\\\";s:9:\\\"Ecommerce\\\";s:7:\\\"send_to\\\";s:16:\\\"Managin Director\\\";s:6:\\\"amount\\\";d:6000;}}}s:3:\\\"job\\\";N;s:10:\\\"connection\\\";N;s:5:\\\"queue\\\";N;s:15:\\\"chainConnection\\\";N;s:10:\\\"chainQueue\\\";N;s:5:\\\"delay\\\";N;s:10:\\\"middleware\\\";a:0:{}s:7:\\\"chained\\\";a:0:{}}\"}}', 0, NULL, 1626414943, 1626414943),
+(6, 'default', '{\"uuid\":\"b8d1fe3c-0f0d-423e-83c9-fe09640ea1d3\",\"displayName\":\"App\\\\Jobs\\\\SendMailToClientJob\",\"job\":\"Illuminate\\\\Queue\\\\CallQueuedHandler@call\",\"maxTries\":null,\"maxExceptions\":null,\"delay\":null,\"timeout\":null,\"timeoutAt\":null,\"data\":{\"commandName\":\"App\\\\Jobs\\\\SendMailToClientJob\",\"command\":\"O:28:\\\"App\\\\Jobs\\\\SendMailToClientJob\\\":9:{s:17:\\\"sendMailToClients\\\";O:29:\\\"Illuminate\\\\Support\\\\Collection\\\":1:{s:8:\\\"\\u0000*\\u0000items\\\";a:2:{i:0;O:8:\\\"stdClass\\\":12:{s:7:\\\"address\\\";s:5:\\\"dhaka\\\";s:11:\\\"client_name\\\";s:20:\\\"quality feed limited\\\";s:11:\\\"client_code\\\";s:3:\\\"qfl\\\";s:14:\\\"contact_person\\\";s:5:\\\"shuvo\\\";s:5:\\\"email\\\";s:13:\\\"qfl@gmail.com\\\";s:10:\\\"created_at\\\";s:19:\\\"2021-07-07 06:29:29\\\";s:2:\\\"id\\\";i:1;s:14:\\\"to_information\\\";s:21:\\\"saifsabbir4@gmail.com\\\";s:16:\\\"from_information\\\";s:16:\\\"Accounts Manager\\\";s:13:\\\"software_name\\\";s:12:\\\"HRM Software\\\";s:7:\\\"send_to\\\";s:18:\\\"Account Department\\\";s:6:\\\"amount\\\";d:8000;}i:1;O:8:\\\"stdClass\\\":12:{s:7:\\\"address\\\";s:5:\\\"dhaka\\\";s:11:\\\"client_name\\\";s:16:\\\"al mostafa group\\\";s:11:\\\"client_code\\\";s:3:\\\"amg\\\";s:14:\\\"contact_person\\\";s:5:\\\"dfdfd\\\";s:5:\\\"email\\\";s:13:\\\"amg@gmail.com\\\";s:10:\\\"created_at\\\";s:19:\\\"2021-07-07 06:29:29\\\";s:2:\\\"id\\\";i:2;s:14:\\\"to_information\\\";s:21:\\\"noman27.ibs@gmail.com\\\";s:16:\\\"from_information\\\";s:16:\\\"Accounts Manager\\\";s:13:\\\"software_name\\\";s:12:\\\"HRM Software\\\";s:7:\\\"send_to\\\";s:16:\\\"Managin Director\\\";s:6:\\\"amount\\\";d:5000;}}}s:3:\\\"job\\\";N;s:10:\\\"connection\\\";N;s:5:\\\"queue\\\";N;s:15:\\\"chainConnection\\\";N;s:10:\\\"chainQueue\\\";N;s:5:\\\"delay\\\";N;s:10:\\\"middleware\\\";a:0:{}s:7:\\\"chained\\\";a:0:{}}\"}}', 0, NULL, 1626417785, 1626417785),
+(7, 'default', '{\"uuid\":\"2f8a905b-3d39-45fa-bb07-6436b1d8a60e\",\"displayName\":\"App\\\\Jobs\\\\SendMailToClientJob\",\"job\":\"Illuminate\\\\Queue\\\\CallQueuedHandler@call\",\"maxTries\":null,\"maxExceptions\":null,\"delay\":null,\"timeout\":null,\"timeoutAt\":null,\"data\":{\"commandName\":\"App\\\\Jobs\\\\SendMailToClientJob\",\"command\":\"O:28:\\\"App\\\\Jobs\\\\SendMailToClientJob\\\":9:{s:17:\\\"sendMailToClients\\\";O:29:\\\"Illuminate\\\\Support\\\\Collection\\\":1:{s:8:\\\"\\u0000*\\u0000items\\\";a:2:{i:0;O:8:\\\"stdClass\\\":12:{s:7:\\\"address\\\";s:5:\\\"dhaka\\\";s:11:\\\"client_name\\\";s:20:\\\"quality feed limited\\\";s:11:\\\"client_code\\\";s:3:\\\"qfl\\\";s:14:\\\"contact_person\\\";s:5:\\\"shuvo\\\";s:5:\\\"email\\\";s:13:\\\"qfl@gmail.com\\\";s:10:\\\"created_at\\\";s:19:\\\"2021-07-07 06:29:29\\\";s:2:\\\"id\\\";i:1;s:14:\\\"to_information\\\";s:21:\\\"saifsabbir4@gmail.com\\\";s:16:\\\"from_information\\\";s:16:\\\"Accounts Manager\\\";s:13:\\\"software_name\\\";s:12:\\\"HRM Software\\\";s:7:\\\"send_to\\\";s:18:\\\"Account Department\\\";s:6:\\\"amount\\\";d:8000;}i:1;O:8:\\\"stdClass\\\":12:{s:7:\\\"address\\\";s:5:\\\"dhaka\\\";s:11:\\\"client_name\\\";s:16:\\\"al mostafa group\\\";s:11:\\\"client_code\\\";s:3:\\\"amg\\\";s:14:\\\"contact_person\\\";s:5:\\\"dfdfd\\\";s:5:\\\"email\\\";s:13:\\\"amg@gmail.com\\\";s:10:\\\"created_at\\\";s:19:\\\"2021-07-07 06:29:29\\\";s:2:\\\"id\\\";i:2;s:14:\\\"to_information\\\";s:21:\\\"noman27.ibs@gmail.com\\\";s:16:\\\"from_information\\\";s:16:\\\"Accounts Manager\\\";s:13:\\\"software_name\\\";s:12:\\\"HRM Software\\\";s:7:\\\"send_to\\\";s:16:\\\"Managin Director\\\";s:6:\\\"amount\\\";d:5000;}}}s:3:\\\"job\\\";N;s:10:\\\"connection\\\";N;s:5:\\\"queue\\\";N;s:15:\\\"chainConnection\\\";N;s:10:\\\"chainQueue\\\";N;s:5:\\\"delay\\\";N;s:10:\\\"middleware\\\";a:0:{}s:7:\\\"chained\\\";a:0:{}}\"}}', 0, NULL, 1626417789, 1626417789),
+(8, 'default', '{\"uuid\":\"141f3fd8-83d4-4179-ba4f-d46c6f10a0a9\",\"displayName\":\"App\\\\Jobs\\\\SendMailToClientJob\",\"job\":\"Illuminate\\\\Queue\\\\CallQueuedHandler@call\",\"maxTries\":null,\"maxExceptions\":null,\"delay\":null,\"timeout\":null,\"timeoutAt\":null,\"data\":{\"commandName\":\"App\\\\Jobs\\\\SendMailToClientJob\",\"command\":\"O:28:\\\"App\\\\Jobs\\\\SendMailToClientJob\\\":9:{s:17:\\\"sendMailToClients\\\";O:29:\\\"Illuminate\\\\Support\\\\Collection\\\":1:{s:8:\\\"\\u0000*\\u0000items\\\";a:2:{i:0;O:8:\\\"stdClass\\\":12:{s:7:\\\"address\\\";s:5:\\\"dhaka\\\";s:11:\\\"client_name\\\";s:20:\\\"quality feed limited\\\";s:11:\\\"client_code\\\";s:3:\\\"qfl\\\";s:14:\\\"contact_person\\\";s:5:\\\"shuvo\\\";s:5:\\\"email\\\";s:13:\\\"qfl@gmail.com\\\";s:10:\\\"created_at\\\";s:19:\\\"2021-07-07 06:29:29\\\";s:2:\\\"id\\\";i:1;s:14:\\\"to_information\\\";s:21:\\\"saifsabbir4@gmail.com\\\";s:16:\\\"from_information\\\";s:16:\\\"Accounts Manager\\\";s:13:\\\"software_name\\\";s:12:\\\"HRM Software\\\";s:7:\\\"send_to\\\";s:18:\\\"Account Department\\\";s:6:\\\"amount\\\";d:8000;}i:1;O:8:\\\"stdClass\\\":12:{s:7:\\\"address\\\";s:5:\\\"dhaka\\\";s:11:\\\"client_name\\\";s:16:\\\"al mostafa group\\\";s:11:\\\"client_code\\\";s:3:\\\"amg\\\";s:14:\\\"contact_person\\\";s:5:\\\"dfdfd\\\";s:5:\\\"email\\\";s:13:\\\"amg@gmail.com\\\";s:10:\\\"created_at\\\";s:19:\\\"2021-07-07 06:29:29\\\";s:2:\\\"id\\\";i:2;s:14:\\\"to_information\\\";s:21:\\\"noman27.ibs@gmail.com\\\";s:16:\\\"from_information\\\";s:16:\\\"Accounts Manager\\\";s:13:\\\"software_name\\\";s:12:\\\"HRM Software\\\";s:7:\\\"send_to\\\";s:16:\\\"Managin Director\\\";s:6:\\\"amount\\\";d:5000;}}}s:3:\\\"job\\\";N;s:10:\\\"connection\\\";N;s:5:\\\"queue\\\";N;s:15:\\\"chainConnection\\\";N;s:10:\\\"chainQueue\\\";N;s:5:\\\"delay\\\";N;s:10:\\\"middleware\\\";a:0:{}s:7:\\\"chained\\\";a:0:{}}\"}}', 0, NULL, 1626417810, 1626417810),
+(9, 'default', '{\"uuid\":\"a8f7a494-280e-4178-951a-e28cbcbfe8e7\",\"displayName\":\"App\\\\Jobs\\\\SendMailToClientJob\",\"job\":\"Illuminate\\\\Queue\\\\CallQueuedHandler@call\",\"maxTries\":null,\"maxExceptions\":null,\"delay\":null,\"timeout\":null,\"timeoutAt\":null,\"data\":{\"commandName\":\"App\\\\Jobs\\\\SendMailToClientJob\",\"command\":\"O:28:\\\"App\\\\Jobs\\\\SendMailToClientJob\\\":9:{s:17:\\\"sendMailToClients\\\";O:29:\\\"Illuminate\\\\Support\\\\Collection\\\":1:{s:8:\\\"\\u0000*\\u0000items\\\";a:2:{i:0;O:8:\\\"stdClass\\\":12:{s:7:\\\"address\\\";s:5:\\\"dhaka\\\";s:11:\\\"client_name\\\";s:20:\\\"quality feed limited\\\";s:11:\\\"client_code\\\";s:3:\\\"qfl\\\";s:14:\\\"contact_person\\\";s:5:\\\"shuvo\\\";s:5:\\\"email\\\";s:13:\\\"qfl@gmail.com\\\";s:10:\\\"created_at\\\";s:19:\\\"2021-07-07 06:29:29\\\";s:2:\\\"id\\\";i:1;s:14:\\\"to_information\\\";s:21:\\\"saifsabbir4@gmail.com\\\";s:16:\\\"from_information\\\";s:16:\\\"Accounts Manager\\\";s:13:\\\"software_name\\\";s:12:\\\"HRM Software\\\";s:7:\\\"send_to\\\";s:18:\\\"Account Department\\\";s:6:\\\"amount\\\";d:8000;}i:1;O:8:\\\"stdClass\\\":12:{s:7:\\\"address\\\";s:5:\\\"dhaka\\\";s:11:\\\"client_name\\\";s:16:\\\"al mostafa group\\\";s:11:\\\"client_code\\\";s:3:\\\"amg\\\";s:14:\\\"contact_person\\\";s:5:\\\"dfdfd\\\";s:5:\\\"email\\\";s:13:\\\"amg@gmail.com\\\";s:10:\\\"created_at\\\";s:19:\\\"2021-07-07 06:29:29\\\";s:2:\\\"id\\\";i:2;s:14:\\\"to_information\\\";s:21:\\\"noman27.ibs@gmail.com\\\";s:16:\\\"from_information\\\";s:16:\\\"Accounts Manager\\\";s:13:\\\"software_name\\\";s:12:\\\"HRM Software\\\";s:7:\\\"send_to\\\";s:16:\\\"Managin Director\\\";s:6:\\\"amount\\\";d:5000;}}}s:3:\\\"job\\\";N;s:10:\\\"connection\\\";N;s:5:\\\"queue\\\";N;s:15:\\\"chainConnection\\\";N;s:10:\\\"chainQueue\\\";N;s:5:\\\"delay\\\";N;s:10:\\\"middleware\\\";a:0:{}s:7:\\\"chained\\\";a:0:{}}\"}}', 0, NULL, 1626417813, 1626417813);
+
 -- --------------------------------------------------------
 
 --
@@ -359,8 +370,14 @@ CREATE TABLE `maintenace_bill` (
 --
 
 INSERT INTO `maintenace_bill` (`id`, `service_confiq_id`, `year_id`, `month_id`, `bill_no`, `amount`, `send_to`, `created_at`, `updated_at`) VALUES
-(1, 1, 2021, 1, 'IBS-21070001', '8000', 'Account Department', '2021-07-08 02:26:08', '2021-07-08 02:26:08'),
-(2, 2, 2021, 1, 'IBS-21070002', '5000', 'Managin Director', '2021-07-08 02:26:08', '2021-07-08 02:26:08');
+(1, 1, 2015, 1, 'IBS-21070001', '8000', 'Account Department', '2021-07-16 12:43:05', '2021-07-16 12:43:05'),
+(2, 2, 2015, 1, 'IBS-21070002', '5000', 'Managin Director', '2021-07-16 12:43:05', '2021-07-16 12:43:05'),
+(3, 1, 2015, 2, 'IBS-21070003', '8000', 'Account Department', '2021-07-16 12:43:09', '2021-07-16 12:43:09'),
+(4, 2, 2015, 2, 'IBS-21070004', '5000', 'Managin Director', '2021-07-16 12:43:09', '2021-07-16 12:43:09'),
+(5, 1, 2015, 3, 'IBS-21070005', '8000', 'Account Department', '2021-07-16 12:43:30', '2021-07-16 12:43:30'),
+(6, 2, 2015, 3, 'IBS-21070006', '5000', 'Managin Director', '2021-07-16 12:43:30', '2021-07-16 12:43:30'),
+(7, 1, 2015, 4, 'IBS-21070007', '8000', 'Account Department', '2021-07-16 12:43:33', '2021-07-16 12:43:33'),
+(8, 2, 2015, 4, 'IBS-21070008', '5000', 'Managin Director', '2021-07-16 12:43:33', '2021-07-16 12:43:33');
 
 -- --------------------------------------------------------
 
@@ -382,8 +399,14 @@ CREATE TABLE `maintenace_bill_ledger` (
 --
 
 INSERT INTO `maintenace_bill_ledger` (`id`, `maintenace_bill_id`, `payableamount`, `receiving_amount`, `created_at`, `updated_at`) VALUES
-(1, 1, '8000', '0', '2021-07-08 02:26:08', '2021-07-08 02:26:08'),
-(2, 2, '5000', '0', '2021-07-08 02:26:08', '2021-07-08 02:26:08');
+(1, 1, '8000', '0', '2021-07-16 12:43:05', '2021-07-16 12:43:05'),
+(2, 2, '5000', '0', '2021-07-16 12:43:05', '2021-07-16 12:43:05'),
+(3, 3, '8000', '0', '2021-07-16 12:43:09', '2021-07-16 12:43:09'),
+(4, 4, '5000', '0', '2021-07-16 12:43:09', '2021-07-16 12:43:09'),
+(5, 5, '8000', '0', '2021-07-16 12:43:30', '2021-07-16 12:43:30'),
+(6, 6, '5000', '0', '2021-07-16 12:43:30', '2021-07-16 12:43:30'),
+(7, 7, '8000', '0', '2021-07-16 12:43:33', '2021-07-16 12:43:33'),
+(8, 8, '5000', '0', '2021-07-16 12:43:33', '2021-07-16 12:43:33');
 
 -- --------------------------------------------------------
 
@@ -408,6 +431,35 @@ CREATE TABLE `model_has_roles` (
   `model_type` varchar(191) NOT NULL,
   `model_id` bigint(20) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `month`
+--
+
+CREATE TABLE `month` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `name` varchar(40) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `month`
+--
+
+INSERT INTO `month` (`id`, `name`) VALUES
+(1, 'January'),
+(2, 'February'),
+(3, 'March'),
+(4, 'April'),
+(5, 'May'),
+(6, 'June'),
+(7, 'July'),
+(8, 'August'),
+(9, 'September'),
+(10, 'October'),
+(11, 'November'),
+(12, 'December');
 
 -- --------------------------------------------------------
 
@@ -566,7 +618,53 @@ CREATE TABLE `service_confiq` (
 
 INSERT INTO `service_confiq` (`id`, `client_information_id`, `to_information`, `from_information`, `software_name`, `amount`, `valid`, `updated_at`, `created_at`, `send_to`) VALUES
 (1, 1, 'saifsabbir4@gmail.com', 'Accounts Manager', 'HRM Software', 8000, 1, '2021-07-07 23:27:01', '2021-07-07 10:34:04', 'Account Department'),
-(2, 2, 'noman27.ibs@gmail.com', 'Accounts Manager', 'HRM Software', 5000, 1, '2021-07-07 10:34:46', '2021-07-07 10:34:46', 'Managin Director');
+(2, 2, 'noman27.ibs@gmail.com', 'Accounts Manager', 'HRM Software', 5000, 1, '2021-07-07 10:34:46', '2021-07-07 10:34:46', 'Managin Director'),
+(3, 2, 'noman27.ibs@gmail.com', 'Accounts Manager', 'Ecommerce', 6000, 1, '2021-07-15 14:54:47', '2021-07-15 14:54:47', 'Managin Director');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `temp_maintenace_bill`
+--
+
+CREATE TABLE `temp_maintenace_bill` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `bill_no` varchar(45) NOT NULL,
+  `bill_date` datetime NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `temp_maintenace_bill`
+--
+
+INSERT INTO `temp_maintenace_bill` (`id`, `bill_no`, `bill_date`, `created_at`, `updated_at`) VALUES
+(1, 'IBS-21070001', '2021-07-16 12:44:09', '2021-07-16 06:44:09', '2021-07-16 06:44:09');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `temp_maintenace_bill_ledger`
+--
+
+CREATE TABLE `temp_maintenace_bill_ledger` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `temp_maintenace_bill_id` int(10) UNSIGNED NOT NULL,
+  `maintenace_bill_id` int(11) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `temp_maintenace_bill_ledger`
+--
+
+INSERT INTO `temp_maintenace_bill_ledger` (`id`, `temp_maintenace_bill_id`, `maintenace_bill_id`, `created_at`, `updated_at`) VALUES
+(1, 1, 2, '2021-07-16 06:44:09', '2021-07-16 06:44:09'),
+(2, 1, 4, '2021-07-16 06:44:09', '2021-07-16 06:44:09'),
+(3, 1, 6, '2021-07-16 06:44:09', '2021-07-16 06:44:09'),
+(4, 1, 8, '2021-07-16 06:44:09', '2021-07-16 06:44:09');
 
 -- --------------------------------------------------------
 
@@ -762,6 +860,12 @@ ALTER TABLE `model_has_roles`
   ADD PRIMARY KEY (`role_id`,`model_type`,`model_id`);
 
 --
+-- Indexes for table `month`
+--
+ALTER TABLE `month`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `oauth_access_tokens`
 --
 ALTER TABLE `oauth_access_tokens`
@@ -826,6 +930,18 @@ ALTER TABLE `role_has_permissions`
 ALTER TABLE `service_confiq`
   ADD PRIMARY KEY (`id`),
   ADD KEY `fk_service_confiq_client_information1_idx` (`client_information_id`);
+
+--
+-- Indexes for table `temp_maintenace_bill`
+--
+ALTER TABLE `temp_maintenace_bill`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `temp_maintenace_bill_ledger`
+--
+ALTER TABLE `temp_maintenace_bill_ledger`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `users`
@@ -944,19 +1060,25 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT for table `jobs`
 --
 ALTER TABLE `jobs`
-  MODIFY `id` int(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `maintenace_bill`
 --
 ALTER TABLE `maintenace_bill`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `maintenace_bill_ledger`
 --
 ALTER TABLE `maintenace_bill_ledger`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT for table `month`
+--
+ALTER TABLE `month`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `oauth_clients`
@@ -980,7 +1102,19 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT for table `service_confiq`
 --
 ALTER TABLE `service_confiq`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `temp_maintenace_bill`
+--
+ALTER TABLE `temp_maintenace_bill`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `temp_maintenace_bill_ledger`
+--
+ALTER TABLE `temp_maintenace_bill_ledger`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `users`
