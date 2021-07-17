@@ -17,6 +17,16 @@
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('content'); ?>
+
+    <div class="alert alert-success">
+        <span>Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo, aut.</span>
+
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+
 <div class="box box-default">
     <form method="post" action="<?php echo e(url('collectduesubmit')); ?>" onkeypress="return event.keyCode != 13;" id="all_frm_data">
         <?php echo e(csrf_field()); ?>

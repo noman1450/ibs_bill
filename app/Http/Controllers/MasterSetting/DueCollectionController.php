@@ -73,6 +73,8 @@ class DueCollectionController extends Controller
                 $billLedger->receiving_amount = $collect->collect_amount;
                 $billLedger->save();
             }
+
+            return redirect('dueCollection')->with('success', 'Due collection save successfully.!');
         }
 
         if ($request->submit === 'print') {
@@ -80,17 +82,17 @@ class DueCollectionController extends Controller
 
             DB::beginTransaction();
             try {
-                // $tempMaintenaceBillId = TempMaintenaceBill::create([
-                //     'bill_no' => 'IBS-'.Service::generate_tr_number('temp_maintenace_bill', 'bill_no'),
-                //     'bill_date' => Carbon::now()->toDateTimeString()
-                // ])->id;
+                $tempMaintenaceBillId = TempMaintenaceBill::create([
+                    'bill_no' => 'IBS-'.Service::generate_tr_number('temp_maintenace_bill', 'bill_no'),
+                    'bill_date' => Carbon::now()->toDateTimeString()
+                ])->id;
 
-                // foreach ($request->maintenace_bill_id as $collect) {
-                //     TempMaintenaceBillLedger::create([
-                //         'temp_maintenace_bill_id' => $tempMaintenaceBillId,
-                //         'maintenace_bill_id' => $collect
-                //     ]);
-                // }
+                foreach ($request->maintenace_bill_id as $collect) {
+                    TempMaintenaceBillLedger::create([
+                        'temp_maintenace_bill_id' => $tempMaintenaceBillId,
+                        'maintenace_bill_id' => $collect
+                    ]);
+                }
 
                 $collection = DB::SELECT("SELECT
                             a.bill_no,
@@ -108,7 +110,7 @@ class DueCollectionController extends Controller
                             temp_maintenace_bill a
                                 JOIN
                             temp_maintenace_bill_ledger b ON a.id = b.temp_maintenace_bill_id
-                                AND a.id= 1
+                                AND a.id= $tempMaintenaceBillId
                                 JOIN
                             maintenace_bill c ON b.maintenace_bill_id = c.id
                                 JOIN
@@ -135,15 +137,5 @@ class DueCollectionController extends Controller
 
             return view('MasterSetting.duecollection.pdf', $data);
         }
-
-        // return response()->json([
-        //    'success' => true,
-        //    'messages' => 'Successfully updated!'
-        // ]);
-    }
-
-    public function gotoprint(Request $request)
-    {
-        dd($request->all());
     }
 }

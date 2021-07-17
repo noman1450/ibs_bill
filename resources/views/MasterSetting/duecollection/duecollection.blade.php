@@ -19,6 +19,16 @@
 @endsection
 
 @section('content')
+@if (session('success'))
+    <div class="alert alert-success">
+        <span>{{ session('success') }}</span>
+
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+@endif
+
 <div class="box box-default">
     <form method="post" action="{{ url('collectduesubmit') }}" onkeypress="return event.keyCode != 13;" id="all_frm_data">
         {{ csrf_field() }}
