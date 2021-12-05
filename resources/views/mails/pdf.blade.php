@@ -270,7 +270,7 @@
 
                                     <!--[if mso]></td></tr></table><![endif]-->
                                     <div align="right" class="img-container right autowidth" style="padding-right: 18px;padding-left: 0;">
-                                        <!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr style="line-height:0"><td style="padding-right: 0;padding-left: 0;" align="right"><![endif]--><img align="right" alt="" border="0" class="right autowidth" src="{{asset('images/signature.jpg')}}" style="text-decoration: none; -ms-interpolation-mode: bicubic; height: auto; width: 100%; max-width: 150px; float: none; display: block;" width="150"/>
+                                        <!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr style="line-height:0"><td style="padding-right: 0;padding-left: 0;" align="right"><![endif]--><img align="right" alt="" border="0" class="right autowidth" src="{{ asset('images/signature.jpg') }}" style="text-decoration: none; -ms-interpolation-mode: bicubic; height: auto; width: 100%; max-width: 150px; float: none; display: block;" width="150"/>
                                         <br/>
                                         ------------------------------------
                                         <br/>    Authorized Signature

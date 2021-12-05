@@ -49,11 +49,11 @@ class SendMailToClientJob implements ShouldQueue
         $dt = date('d M Y', strtotime($service->created_at));
 
         $data["name"] = 'BD accounts';
-        $data["subject"] = "Maintenace charge for $service->software_name";
+        $data["subject"] = "Maintenance charge for $service->software_name";
         $data["to_information"] = $service->to_information;
         $data["email"] = $service->from_information;
         $data["amount"] = $service->amount;
-        $data["softwarename"] = 'Maintenace charge for '.$service->software_name;
+        $data["softwarename"] = 'Maintenance charge for '.$service->software_name;
         $data["address"] = $service->address;
         $data["client_name"] = $service->client_name;
         $data["client_code"] = 'IBS-'.$bill_no;

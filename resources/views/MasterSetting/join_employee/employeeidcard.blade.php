@@ -22,12 +22,10 @@
 
 @section('content')
     <div class="box box-default">
-        <form  method="POST" action="{{url('submitemployeeidcard')}}" onkeypress="return event.keyCode != 13;" id="all_frm_data">
+        <form  method="POST" action="{{ url('submitemployeeidcard') }}" onkeypress="return event.keyCode != 13;" id="all_frm_data">
             {{ csrf_field() }}
             <div class="box-header with-border">
                 <h3 class="box-title">Service Id Card Print</h3>
-
-
 
                 <div class="row" style="margin-left:10px; ">
 
@@ -42,7 +40,6 @@
                             <option>2021</option>
                         </select>
                     </div>
-
 
                     <div class="col-lg-2 col-md-2 col-xs-12 form-group" style="padding-left: 0px; padding-top: 10px;">
 
@@ -70,7 +67,7 @@
                          </div> -->
 
                     <div class="col-lg-2 col-md-2 col-xs-12 form-group" style="padding-left: 0px; padding-top: 10px;">
-                        <input type="button" id="search" value="Search" class=" btn-sm block btn-flat btn" style="margin-right: 15px; padding: 7px 10px;background-color: #EEEEEE; color: black; border:1px solid gray;">
+                        <input type="button" id="search" value="Search" class="btn-sm btn-primary btn-flat btn" style="margin-right: 15px; padding: 7px 10px;">
                     </div>
                 </div>
                 <div class="box-tools pull-right">
@@ -167,7 +164,7 @@
                 $("#btnSubmit").val('Please wait..');
                 var $form   = $( this ),
 
-                 url = $form.attr( "action" );
+                url = $form.attr( "action" );
                 token = $("[name='_token']").val();
                 $.ajax({
                     type        : 'POST', // define the type of HTTP verb we want to use (POST for our form)
@@ -177,20 +174,20 @@
                     encode      : true,
                     _token      : token
                 })
-                    .done(function(data) {
-                        if (data['success']) {
+                    .done(function(response) {
+                        if (response['success']) {
                             $('#btnSubmit').attr("disabled", false);
                             $("#btnSubmit").val('Submit');
 
-                            toastr.success(data.messages)
-                            var audio = new Audio('http://localhost/info/accounts/public/audio/audio_file.mp3');
+                            toastr.success(response.messages)
+                            var audio = new Audio("{{ asset('/audio/audio_file.mp3') }}");
                             audio.play();
                             window.setTimeout(function () {
                                 window.location.reload();
                             }, 3000)
                         } else {
-                            toastr.error(data.messages);
-                            var audio = new Audio('http://localhost/info/accounts/public/audio/audio_file1.mp3');
+                            toastr.error(response.messages);
+                            var audio = new Audio("{{ asset('/audio/audio_file1.mp3') }}");
                             audio.play();
                             $('#btnSubmit').attr("disabled", false);
                             $("#btnSubmit").val('Submit');
