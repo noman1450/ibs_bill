@@ -22,8 +22,8 @@
 
 @section('content')
     <div class="box box-default">
-        <form  method="POST" action="{{ url('submitemployeeidcard') }}" onkeypress="return event.keyCode != 13;" id="all_frm_data">
-            {{ csrf_field() }}
+        {{-- <form  method="POST" action="{{ url('submitemployeeidcard') }}" onkeypress="return event.keyCode != 13;" id="all_frm_data"> --}}
+            {{-- {{ csrf_field() }} --}}
             <div class="box-header with-border">
                 <h3 class="box-title">Service Id Card Print</h3>
 
@@ -81,13 +81,14 @@
                         <table id="designation_list_table" class="table table-striped table-bordered"    width="100%">
                             <thead >
                             <tr>
-                                <th  style="width: 3%"><input name="select_all" value="1" id="example-select-all" type="checkbox" /></th>
+                                {{-- <th  style="width: 3%"><input name="select_all" value="1" id="example-select-all" type="checkbox" /></th> --}}
                                 <th style="width: 20%">Customer Name</th>
                                 <th style="width: 20%">Send To</th>
                                 <th style="width: 15%">From Information</th>
                                 <th style="width: 15%">To Information</th>
                                 <th style="width: 15%">Amount</th>
                                 <th style="width: 15%">Software Name</th>
+                                <th></th>
                             </tr>
                             </thead>
                             <tbody>
@@ -97,7 +98,7 @@
                     <input type="submit" class="btn btn-success btn-flat pull-right" value="Submit" id="btnSubmit" style="margin-right: 10px;">
                 </div>
             </div>
-        </form>
+        {{-- </form> --}}
     </div>
 @endsection
 
@@ -126,17 +127,22 @@
                             bInfo:      true,
                             data:     dataSet,
                             columns: [
-                                { data: "checkbox",
-                                    mRender: function (data, type, full) {
-                                        return '<input type="checkbox" name="ids[]" value="'+full.id+'">';
-                                    }
-                                },
+                                // { data: "checkbox",
+                                //     mRender: function (data, type, full) {
+                                //         return '<input type="checkbox" name="ids[]" value="'+full.id+'">';
+                                //     }
+                                // },
                                 { data: "customer" },
                                 { data: "send_to" },
                                 { data: "from_information" },
                                 { data: "to_information" },
                                 { data: "amount" },
                                 { data: "software_name" },
+                                { data: 'Link',
+                                    mRender: function (data, type, full) {
+                                        return '<a href="{{ url("submitemployeeidcard") }}/'+full.id+'" class="btn btn-info btn-block"><i class="fa fa-print"></i> Print</a>';
+                                    }
+                                }
                             ],
                             order: [ 1, 'asc' ]
                         });

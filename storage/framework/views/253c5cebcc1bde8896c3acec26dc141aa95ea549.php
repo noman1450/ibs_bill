@@ -191,11 +191,11 @@
                                         <div style="line-height: 1.2; font-size: 12px; color: #555555; font-family: Montserrat, Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif; mso-line-height-alt: 14px;">
                                             <p style="font-size: 14px; line-height: 1.2; word-break: break-word; mso-line-height-alt: 17px; margin: 0;">
                                                 <span style="color: #000000;">
-                                                    Reference: <strong><?php echo e($client_code ?? 'IBS-21060004'); ?></strong>
+                                                    Reference: <strong><?php echo e($data->client_code ?? 'IBS-21060004'); ?></strong>
                                                 </span>
                                                 <br/>
                                                 <span style="color: #000000;">
-                                                    Date: <?php echo e($created_at ?? 'June 05, 2021'); ?>
+                                                    Date: <?php echo e($data->created_at ?? 'June 05, 2021'); ?>
 
 											    </span>
                                             </p>
@@ -205,16 +205,16 @@
                                                 <span style="color: #000000;">To</span>
                                                 <br/>
                                                 <span style="color: #000000;">
-                                                    <b><?php echo e($send_to ?? 'Managing Director'); ?></b>
+                                                    <b><?php echo e($data->send_to ?? 'Managing Director'); ?></b>
                                                 </span>
 
                                                 <br/>
 
-                                                <strong><span style="color: #000000;font-size:18px"><?php echo e($client_name ?? 'The Homeo Research Laboratory (BD) Ltd.'); ?></span></strong>
+                                                <strong><span style="color: #000000;font-size:18px"><?php echo e($data->client_name ?? 'The Homeo Research Laboratory (BD) Ltd.'); ?></span></strong>
 
-                                                <span style="color: #000000;"></span><br/><span style="color: #000000;font-size: 14px;}"><em><?php echo e($address ?? '49/3 Rajabo, Ghorashal, Palash, Narsingdi'); ?></em></span></p>
+                                                <span style="color: #000000;"></span><br/><span style="color: #000000;font-size: 14px;}"><em><?php echo e($data->address ?? '49/3 Rajabo, Ghorashal, Palash, Narsingdi'); ?></em></span></p>
 
-                                            <p style="font-size: 14px; line-height: 1.2; word-break: break-word; mso-line-height-alt: 17px; margin: 0;"><span style="color: #000000;font-size: 12px;"><?php echo e($client_email ?? 'email@gmail.com'); ?></span></p>
+                                            <p style="font-size: 14px; line-height: 1.2; word-break: break-word; mso-line-height-alt: 17px; margin: 0;"><span style="color: #000000;font-size: 12px;"><?php echo e($data->client_email ?? 'email@gmail.com'); ?></span></p>
                                         </div>
                                     </div>
 
@@ -241,23 +241,23 @@
                                             </tr>
                                             <tr style="height: 150px;font-size:12px;">
                                                 <td>1</td>
-                                                <td><?php echo e($softwarename ?? ''); ?></td>
-                                                <td style="font-size:14px;"><b>1@ Tk. <?php echo e($amount ?? ''); ?>/=</b></td>
-                                                <td style="font-size:14px;"><b>Tk. <?php echo e($amount ?? ''); ?>/=</b></td>
+                                                <td><?php echo e($data->software_name ?? ''); ?></td>
+                                                <td style="font-size:14px;"><b>1@ Tk. <?php echo e($data->amount ?? ''); ?>/=</b></td>
+                                                <td style="font-size:14px;"><b>Tk. <?php echo e($data->amount ?? ''); ?>/=</b></td>
                                             </tr>
                                             <tr class="font-size:12px;">
                                                 <td colspan="3" style="text-align:right">
                                                     <p style="padding:0;margin:0;"><b>TOTAL</b></p>
                                                     <p style="padding:0;margin:0;font-size:12px">(<em>excluding vat & tax</em>)</p>
                                                 </td>
-                                                <td><b>TK. <?php echo e($amount ?? ''); ?>/=</b></td>
+                                                <td><b>TK. <?php echo e($data->amount ?? ''); ?>/=</b></td>
                                             </tr>
                                         </table>
                                     </div>
 
                                     <div style="padding-left:18px;margin-top:10px;font-size:12px;color:#555555;font-family:Montserrat, Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif;line-height:1.2;">
                                         <div style="line-height: 1.2; font-size: 12px; color: #555555; font-family: Montserrat, Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif; mso-line-height-alt: 14px;">
-                                            <p style="font-size: 14px; line-height: 1.2; word-break: break-word; mso-line-height-alt: 17px; margin: 0;"><span style="color: #000000;">In-Words: <b><?php echo e($word ?? ''); ?> only</b></span></p>
+                                            <p style="font-size: 14px; line-height: 1.2; word-break: break-word; mso-line-height-alt: 17px; margin: 0;"><span style="color: #000000;">In-Words: <b>Hello only</b></span></p>
                                         </div>
                                     </div>
 

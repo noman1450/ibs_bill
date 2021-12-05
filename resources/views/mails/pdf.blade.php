@@ -191,11 +191,11 @@
                                         <div style="line-height: 1.2; font-size: 12px; color: #555555; font-family: Montserrat, Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif; mso-line-height-alt: 14px;">
                                             <p style="font-size: 14px; line-height: 1.2; word-break: break-word; mso-line-height-alt: 17px; margin: 0;">
                                                 <span style="color: #000000;">
-                                                    Reference: <strong>{{ $client_code ?? 'IBS-21060004' }}</strong>
+                                                    Reference: <strong>{{ $data->client_code ?? 'IBS-21060004' }}</strong>
                                                 </span>
                                                 <br/>
                                                 <span style="color: #000000;">
-                                                    Date: {{ $created_at ?? 'June 05, 2021' }}
+                                                    Date: {{ $data->created_at ?? 'June 05, 2021' }}
 											    </span>
                                             </p>
 
@@ -204,16 +204,16 @@
                                                 <span style="color: #000000;">To</span>
                                                 <br/>
                                                 <span style="color: #000000;">
-                                                    <b>{{ $send_to ?? 'Managing Director' }}</b>
+                                                    <b>{{ $data->send_to ?? 'Managing Director' }}</b>
                                                 </span>
 
                                                 <br/>
 
-                                                <strong><span style="color: #000000;font-size:18px">{{ $client_name ?? 'The Homeo Research Laboratory (BD) Ltd.' }}</span></strong>
+                                                <strong><span style="color: #000000;font-size:18px">{{ $data->client_name ?? 'The Homeo Research Laboratory (BD) Ltd.' }}</span></strong>
 
-                                                <span style="color: #000000;"></span><br/><span style="color: #000000;font-size: 14px;}"><em>{{ $address ?? '49/3 Rajabo, Ghorashal, Palash, Narsingdi' }}</em></span></p>
+                                                <span style="color: #000000;"></span><br/><span style="color: #000000;font-size: 14px;}"><em>{{ $data->address ?? '49/3 Rajabo, Ghorashal, Palash, Narsingdi' }}</em></span></p>
 
-                                            <p style="font-size: 14px; line-height: 1.2; word-break: break-word; mso-line-height-alt: 17px; margin: 0;"><span style="color: #000000;font-size: 12px;">{{ $client_email ?? 'email@gmail.com' }}</span></p>
+                                            <p style="font-size: 14px; line-height: 1.2; word-break: break-word; mso-line-height-alt: 17px; margin: 0;"><span style="color: #000000;font-size: 12px;">{{ $data->client_email ?? 'email@gmail.com' }}</span></p>
                                         </div>
                                     </div>
 
@@ -240,23 +240,23 @@
                                             </tr>
                                             <tr style="height: 150px;font-size:12px;">
                                                 <td>1</td>
-                                                <td>{{ $softwarename ?? '' }}</td>
-                                                <td style="font-size:14px;"><b>1@ Tk. {{ $amount ?? '' }}/=</b></td>
-                                                <td style="font-size:14px;"><b>Tk. {{ $amount ?? '' }}/=</b></td>
+                                                <td>{{ $data->software_name ?? '' }}</td>
+                                                <td style="font-size:14px;"><b>1@ Tk. {{ $data->amount ?? '' }}/=</b></td>
+                                                <td style="font-size:14px;"><b>Tk. {{ $data->amount ?? '' }}/=</b></td>
                                             </tr>
                                             <tr class="font-size:12px;">
                                                 <td colspan="3" style="text-align:right">
                                                     <p style="padding:0;margin:0;"><b>TOTAL</b></p>
                                                     <p style="padding:0;margin:0;font-size:12px">(<em>excluding vat & tax</em>)</p>
                                                 </td>
-                                                <td><b>TK. {{ $amount ?? '' }}/=</b></td>
+                                                <td><b>TK. {{ $data->amount ?? '' }}/=</b></td>
                                             </tr>
                                         </table>
                                     </div>
 
                                     <div style="padding-left:18px;margin-top:10px;font-size:12px;color:#555555;font-family:Montserrat, Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif;line-height:1.2;">
                                         <div style="line-height: 1.2; font-size: 12px; color: #555555; font-family: Montserrat, Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif; mso-line-height-alt: 14px;">
-                                            <p style="font-size: 14px; line-height: 1.2; word-break: break-word; mso-line-height-alt: 17px; margin: 0;"><span style="color: #000000;">In-Words: <b>{{ $word ?? '' }} only</b></span></p>
+                                            <p style="font-size: 14px; line-height: 1.2; word-break: break-word; mso-line-height-alt: 17px; margin: 0;"><span style="color: #000000;">In-Words: <b>Hello only</b></span></p>
                                         </div>
                                     </div>
 

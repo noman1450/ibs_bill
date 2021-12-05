@@ -9,6 +9,8 @@ use App\Models\MasterSetting\Service;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
+use Barryvdh\DomPDF\Facade as PDF;
+use Riskihajar\Terbilang\Facades\Terbilang;
 
 class EmployeeJoinController extends Controller
 {
@@ -42,34 +44,46 @@ class EmployeeJoinController extends Controller
         return response()->json(['data' => $data]);
     }
 
-    public function submitemployeeidcard(Request $request)
+    public function submitemployeeidcard($id, Request $request)
     {
-        if (empty($request->ids)) {
-            return back()->with('alert-danger', 'Please Check This List,Some Employees has no finger code!');
-        }
+        // set_time_limit(200);
 
-        $sendMailToClients = DB::table('service_confiq as a')
-            ->leftJoin('client_information as c', 'c.id', '=', 'a.client_information_id')
-            ->select('c.address', 'c.client_name', 'c.client_code', 'c.contact_person', 'c.email', 'c.created_at',
+        // if (empty($request->ids)) {
+        //     return back()->with('alert-danger', 'Please Check This List,Some Employees has no finger code!');
+        // }
+
+        $data['data'] = DB::table('service_confiq as a')
+            // ->leftJoin('client_information as c', 'c.id', '=', 'a.client_information_id')
+            ->select( //'c.address', 'c.client_name', 'c.client_code', 'c.contact_person', 'c.email', 'c.created_at',
                 'a.id', 'a.to_information', 'a.from_information',
                 'a.software_name', 'a.send_to', 'a.amount'
             )
-            ->whereIn('a.id', $request->ids)
-            ->get();
+            ->where('a.id', $id)
+            ->first();
 
-        SendMailToClientJob::dispatch($sendMailToClients);
+        // dd($data['data']);
 
-        $this->fillOtherTable($request, $sendMailToClients);
+        // SendMailToClientJob::dispatch($data);
 
-        return response()->json([
-            'success'   => true,
-            'messages'  => 'Successfully update!'
-        ]);
+        // $this->fillOtherTable($request, $data);
+
+        // $data = $this->getDta($sendMailToClients);
+
+        return view('mails.pdf');
+
+        $pdf = PDF::loadView('mails.hello');
+
+        return $pdf->stream('invoice.pdf');
+
+        // return response()->json([
+        //     'success'   => true,
+        //     'messages'  => 'Successfully update!'
+        // ]);
     }
 
-    protected function fillOtherTable($request, $sendMailToClients)
+    protected function fillOtherTable($request, $service)
     {
-        foreach ($sendMailToClients as $service) {
+        // foreach ($sendMailToClients as $service) {
 
             $bill_no = Service::generate_tr_number("maintenace_bill", "bill_no");
 
@@ -89,6 +103,46 @@ class EmployeeJoinController extends Controller
                 $data_in->receiving_amount = 0;
                 $data_in->save();
             });
-        }
+        // }
+    }
+
+    protected function generatePdf($sendMailToClients)
+    {
+        // foreach($sendMailToClients as $service) {
+            $data = $this->getDta($sendMailToClients);
+
+            $pdf = PDF::loadView('mails.pdf', $data);
+
+            return $pdf->stream();
+        // }
+    }
+
+    protected function getDta($service): array
+    {
+        $word = Terbilang::make($service->amount);
+        // $emailsInfo = $service->to_information;
+        // $emails = explode(',', $emailsInfo);
+
+        $bill_no = Service::generate_tr_number("maintenace_bill", "bill_no");
+
+        $dt = date('d M Y', strtotime($service->created_at));
+
+        $data["name"] = 'BD accounts';
+        $data["subject"] = "Maintenance charge for $service->software_name";
+        $data["to_information"] = $service->to_information;
+        $data["email"] = $service->from_information;
+        $data["amount"] = $service->amount;
+        $data["softwarename"] = 'Maintenance charge for '.$service->software_name;
+        $data["address"] = $service->address;
+        $data["client_name"] = $service->client_name;
+        $data["client_code"] = 'IBS-'.$bill_no;
+        $data["contact_person"] = $service->contact_person;
+        $data["client_email"] = $service->email;
+        $data["send_to"] = $service->send_to;
+        $data["created_at"] = $dt;
+        $data["word"] = $word;
+        // $data["emailsinfo"] = $emails;
+
+        return $data;
     }
 }
