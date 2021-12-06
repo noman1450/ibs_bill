@@ -66,7 +66,6 @@ class EmployeeJoinController extends Controller
                 a.software_name, a.send_to, a.amount
             ')
             ->where('a.id', $id)
-            ->when()
             ->first();
 
         $data['word'] = Terbilang::make($data['data']->amount);
