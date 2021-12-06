@@ -53,25 +53,33 @@ class EmployeeJoinController extends Controller
         // }
 
         $data['data'] = DB::table('service_confiq as a')
-            // ->leftJoin('client_information as c', 'c.id', '=', 'a.client_information_id')
-            ->select( //'c.address', 'c.client_name', 'c.client_code', 'c.contact_person', 'c.email', 'c.created_at',
-                'a.id', 'a.to_information', 'a.from_information',
-                'a.software_name', 'a.send_to', 'a.amount'
-            )
+            ->leftJoin('client_information as c', 'c.id', '=', 'a.client_information_id')
+            ->join('maintenace_bill as d', 'd.service_confiq_id', '=', 'a.id')
+            ->selectRaw('
+                a.id,
+                d.bill_no as reference,
+                date_format(c.created_at, "%M %d, %Y") as date,
+                a.from_information,
+                c.client_name,
+                c.address as client_address,
+                c.email as client_email,
+                a.software_name, a.send_to, a.amount
+            ')
             ->where('a.id', $id)
+            ->when()
             ->first();
+
+        $data['word'] = Terbilang::make($data['data']->amount);
 
         // dd($data['data']);
 
         // SendMailToClientJob::dispatch($data);
 
-        // $this->fillOtherTable($request, $data);
+        $this->fillOtherTable($request, $data['data']);
 
         // $data = $this->getDta($sendMailToClients);
 
-        return view('mails.pdf');
-
-        $pdf = PDF::loadView('mails.hello');
+        $pdf = PDF::loadView('mails.pdf', $data);
 
         return $pdf->stream('invoice.pdf');
 
