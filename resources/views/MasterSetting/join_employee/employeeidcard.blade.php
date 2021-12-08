@@ -31,26 +31,17 @@
 
                     <div class="col-lg-2 col-md-2 col-xs-12 form-group" style="padding-left: 0px; padding-top: 10px;">
                         <select class="form-control" id="year" name="year" style="width: 100%;">
-                            <option>2021</option>
-                            <option>2022</option>
-                            <option>2023</option>
+                            <option>{{ date('Y', strtotime('-1 year')) }}</option>
+                            <option selected>{{ date('Y') }}</option>
+                            <option>{{ date('Y', strtotime('+1 year')) }}</option>
                         </select>
                     </div>
 
                     <div class="col-lg-2 col-md-2 col-xs-12 form-group" style="padding-left: 0px; padding-top: 10px;">
                         <select class="form-control select2" id="month" name="month" multiple style="width: 100%;">
-                            <option value="1" >January</option>
-                            <option value="2" >February</option>
-                            <option value="3" >March</option>
-                            <option value="4" >April</option>
-                            <option value="5" >May</option>
-                            <option value="6" >June</option>
-                            <option value="7" >July</option>
-                            <option value="8" >August</option>
-                            <option value="9" >September</option>
-                            <option value="10" >October</option>
-                            <option value="11" >November</option>
-                            <option value="12" >December</option>
+                            @foreach ($months as $month)
+                                <option value="{{ $month->id }}">{{ $month->name }}</option>
+                            @endforeach
                         </select>
                     </div>
 
@@ -172,7 +163,7 @@
 
 
             $("#client_information_id").select2({
-                placeholder: 'Search Employee',
+                placeholder: 'Search Customer',
                 width: '100%',
                 allowClear: true,
                 ajax: {

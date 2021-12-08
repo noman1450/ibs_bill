@@ -16,7 +16,9 @@ class EmployeeJoinController extends Controller
 {
     public function employeeidcard()
     {
-        return view('MasterSetting.join_employee.employeeidcard');
+        $months = DB::table('month')->get();
+
+        return view('MasterSetting.join_employee.employeeidcard', compact('months'));
     }
 
     public function employeeidcardlistdata(Request $request)
