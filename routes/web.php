@@ -63,7 +63,8 @@ Route::middleware('auth')->group(function() {
 
     Route::post('employeeidcardlistdata', 'MasterSetting\EmployeeJoinController@employeeidcardlistdata');
 
-    Route::get('submitemployeeidcard/{id}',	'MasterSetting\EmployeeJoinController@submitemployeeidcard');
+    Route::get('submitemployeeidcard/{id}',	'MasterSetting\EmployeeJoinController@submitemployeeidcard')->name('submitemployeeidcard');
+    Route::get('view_employee_id_card/{id}',	'MasterSetting\EmployeeJoinController@view');
 
     Route::get('dueCollection',	'MasterSetting\DueCollectionController@cllientdueinfo');
     Route::post('collectduesubmit',	'MasterSetting\DueCollectionController@collectduesubmit');

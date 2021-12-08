@@ -29,19 +29,16 @@
 
                     <div class="col-lg-2 col-md-2 col-xs-12 form-group" style="padding-left: 0px; padding-top: 10px;">
                         <select class="form-control" id="year" name="year" style="width: 100%;">
-                            <option>2015</option>
-                            <option>2016</option>
-                            <option>2017</option>
-                            <option>2018</option>
-                            <option>2019</option>
-                            <option>2020</option>
                             <option>2021</option>
+                            <option>2022</option>
+                            <option>2023</option>
                         </select>
                     </div>
 
                     <div class="col-lg-2 col-md-2 col-xs-12 form-group" style="padding-left: 0px; padding-top: 10px;">
 
                         <select class="form-control" id="month" name="month" style="width: 100%;">
+                            <option value="" >Select</option>
                             <option value="1" >January</option>
                             <option value="2" >February</option>
                             <option value="3" >March</option>
@@ -57,16 +54,7 @@
                         </select>
                     </div>
 
-
-                    <!--
-                         <div class="col-lg-2 col-md-2 col-xs-12 form-group" style="padding-left: 0px; padding-top: 10px;">
-                             <select class="form-control" id="designation" name="designation" style="width: 100%;" >
-                             </select>
-                         </div> -->
-
-                    <div class="col-lg-2 col-md-2 col-xs-12 form-group" style="padding-left: 0px; padding-top: 10px;">
-                        <input type="button" id="search" value="Search" class="btn-sm btn-primary btn-flat btn" style="margin-right: 15px; padding: 7px 10px;">
-                    </div>
+                    
                 </div>
                 <div class="box-tools pull-right">
                     <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
@@ -103,7 +91,7 @@
 <?php $__env->startSection('script'); ?>
     <script>
         $(document).ready(function($) {
-            $("#search").click(function() {
+            $("#month").change(function() {
                 $.ajax({
                     type:   'POST',
                     url :   "<?php echo e(URL::to('/')); ?>/employeeidcardlistdata",
@@ -138,7 +126,8 @@
                                 { data: "software_name" },
                                 { data: 'Link',
                                     mRender: function (data, type, full) {
-                                        return '<a href="<?php echo e(url("submitemployeeidcard")); ?>/'+full.id+'" class="btn btn-info btn-block"><i class="fa fa-print"></i> Print</a>';
+                                        return '<a target="_blank" href="<?php echo e(url("view_employee_id_card")); ?>/'+full.id+'?year='+$("#year").val()+'&month='+$("#month").val()+'" class="btn btn-info btn-sm btn-block"><i class="fa fa-eye"></i> View</a>'
+                                            // + '<a href="<?php echo e(url("submitemployeeidcard")); ?>/'+full.id+'?year='+$("#year").val()+'&month='+$("#month").val()+'" class="btn btn-info btn-sm btn-block"><i class="fa fa-print"></i> Print</a>';
                                     }
                                 }
                             ],

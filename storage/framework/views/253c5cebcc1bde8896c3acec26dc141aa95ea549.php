@@ -88,7 +88,7 @@
             <div style="padding: 20px">
                 <div>
                     <p class="font-14px">
-                        Reference: <strong><?php echo e($data->reference ?? ''); ?></strong>
+                        Reference: <strong>IBS-<?php echo e($bill_no ?? ''); ?></strong>
                     </p>
 
                     <p class="font-14px">
@@ -152,7 +152,7 @@
                     </tbody>
                 </table>
 
-                <p class="font-14px" style="margin-top:10px">In-Words: <strong><?php echo e(ucwords($word)); ?> only</strong></p>
+                <p class="font-14px" style="margin-top:10px">In-Words: <strong><?php echo e(ucwords($word) ?? ''); ?> only</strong></p>
             </div>
         </main>
 

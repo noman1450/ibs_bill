@@ -88,7 +88,7 @@
             <div style="padding: 20px">
                 <div>
                     <p class="font-14px">
-                        Reference: <strong>{{ $data->reference ?? '' }}</strong>
+                        Reference: <strong>IBS-{{ $bill_no ?? '' }}</strong>
                     </p>
 
                     <p class="font-14px">
@@ -150,7 +150,7 @@
                     </tbody>
                 </table>
 
-                <p class="font-14px" style="margin-top:10px">In-Words: <strong>{{ ucwords($word) }} only</strong></p>
+                <p class="font-14px" style="margin-top:10px">In-Words: <strong>{{ ucwords($word) ?? '' }} only</strong></p>
             </div>
         </main>
 

@@ -44,20 +44,12 @@ class EmployeeJoinController extends Controller
         return response()->json(['data' => $data]);
     }
 
-    public function submitemployeeidcard($id, Request $request)
+    public function view($id, Request $request)
     {
-        // set_time_limit(200);
-
-        // if (empty($request->ids)) {
-        //     return back()->with('alert-danger', 'Please Check This List,Some Employees has no finger code!');
-        // }
-
         $data['data'] = DB::table('service_confiq as a')
             ->leftJoin('client_information as c', 'c.id', '=', 'a.client_information_id')
-            ->join('maintenace_bill as d', 'd.service_confiq_id', '=', 'a.id')
             ->selectRaw('
                 a.id,
-                d.bill_no as reference,
                 date_format(c.created_at, "%M %d, %Y") as date,
                 a.from_information,
                 c.client_name,
@@ -68,15 +60,48 @@ class EmployeeJoinController extends Controller
             ->where('a.id', $id)
             ->first();
 
+        $data['bill_no'] = Service::generate_tr_number("maintenace_bill", "bill_no");
+
         $data['word'] = Terbilang::make($data['data']->amount);
 
-        // dd($data['data']);
+        // dd($data);
+
+        return view('MasterSetting.join_employee.view', $data);
+    }
+
+    public function submitemployeeidcard($id, Request $request)
+    {
+        // dd($id, $request->all());
+
+        // set_time_limit(200);
+
+        // if (empty($request->ids)) {
+        //     return back()->with('alert-danger', 'Please Check This List,Some Employees has no finger code!');
+        // }
+
+        $data['data'] = DB::table('service_confiq as a')
+            ->leftJoin('client_information as c', 'c.id', '=', 'a.client_information_id')
+            ->selectRaw('
+                a.id,
+                date_format(c.created_at, "%M %d, %Y") as date,
+                a.from_information,
+                c.client_name,
+                c.address as client_address,
+                c.email as client_email,
+                a.software_name, a.send_to, a.amount
+            ')
+            ->where('a.id', $id)
+            ->first();
 
         // SendMailToClientJob::dispatch($data);
 
         $this->fillOtherTable($request, $data['data']);
 
         // $data = $this->getDta($sendMailToClients);
+
+        $data['bill_no'] = Service::generate_tr_number("maintenace_bill", "bill_no");
+
+        $data['word'] = Terbilang::make($data['data']->amount);
 
         $pdf = PDF::loadView('mails.pdf', $data);
 
