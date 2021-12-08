@@ -46,7 +46,7 @@
                                 </p>
 
                                 <p class="font-14px">
-                                    <?php echo e($data->date ?? ''); ?>
+                                    <?php echo e(date('F d, Y')); ?>
 
                                     
                                 </p>

@@ -92,7 +92,7 @@
                     </p>
 
                     <p class="font-14px">
-                        {{ $data->date ?? '' }}
+                        {{ date('F d, Y') }}
                     </p>
 
                     <p style="margin-top: 15px">

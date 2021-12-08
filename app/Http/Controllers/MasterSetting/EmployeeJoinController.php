@@ -83,7 +83,6 @@ class EmployeeJoinController extends Controller
             ->leftJoin('client_information as c', 'c.id', '=', 'a.client_information_id')
             ->selectRaw('
                 a.id,
-                date_format(c.created_at, "%M %d, %Y") as date,
                 a.from_information,
                 c.client_name,
                 c.address as client_address,

@@ -48,8 +48,7 @@
                                 </p>
 
                                 <p class="font-14px">
-                                    {{ $data->date ?? '' }}
-                                    {{-- 30-Jun-2021 --}}
+                                    {{ date('F d, Y') }}
                                 </p>
 
                                 <p style="margin-top: 15px">
