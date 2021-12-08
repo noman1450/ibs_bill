@@ -48,7 +48,6 @@
                                 <p class="font-14px">
                                     <?php echo e(date('F d, Y')); ?>
 
-                                    
                                 </p>
 
                                 <p style="margin-top: 15px">

@@ -38,7 +38,12 @@ Route::middleware('auth')->group(function() {
     Route::post('role_list', 'User\RoleController@role_list');
     Route::post('role_store', 'User\RoleController@role_store');
 
-// Permission Controller
+
+    // select2 controller
+    
+
+
+    // Permission Controller
 
     Route::get('getpermissionlist', 'User\PermissionsController@getpermissionlist');
 
@@ -64,6 +69,7 @@ Route::middleware('auth')->group(function() {
     Route::post('employeeidcardlistdata', 'MasterSetting\EmployeeJoinController@employeeidcardlistdata');
 
     Route::get('submitemployeeidcard/{id}',	'MasterSetting\EmployeeJoinController@submitemployeeidcard')->name('submitemployeeidcard');
+    Route::post('submitemployeeidcardpost',	'MasterSetting\EmployeeJoinController@submitemployeeidcardpost');
     Route::get('view_employee_id_card/{id}',	'MasterSetting\EmployeeJoinController@view');
 
     Route::get('dueCollection',	'MasterSetting\DueCollectionController@cllientdueinfo');

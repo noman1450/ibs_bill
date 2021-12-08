@@ -21,6 +21,10 @@ class EmployeeJoinController extends Controller
 
     public function employeeidcardlistdata(Request $request)
     {
+        // dd($request->all());
+
+        $month_id = implode(',', $request->month_id);
+
         $data = DB::select("
             select s.id, CONCAT(c.client_name) AS customer, s.to_information, s.from_information,
                    s.software_name, s.valid, s.send_to, s.amount
@@ -29,7 +33,6 @@ class EmployeeJoinController extends Controller
                 join
             client_information c on s.client_information_id = c.id
                 and s.valid = 1
-                where s.valid = 1
                 and s.id not in (
                     select service_confiq_id
                         from
@@ -37,9 +40,13 @@ class EmployeeJoinController extends Controller
                         where
                             year_id = $request->year_id
                         and
-                            month_id = $request->month_id
+                            month_id in($month_id)
                     )
+
+                where s.client_information_id = $request->client_information_id
         ");
+
+        // dd($data);
 
         return response()->json(['data' => $data]);
     }
@@ -71,10 +78,6 @@ class EmployeeJoinController extends Controller
 
     public function submitemployeeidcard($id, Request $request)
     {
-        // dd($id, $request->all());
-
-        // set_time_limit(200);
-
         // if (empty($request->ids)) {
         //     return back()->with('alert-danger', 'Please Check This List,Some Employees has no finger code!');
         // }

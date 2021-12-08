@@ -20,8 +20,9 @@
 
 <?php $__env->startSection('content'); ?>
     <div class="box box-default">
-        
-            
+        <form  method="post" action="<?php echo e(url('submitemployeeidcardpost')); ?>" onkeypress="return event.keyCode != 13;">
+            <?php echo e(csrf_field()); ?>
+
             <div class="box-header with-border">
                 <h3 class="box-title">Service Id Card Print</h3>
 
@@ -36,9 +37,7 @@
                     </div>
 
                     <div class="col-lg-2 col-md-2 col-xs-12 form-group" style="padding-left: 0px; padding-top: 10px;">
-
-                        <select class="form-control" id="month" name="month" style="width: 100%;">
-                            <option value="" >Select</option>
+                        <select class="form-control select2" id="month" name="month" multiple style="width: 100%;">
                             <option value="1" >January</option>
                             <option value="2" >February</option>
                             <option value="3" >March</option>
@@ -54,7 +53,15 @@
                         </select>
                     </div>
 
-                    
+                    <div class="col-lg-2 col-md-2 col-xs-12 form-group" style="padding-left: 0px; padding-top: 10px;">
+                        <select class="form-control" id="client_information_id" name="client_information_id" style="width: 100%;">
+
+                        </select>
+                    </div>
+
+                    <div class="col-lg-2 col-md-2 col-xs-12 form-group" style="padding-left: 0px; padding-top: 10px;">
+                        <input type="button" id="search" value="Search" class="btn-sm btn-primary btn-flat btn" style="margin-right: 15px; padding: 7px 10px;">
+                    </div>
                 </div>
                 <div class="box-tools pull-right">
                     <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
@@ -64,34 +71,42 @@
             <div class="box-body">
                 <div class="row">
                     <div class="form-group col-lg-12 col-md-12 col-xs-12">
-                        <table id="designation_list_table" class="table table-striped table-bordered"    width="100%">
-                            <thead >
-                            <tr>
-                                
-                                <th style="width: 20%">Customer Name</th>
-                                <th style="width: 20%">Send To</th>
-                                <th style="width: 15%">From Information</th>
-                                <th style="width: 15%">To Information</th>
-                                <th style="width: 15%">Amount</th>
-                                <th style="width: 15%">Software Name</th>
-                                <th></th>
-                            </tr>
+                        <table id="designation_list_table" class="table table-striped table-bordered" width="100%">
+                            <thead>
+                                <tr>
+                                    <th  style="width: 3%">
+                                        <input name="select_all" value="1" id="example-select-all" type="checkbox" />
+                                    </th>
+                                    <th style="width: 20%">Customer Name</th>
+                                    <th style="width: 20%">Send To</th>
+                                    <th style="width: 15%">From Information</th>
+                                    <th style="width: 15%">To Information</th>
+                                    <th style="width: 15%">Amount</th>
+                                    <th style="width: 15%">Software Name</th>
+                                    <th></th>
+                                </tr>
                             </thead>
                             <tbody>
                             </tbody>
                         </table>
                     </div>
-                    <input type="submit" class="btn btn-success btn-flat pull-right" value="Submit" id="btnSubmit" style="margin-right: 10px;">
+                    <input type="submit" class="btn btn-success btn-flat pull-right" value="Multiple Print" id="btnSubmit" style="margin-right: 10px;">
                 </div>
             </div>
-        
+        </form>
     </div>
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('script'); ?>
     <script>
         $(document).ready(function($) {
-            $("#month").change(function() {
+            $('.select2').select2({
+                placeholder: 'Select months'
+            })
+
+            $("#search").click(function(e) {
+                e.preventDefault();
+
                 $.ajax({
                     type:   'POST',
                     url :   "<?php echo e(URL::to('/')); ?>/employeeidcardlistdata",
@@ -101,11 +116,12 @@
                     data:   {
                         year_id : $("#year").val(),
                         month_id : $("#month").val(),
+                        client_information_id : $("#client_information_id").val(),
                     },
                     dataType: 'json',
                     success: function(data) {
                         var dataSet = data.data;
-                        table = $('#designation_list_table').DataTable( {
+                        table = $('#designation_list_table').DataTable({
                             destroy:    true,
                             paging:     false,
                             searching:  true,
@@ -113,11 +129,12 @@
                             bInfo:      true,
                             data:     dataSet,
                             columns: [
-                                // { data: "checkbox",
-                                //     mRender: function (data, type, full) {
-                                //         return '<input type="checkbox" name="ids[]" value="'+full.id+'">';
-                                //     }
-                                // },
+                                { data: "checkbox",
+                                    mRender: function (data, type, full) {
+                                        return '<input type="checkbox" name="ids[]" value="'+full.id+'">';
+                                    },
+                                    orderable: false, searchable: false
+                                },
                                 { data: "customer" },
                                 { data: "send_to" },
                                 { data: "from_information" },
@@ -128,7 +145,8 @@
                                     mRender: function (data, type, full) {
                                         return '<a target="_blank" href="<?php echo e(url("view_employee_id_card")); ?>/'+full.id+'?year='+$("#year").val()+'&month='+$("#month").val()+'" class="btn btn-info btn-sm btn-block"><i class="fa fa-eye"></i> View</a>'
                                             // + '<a href="<?php echo e(url("submitemployeeidcard")); ?>/'+full.id+'?year='+$("#year").val()+'&month='+$("#month").val()+'" class="btn btn-info btn-sm btn-block"><i class="fa fa-print"></i> Print</a>';
-                                    }
+                                    },
+                                    orderable: false, searchable: false
                                 }
                             ],
                             order: [ 1, 'asc' ]
@@ -151,42 +169,65 @@
                 }
             });
 
-            $( "#all_frm_data" ).submit(function(event){
-                event.preventDefault();
-                $("#btnSubmit").attr("disabled", true);
-                $("#btnSubmit").val('Please wait..');
-                var $form   = $( this ),
 
-                url = $form.attr( "action" );
-                token = $("[name='_token']").val();
-                $.ajax({
-                    type        : 'POST', // define the type of HTTP verb we want to use (POST for our form)
-                    url         : url, // the url where we want to POST
-                    data        : $form.serialize(),
-                    dataType    : 'json', // what type of data do we expect back from the server
-                    encode      : true,
-                    _token      : token
-                })
-                    .done(function(response) {
-                        if (response['success']) {
-                            $('#btnSubmit').attr("disabled", false);
-                            $("#btnSubmit").val('Submit');
-
-                            toastr.success(response.messages)
-                            var audio = new Audio("<?php echo e(asset('/audio/audio_file.mp3')); ?>");
-                            audio.play();
-                            window.setTimeout(function () {
-                                window.location.reload();
-                            }, 3000)
-                        } else {
-                            toastr.error(response.messages);
-                            var audio = new Audio("<?php echo e(asset('/audio/audio_file1.mp3')); ?>");
-                            audio.play();
-                            $('#btnSubmit').attr("disabled", false);
-                            $("#btnSubmit").val('Submit');
+            $("#client_information_id").select2({
+                placeholder: 'Search Employee',
+                width: '100%',
+                allowClear: true,
+                ajax: {
+                    dataType: 'json',
+                    url: "<?php echo e(url('customer_name_list')); ?>",
+                    delay: 100,
+                    data: function(params) {
+                        return {
+                            term: params.term
                         }
-                    });
-            })
+                    },
+                    processResults: function (data, params) {
+                        params.page = params.page || 1;
+                        return {
+                            results: data
+                        };
+                    },
+                },
+            });
+
+            // $( "#all_frm_data" ).submit(function(event){
+            //     event.preventDefault();
+            //     $("#btnSubmit").attr("disabled", true);
+            //     $("#btnSubmit").val('Please wait..');
+            //     var $form   = $( this ),
+
+            //     url = $form.attr( "action" );
+            //     token = $("[name='_token']").val();
+            //     $.ajax({
+            //         type        : 'POST', // define the type of HTTP verb we want to use (POST for our form)
+            //         url         : url, // the url where we want to POST
+            //         data        : $form.serialize(),
+            //         dataType    : 'json', // what type of data do we expect back from the server
+            //         encode      : true,
+            //         _token      : token
+            //     })
+            //         .done(function(response) {
+            //             if (response['success']) {
+            //                 $('#btnSubmit').attr("disabled", false);
+            //                 $("#btnSubmit").val('Submit');
+
+            //                 toastr.success(response.messages)
+            //                 var audio = new Audio("<?php echo e(asset('/audio/audio_file.mp3')); ?>");
+            //                 audio.play();
+            //                 window.setTimeout(function () {
+            //                     window.location.reload();
+            //                 }, 3000)
+            //             } else {
+            //                 toastr.error(response.messages);
+            //                 var audio = new Audio("<?php echo e(asset('/audio/audio_file1.mp3')); ?>");
+            //                 audio.play();
+            //                 $('#btnSubmit').attr("disabled", false);
+            //                 $("#btnSubmit").val('Submit');
+            //             }
+            //         });
+            // })
         });
     </script>
 <?php $__env->stopSection(); ?>
