@@ -86,14 +86,10 @@ class EmployeeJoinController extends Controller
 
         $data['data'] = DB::table('service_confiq as a')
             ->leftJoin('client_information as c', 'c.id', '=', 'a.client_information_id')
-            ->selectRaw('
-                a.id,
-                a.from_information,
-                c.client_name,
-                c.address as client_address,
-                c.email as client_email,
-                a.software_name, a.send_to, a.amount
-            ')
+            ->select([
+                'a.id', 'a.from_information', 'c.client_name', 'c.address as client_address',
+                'c.email as client_email', 'a.software_name', 'a.send_to', 'a.amount'
+            ])
             ->where('a.id', $id)
             ->first();
 
@@ -151,6 +147,11 @@ class EmployeeJoinController extends Controller
 
             return $pdf->stream();
         // }
+    }
+
+    public function submitemployeeidcardpost(Request $request)
+    {
+        dd($request->ids);
     }
 
     protected function getDta($service): array

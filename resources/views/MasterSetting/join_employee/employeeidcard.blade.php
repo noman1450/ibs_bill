@@ -23,7 +23,8 @@
 @section('content')
     <div class="box box-default">
         <form  method="post" action="{{ url('submitemployeeidcardpost') }}" onkeypress="return event.keyCode != 13;">
-            {{ csrf_field() }}
+            @csrf
+
             <div class="box-header with-border">
                 <h3 class="box-title">Service Id Card Print</h3>
 
