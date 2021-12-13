@@ -1,7 +1,7 @@
 @extends('layouts.main')
 
 @section('styles')
-    <style type="text/css">
+    <style>
         .table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
             padding: 5px;
         }
@@ -22,11 +22,15 @@
 
 @section('content')
     <div class="box box-default">
-        <form  method="post" action="{{ url('submitemployeeidcardpost') }}" onkeypress="return event.keyCode != 13;">
+        {{-- <form method="post" action="{{ url('submitemployeeidcardpost') }}" onkeypress="return event.keyCode != 13;"> --}}
             @csrf
 
             <div class="box-header with-border">
-                <h3 class="box-title">Service Id Card Print</h3>
+                <h3 class="box-title">Process Service</h3>
+
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                </div>
 
                 <div class="row" style="margin-left:10px; ">
 
@@ -39,25 +43,25 @@
                     </div>
 
                     <div class="col-lg-2 col-md-2 col-xs-12 form-group" style="padding-left: 0px; padding-top: 10px;">
-                        <select class="form-control select2" id="month" name="month" multiple style="width: 100%;">
+                        <select class="form-control select2" id="month" name="month" style="width: 100%;">
+                            <option disabled selected>-- Select Month --</option>
                             @foreach ($months as $month)
                                 <option value="{{ $month->id }}">{{ $month->name }}</option>
                             @endforeach
                         </select>
                     </div>
 
-                    <div class="col-lg-2 col-md-2 col-xs-12 form-group" style="padding-left: 0px; padding-top: 10px;">
+                    {{-- <div class="col-lg-2 col-md-2 col-xs-12 form-group" style="padding-left: 0px; padding-top: 10px;">
                         <select class="form-control" id="client_information_id" name="client_information_id" style="width: 100%;">
 
                         </select>
-                    </div>
+                    </div> --}}
 
-                    <div class="col-lg-2 col-md-2 col-xs-12 form-group" style="padding-left: 0px; padding-top: 10px;">
-                        <input type="button" id="search" value="Search" class="btn-sm btn-primary btn-flat btn" style="margin-right: 15px; padding: 7px 10px;">
+                    <div class="col-md-2 form-group" style="padding-left: 0px; padding-top: 10px;">
+                        <input type="button" id="Process" value="Process" class="btn-sm btn-success btn-flat btn" style="margin-right: 15px; padding: 7px 10px;">
+
+                        <span id="successMsg" style="display: none"></span>
                     </div>
-                </div>
-                <div class="box-tools pull-right">
-                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
                 </div>
             </div>
 
@@ -83,70 +87,101 @@
                             </tbody>
                         </table>
                     </div>
-                    <input type="submit" class="btn btn-success btn-flat pull-right" value="Multiple Print" id="btnSubmit" style="margin-right: 10px;">
+                    {{-- <input type="submit" class="btn btn-success btn-flat pull-right" value="Multiple Print" id="btnSubmit" style="margin-right: 10px;"> --}}
                 </div>
             </div>
-        </form>
+        {{-- </form> --}}
     </div>
 @endsection
 
 @section('script')
     <script>
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': "{{ csrf_token() }}"
+        }
+    });
+
         $(document).ready(function($) {
             $('.select2').select2({
                 placeholder: 'Select months'
             })
 
-            $("#search").click(function(e) {
-                e.preventDefault();
+            $('#Process').click(function(e) {
+                e.preventDefault()
 
-                $.ajax({
-                    type:   'POST',
-                    url :   "{{URL::to('/')}}/employeeidcardlistdata",
-                    headers:{
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                    },
-                    data:   {
-                        year_id : $("#year").val(),
-                        month_id : $("#month").val(),
-                        client_information_id : $("#client_information_id").val(),
-                    },
-                    dataType: 'json',
-                    success: function(data) {
-                        var dataSet = data.data;
-                        table = $('#designation_list_table').DataTable({
-                            destroy:    true,
-                            paging:     false,
-                            searching:  true,
-                            ordering:   true,
-                            bInfo:      true,
-                            data:     dataSet,
-                            columns: [
-                                { data: "checkbox",
-                                    mRender: function (data, type, full) {
-                                        return '<input type="checkbox" name="ids[]" value="'+full.id+'">';
-                                    },
-                                    orderable: false, searchable: false
-                                },
-                                { data: "customer" },
-                                { data: "send_to" },
-                                { data: "from_information" },
-                                { data: "to_information" },
-                                { data: "amount" },
-                                { data: "software_name" },
-                                { data: 'Link',
-                                    mRender: function (data, type, full) {
-                                        return '<a target="_blank" href="{{ url("view_employee_id_card") }}/'+full.id+'?year='+$("#year").val()+'&month='+$("#month").val()+'" class="btn btn-info btn-sm btn-block"><i class="fa fa-eye"></i> View</a>'
-                                            // + '<a href="{{ url("submitemployeeidcard") }}/'+full.id+'?year='+$("#year").val()+'&month='+$("#month").val()+'" class="btn btn-info btn-sm btn-block"><i class="fa fa-print"></i> Print</a>';
-                                    },
-                                    orderable: false, searchable: false
-                                }
-                            ],
-                            order: [ 1, 'asc' ]
-                        });
-                    }
-                });
-            });
+                $.post("{{ url('/submitemployeeidcardpost') }}", {
+                    year: $('#year').val(),
+                    month: $('#month').val()
+                }).then((data) => {
+                    console.log(data);
+                    $('#successMsg').css({
+                        'display': 'inline-block',
+                        'font-weight': 'bold'
+                    }).text(data.message)
+
+                    setTimeout(() => {
+                        $('#successMsg').css({
+                            'display': 'none'
+                        })
+                    }, 2000);
+
+                    
+                })
+            })
+
+
+
+            // $("#search").click(function(e) {
+            //     e.preventDefault();
+
+            //     $.ajax({
+            //         type:   'POST',
+            //         url :   "{{URL::to('/')}}/employeeidcardlistdata",
+            //         headers:{
+            //             'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            //         },
+            //         data:   {
+            //             year_id : $("#year").val(),
+            //             month_id : $("#month").val(),
+            //             client_information_id : $("#client_information_id").val(),
+            //         },
+            //         dataType: 'json',
+            //         success: function(data) {
+            //             var dataSet = data.data;
+            //             table = $('#designation_list_table').DataTable({
+            //                 destroy:    true,
+            //                 paging:     false,
+            //                 searching:  true,
+            //                 ordering:   true,
+            //                 bInfo:      true,
+            //                 data:     dataSet,
+            //                 columns: [
+            //                     { data: "checkbox",
+            //                         mRender: function (data, type, full) {
+            //                             return '<input type="checkbox" name="ids[]" value="'+full.id+'">';
+            //                         },
+            //                         orderable: false, searchable: false
+            //                     },
+            //                     { data: "customer" },
+            //                     { data: "send_to" },
+            //                     { data: "from_information" },
+            //                     { data: "to_information" },
+            //                     { data: "amount" },
+            //                     { data: "software_name" },
+            //                     { data: 'Link',
+            //                         mRender: function (data, type, full) {
+            //                             return '<a target="_blank" href="{{ url("view_employee_id_card") }}/'+full.id+'?year='+$("#year").val()+'&month='+$("#month").val()+'" class="btn btn-info btn-sm btn-block"><i class="fa fa-eye"></i> View</a>'
+            //                                 // + '<a href="{{ url("submitemployeeidcard") }}/'+full.id+'?year='+$("#year").val()+'&month='+$("#month").val()+'" class="btn btn-info btn-sm btn-block"><i class="fa fa-print"></i> Print</a>';
+            //                         },
+            //                         orderable: false, searchable: false
+            //                     }
+            //                 ],
+            //                 order: [ 1, 'asc' ]
+            //             });
+            //         }
+            //     });
+            // });
 
             $('#example-select-all').on('click', function(){
                 var rows = table.rows({ 'search': 'applied' }).nodes();

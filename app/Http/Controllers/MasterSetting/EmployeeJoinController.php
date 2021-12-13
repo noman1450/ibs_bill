@@ -23,7 +23,11 @@ class EmployeeJoinController extends Controller
 
     public function employeeidcardlistdata(Request $request)
     {
-        // dd($request->all());
+        $where = '';
+
+        if ($request->client_information_id) {
+            $where = " where s.client_information_id = $request->client_information_id";
+        }
 
         $month_id = implode(',', $request->month_id);
 
@@ -45,7 +49,7 @@ class EmployeeJoinController extends Controller
                             month_id in($month_id)
                     )
 
-                where s.client_information_id = $request->client_information_id
+                $where
         ");
 
         // dd($data);
@@ -151,7 +155,51 @@ class EmployeeJoinController extends Controller
 
     public function submitemployeeidcardpost(Request $request)
     {
-        dd($request->ids);
+        $data['data'] = DB::select("
+            select
+                a.id, a.from_information, c.client_name, c.address as client_address,
+                c.email as client_email, a.software_name, a.send_to, a.amount
+            from
+                service_confiq as a
+            join
+                client_information as c on c.id = a.client_information_id
+                where a.id not in (select service_confiq_id from maintenace_bill where year_id = $request->year and month_id = $request->month)
+        ");
+
+        if (empty($data['data'])) {
+            $success = false;
+            $message = "Data already exists...!";
+        } else {
+            foreach ($data['data'] as $key => $service) {
+                $bill_no = Service::generate_tr_number("maintenace_bill", "bill_no");
+
+                DB::transaction(function () use ($service, $request, $bill_no) {
+                    $maintenance = new Maintenace;
+                    $maintenance->service_confiq_id = $service->id;
+                    $maintenance->year_id = $request->year;
+                    $maintenance->month_id = $request->month;
+                    $maintenance->bill_no = 'IBS-'.$bill_no;
+                    $maintenance->amount = $service->amount;
+                    $maintenance->send_to = $service->send_to;
+                    $maintenance->save();
+
+                    $data_in = new MaintenaceBillLedger;
+                    $data_in->maintenace_bill_id = $maintenance->id;
+                    $data_in->payableamount = $service->amount;
+                    $data_in->receiving_amount = 0;
+                    $data_in->save();
+                });
+            }
+
+            $success = true;
+            $message = "Data processed successfully..!";
+        }
+
+
+        return response()->json([
+            'success' => $success,
+            'message' => $message,
+        ]);
     }
 
     protected function getDta($service): array

@@ -40,7 +40,7 @@ Route::middleware('auth')->group(function() {
 
 
     // select2 controller
-    
+
 
 
     // Permission Controller
@@ -80,4 +80,13 @@ Route::middleware('auth')->group(function() {
 
     Route::get('company', 'MasterSetting\CompanyController@getCompany');
     Route::resource('companys', 'MasterSetting\CompanyController');
+
+    // Customer or Client Controller
+    Route::get('get-customer_information-data', 'MasterSetting\CustomerInformationController@getData');
+    Route::resource('customer_information', 'MasterSetting\CustomerInformationController');
+    // ! Customer or Client Controller
+
+    // process_service_view
+    Route::post('get-process_service_view-data', 'MasterSetting\ProcessServiceController@getData');
+    Route::get('process_service_view', 'MasterSetting\ProcessServiceController@index');
 });

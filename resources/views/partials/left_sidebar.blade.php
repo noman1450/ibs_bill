@@ -96,7 +96,13 @@
                         <a href="{{URL::to('/branchs')}}"><i class="fa fa-circle-o"></i>Branchs Info</a>
                     </li>
                     <li>
+                        <a href="{{URL::to('/customer_information')}}"><i class="fa fa-circle-o"></i>Client Information</a>
+                    </li>
+                    <li>
                         <a href="{{URL::to('/services')}}"><i class="fa fa-circle-o"></i>Service Confiq</a>
+                    </li>
+                    <li>
+                        <a href="{{URL::to('/process_service_view')}}"><i class="fa fa-circle-o"></i>Process Service View</a>
                     </li>
                     <li>
                         <a href="{{URL::to('/employeeidcard')}}"><i class="fa fa-circle-o"></i>Process Service</a>
