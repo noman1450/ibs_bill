@@ -57,10 +57,10 @@
                         </select>
                     </div> --}}
 
-                    <div class="col-md-2 form-group" style="padding-left: 0px; padding-top: 10px;">
+                    <div class="col-md-4 form-group" style="padding-left: 0px; padding-top: 10px;">
                         <input type="button" id="Process" value="Process" class="btn-sm btn-success btn-flat btn" style="margin-right: 15px; padding: 7px 10px;">
 
-                        <span id="successMsg" style="display: none"></span>
+                        <span id="successMsg"></span>
                     </div>
                 </div>
             </div>
@@ -126,76 +126,76 @@
                         })
                     }, 2000);
 
-                    
+                    load_table()
                 })
             })
 
+            $("#month").change(function(e) {
+                e.preventDefault();
 
-
-            // $("#search").click(function(e) {
-            //     e.preventDefault();
-
-            //     $.ajax({
-            //         type:   'POST',
-            //         url :   "{{URL::to('/')}}/employeeidcardlistdata",
-            //         headers:{
-            //             'X-CSRF-TOKEN': '{{ csrf_token() }}'
-            //         },
-            //         data:   {
-            //             year_id : $("#year").val(),
-            //             month_id : $("#month").val(),
-            //             client_information_id : $("#client_information_id").val(),
-            //         },
-            //         dataType: 'json',
-            //         success: function(data) {
-            //             var dataSet = data.data;
-            //             table = $('#designation_list_table').DataTable({
-            //                 destroy:    true,
-            //                 paging:     false,
-            //                 searching:  true,
-            //                 ordering:   true,
-            //                 bInfo:      true,
-            //                 data:     dataSet,
-            //                 columns: [
-            //                     { data: "checkbox",
-            //                         mRender: function (data, type, full) {
-            //                             return '<input type="checkbox" name="ids[]" value="'+full.id+'">';
-            //                         },
-            //                         orderable: false, searchable: false
-            //                     },
-            //                     { data: "customer" },
-            //                     { data: "send_to" },
-            //                     { data: "from_information" },
-            //                     { data: "to_information" },
-            //                     { data: "amount" },
-            //                     { data: "software_name" },
-            //                     { data: 'Link',
-            //                         mRender: function (data, type, full) {
-            //                             return '<a target="_blank" href="{{ url("view_employee_id_card") }}/'+full.id+'?year='+$("#year").val()+'&month='+$("#month").val()+'" class="btn btn-info btn-sm btn-block"><i class="fa fa-eye"></i> View</a>'
-            //                                 // + '<a href="{{ url("submitemployeeidcard") }}/'+full.id+'?year='+$("#year").val()+'&month='+$("#month").val()+'" class="btn btn-info btn-sm btn-block"><i class="fa fa-print"></i> Print</a>';
-            //                         },
-            //                         orderable: false, searchable: false
-            //                     }
-            //                 ],
-            //                 order: [ 1, 'asc' ]
-            //             });
-            //         }
-            //     });
-            // });
-
-            $('#example-select-all').on('click', function(){
-                var rows = table.rows({ 'search': 'applied' }).nodes();
-                $('input[type="checkbox"]', rows).prop('checked', this.checked);
+                load_table()
             });
 
-            $('#designation_list_table tbody').on('change', 'input[type="checkbox"]', function(){
-                if (!this.checked) {
-                    var el = $('#example-select-all').get(0);
-                    if(el && el.checked && ('indeterminate' in el)){
-                        el.indeterminate = true;
+            function load_table() {
+                var table = $('#designation_list_table').DataTable({
+                    destroy:      true,
+                    responsive:   true,
+                    processing:   true,
+                    serverSide:   true,
+                    paging:       true,
+                    lengthChange: true,
+                    searching:    true,
+                    ordering:     true,
+                    info:         true,
+                    autoWidth:    false,
+                    width:        "100%",
+                    ajax: {
+                        url: "{{ url('/employeeidcardlistdata') }}",
+                        type: "POST",
+                        dataType: "json",
+                        data: function (query) {
+                            query.year_id = $("#year").val()
+                            query.month_id = $("#month").val()
+                        }
+                    },
+                    columns: [
+                        { data: "checkbox",
+                            mRender: function (data, type, full) {
+                                return '<input type="checkbox" name="ids[]" value="'+full.id+'">';
+                            },
+                            orderable: false, searchable: false
+                        },
+                        { data: "customer" },
+                        { data: "send_to" },
+                        { data: "from_information" },
+                        { data: "to_information" },
+                        { data: "amount" },
+                        { data: "software_name" },
+                        { data: 'Link',
+                            mRender: function (data, type, full) {
+                                return '<a target="_blank" href="{{ url("view_employee_id_card") }}/'+full.id+'?year='+$("#year").val()+'&month='+$("#month").val()+'" class="btn btn-info btn-sm btn-block"><i class="fa fa-eye"></i> View</a>'
+                                    // + '<a href="{{ url("submitemployeeidcard") }}/'+full.id+'?year='+$("#year").val()+'&month='+$("#month").val()+'" class="btn btn-info btn-sm btn-block"><i class="fa fa-print"></i> Print</a>';
+                            },
+                            orderable: false, searchable: false
+                        }
+                    ],
+                    order: [ 1, 'asc' ]
+                });
+
+                $('#example-select-all').on('click', function() {
+                    var rows = table.rows({ 'search': 'applied' }).nodes();
+                    $('input[type="checkbox"]', rows).prop('checked', this.checked);
+                });
+
+                $('#designation_list_table tbody').on('change', 'input[type="checkbox"]', function() {
+                    if (!this.checked) {
+                        var el = $('#example-select-all').get(0);
+                        if(el && el.checked && ('indeterminate' in el)){
+                            el.indeterminate = true;
+                        }
                     }
-                }
-            });
+                });
+            }
 
 
             $("#client_information_id").select2({

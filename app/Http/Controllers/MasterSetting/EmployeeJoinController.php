@@ -23,13 +23,13 @@ class EmployeeJoinController extends Controller
 
     public function employeeidcardlistdata(Request $request)
     {
-        $where = '';
+        // $where = '';
 
-        if ($request->client_information_id) {
-            $where = " where s.client_information_id = $request->client_information_id";
-        }
+        // if ($request->client_information_id) {
+        //     $where = " where s.client_information_id = $request->client_information_id";
+        // }
 
-        $month_id = implode(',', $request->month_id);
+        // $month_id = implode(',', $request->month_id);
 
         $data = DB::select("
             select s.id, CONCAT(c.client_name) AS customer, s.to_information, s.from_information,
@@ -39,20 +39,20 @@ class EmployeeJoinController extends Controller
                 join
             client_information c on s.client_information_id = c.id
                 and s.valid = 1
-                and s.id not in (
+                and s.id in (
                     select service_confiq_id
                         from
                     maintenace_bill
                         where
                             year_id = $request->year_id
                         and
-                            month_id in($month_id)
+                            month_id = $request->month_id
                     )
-
-                $where
         ");
 
         // dd($data);
+        return datatables()->of($data)
+            ->make(true);
 
         return response()->json(['data' => $data]);
     }
