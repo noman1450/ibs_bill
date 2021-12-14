@@ -64,6 +64,7 @@ class EmployeeJoinController extends Controller
                 a.amount,
                 a.bill_no,
                 c.client_name,
+                b.software_name,
                 c.address as client_address,
                 c.email as client_email
             ')
