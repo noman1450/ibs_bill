@@ -44,39 +44,29 @@
                         <div style="padding: 20px">
                             <div>
                                 <p class="font-14px">
-                                    Reference: <strong>{{ $data->bill_no ?? '22112121' }}</strong>
+                                    Bill No.: <strong>{{ $data->bill_no ?? '22112121' }}</strong>
                                 </p>
-
                                 <p class="font-14px">
-                                    {{ date('F d, Y') }}
+                                    Bill Date: <strong>{{ date('dS M, Y', strtotime($data->created_at)) }}</strong>
                                 </p>
-
                                 <p style="margin-top: 15px">
                                     To
                                 </p>
                                 <p style="font-weight: 500">
                                     {{ $data->send_to ?? '' }}
-                                    {{-- Account Manager --}}
                                 </p>
 
                                 <p class="client-name">
                                     <strong>
                                         {{ ucwords($data->client_name) ?? '' }}
-                                        {{-- Client Name --}}
                                     </strong>
                                 </p>
 
                                 <p class="font-14px client-address">
                                     <em>
                                         {{ $data->client_address ?? '' }}
-                                        {{-- dhaka --}}
                                     </em>
                                 </p>
-
-                                {{-- <p class="font-14px client-email">
-                                    {{ $data->client_email ?? '' }}
-                                    amg@gmail.com
-                                </p> --}}
                             </div>
 
                             <div style="margin-top: 50px">
@@ -87,8 +77,8 @@
                                 <table class="table table-bordered">
                                     <thead>
                                         <th class="text-center font-13px">SL</th>
-                                        <th class="text-center font-13px">PARTICULARS</th>
-                                        <th class="text-center font-13px">QTY</th>
+                                        <th class="text-center font-13px">SOFTWARE NAME</th>
+                                        <th class="text-center font-13px">DURATION</th>
                                         <th class="text-center font-13px">AMOUNT TK</th>
                                     </thead>
 
@@ -98,15 +88,12 @@
                                             <td  class="text-center">1</td>
                                             <td  class="text-center">
                                                 {{ $data->software_name ?? '' }}
-                                                {{-- Hrm Software --}}
                                             </td>
-                                            <td  class="text-center">1@ Tk.
-                                                {{ $data->amount ?? '' }}/=
-                                                {{-- 5000/= --}}
+                                            <td  class="text-center">
+                                                {{ $data->month_year }}
                                             </td>
                                             <td  class="text-center">Tk.
                                                 {{ $data->amount ?? '' }}/=
-                                                {{-- 5000/= --}}
                                             </td>
                                         </tr>
 
@@ -119,15 +106,13 @@
 
                                             <td class="text-center" style="vertical-align: middle">Tk.
                                                 {{ $data->amount ?? '' }}/=
-                                                {{-- 5000/= --}}
                                             </td>
                                         </tr>
                                     </tbody>
                                 </table>
 
                                 <p class="font-14px" style="margin-top:10px">In-Words: <strong>
-                                    {{ ucwords($word) ?? '' }} only
-                                    {{-- Lorem, ipsum dolor. --}}
+                                    {{ ucwords($word) ?? '' }} tk only
                                 </strong></p>
                             </div>
 
@@ -167,7 +152,7 @@
 
             <div class="col-md-3">
                 <div style="padding: 20px">
-                    <a href="#" class="btn btn-info">
+                    <a href="{{ route('process_service.show', $data->id) }}" class="btn btn-info">
                         <i class="fa fa-print"></i> Make Pdf
                     </a>
                 </div>

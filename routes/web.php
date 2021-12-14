@@ -67,6 +67,7 @@ Route::middleware('auth')->group(function() {
     Route::get('process_service', 'MasterSetting\EmployeeJoinController@index');
     Route::post('get-process_service-data', 'MasterSetting\EmployeeJoinController@getData');
     Route::post('process_service',	'MasterSetting\EmployeeJoinController@store');
+    Route::get('process_service/{id}/show', 'MasterSetting\EmployeeJoinController@show')->name('process_service.show');
     Route::get('view_process_service/{id}',	'MasterSetting\EmployeeJoinController@view');
     Route::get('process_service/{id}/edit',	'MasterSetting\EmployeeJoinController@edit');
     Route::patch('process_service/{id}/update',	'MasterSetting\EmployeeJoinController@update')->name('process_service.update');
@@ -88,4 +89,5 @@ Route::middleware('auth')->group(function() {
     // process_service_view
     Route::post('get-process_service_view-data', 'MasterSetting\ProcessServiceController@getData');
     Route::get('process_service_view', 'MasterSetting\ProcessServiceController@index');
+    Route::post('process_service_generate', 'MasterSetting\ProcessServiceController@generate');
 });

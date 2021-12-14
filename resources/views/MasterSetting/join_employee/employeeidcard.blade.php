@@ -70,9 +70,10 @@
                                     </th>
                                     <th style="width: 10%">BillNo</th>
                                     <th style="width: 10%">BillDate</th>
-                                    <th style="width: 15%">CustomerName</th>
-                                    <th style="width: 17%">SendTo</th>
-                                    <th style="width: 15%">FromInformation</th>
+                                    <th style="width: 10%">MonthYear</th>
+                                    <th style="width: 10%">CustomerName</th>
+                                    <th style="width: 10%">SendTo</th>
+                                    <th style="width: 10%">FromInformation</th>
                                     <th style="width: 10%">ToInformation</th>
                                     <th style="width: 10%">Amount</th>
                                     <th style="width: 10%">SoftwareName</th>
@@ -159,6 +160,7 @@
                         },
                         { data: "bill_no" },
                         { data: "created_at" },
+                        { data: "month_year" },
                         { data: "customer" },
                         { data: "send_to" },
                         { data: "from_information" },

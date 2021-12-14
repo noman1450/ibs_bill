@@ -23,24 +23,19 @@ class EmployeeJoinController extends Controller
 
     public function getData(Request $request)
     {
-        // $where = '';
-
-        // if ($request->client_information_id) {
-        //     $where = " where s.client_information_id = $request->client_information_id";
-        // }
-
-        // $month_id = implode(',', $request->month_id);
-
         $data = DB::select("
             select m.id, c.client_name as customer, s.to_information, s.from_information,
                     s.software_name, s.valid, s.send_to, s.amount,
                     m.bill_no,
                     m.service_confiq_id,
-                    date_format(m.created_at, '%d %b, %Y') as created_at
+                    date_format(m.created_at, '%d %b, %Y') as created_at,
+                    concat_ws(' | ', mm.name, m.year_id) as month_year
                 from
             maintenace_bill as m
                 join
             service_confiq as s on m.service_confiq_id = s.id and s.valid = 1
+                join
+            month as mm on m.month_id = mm.id
                 join
             client_information as c on s.client_information_id = c.id
                 where
@@ -53,25 +48,25 @@ class EmployeeJoinController extends Controller
             ->make(true);
     }
 
-    public function view($id, Request $request)
+    public function view($id)
     {
         $data['data'] = DB::table('maintenace_bill as a')
             ->join('service_confiq as b', 'b.id', '=', 'a.service_confiq_id')
             ->join('client_information as c', 'c.id', '=', 'b.client_information_id')
-            ->selectRaw('
+            ->join('month as d', 'a.month_id', '=', 'd.id')
+            ->selectRaw("
                 a.id,
                 a.send_to,
                 a.amount,
                 a.bill_no,
+                a.created_at,
                 c.client_name,
                 b.software_name,
                 c.address as client_address,
-                c.email as client_email
-            ')
+                concat_ws(' - ', d.name, a.year_id) as month_year
+            ")
             ->where('a.id', $id)
             ->first();
-
-        // dump($data);
 
         $data['word'] = Terbilang::make($data['data']->amount);
 
@@ -80,24 +75,27 @@ class EmployeeJoinController extends Controller
 
     public function show($id, Request $request)
     {
-        // if (empty($request->ids)) {
-        //     return back()->with('alert-danger', 'Please Check This List,Some Employees has no finger code!');
-        // }
-
-        $data['data'] = DB::table('service_confiq as a')
-            ->leftJoin('client_information as c', 'c.id', '=', 'a.client_information_id')
-            ->select([
-                'a.id', 'a.from_information', 'c.client_name', 'c.address as client_address',
-                'c.email as client_email', 'a.software_name', 'a.send_to', 'a.amount'
-            ])
+        $data['data'] = DB::table('maintenace_bill as a')
+            ->join('service_confiq as b', 'b.id', '=', 'a.service_confiq_id')
+            ->join('client_information as c', 'c.id', '=', 'b.client_information_id')
+            ->join('month as d', 'a.month_id', '=', 'd.id')
+            ->selectRaw("
+                a.id,
+                a.send_to,
+                a.amount,
+                a.bill_no,
+                a.created_at,
+                c.client_name,
+                b.software_name,
+                c.address as client_address,
+                concat_ws(' - ', d.name, a.year_id) as month_year
+            ")
             ->where('a.id', $id)
             ->first();
 
+        // dd($data);
+
         // SendMailToClientJob::dispatch($data);
-
-        $this->fillOtherTable($request, $data['data']);
-
-        $data['bill_no'] = Service::generate_tr_number("maintenace_bill", "bill_no");
 
         $data['word'] = Terbilang::make($data['data']->amount);
 

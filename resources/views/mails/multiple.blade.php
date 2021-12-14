@@ -88,22 +88,22 @@
             <div style="padding: 20px">
                 <div>
                     <p class="font-14px">
-                        Bill No.: <strong>{{ $data->bill_no ?? '' }}</strong>
+                        Bill No.: <strong>IBS-{{ $bill_no ?? '' }}</strong>
                     </p>
                     <p class="font-14px">
-                        Bill Date: <strong>{{ date('dS M, Y', strtotime($data->created_at)) }}</strong>
+                        Bill Date: <strong>{{ date('dS M, Y') }}</strong>
                     </p>
                     <p style="margin-top: 15px">
                         To
                     </p>
-                    <p style="font-weight: 400">{{ $data->send_to ?? '' }}</p>
+                    <p style="font-weight: 400">{{ $info->send_to ?? '' }}</p>
 
                     <p class="client-name">
-                        <strong>{{ ucwords($data->client_name) ?? '' }}</strong>
+                        <strong>{{ ucwords($info->client_name) ?? '' }}</strong>
                     </p>
 
                     <p class="font-14px client-address">
-                        <em>{{ $data->client_address ?? '' }}</em>
+                        <em>{{ $info->client_address ?? '' }}</em>
                     </p>
                 </div>
             </div>
@@ -125,12 +125,19 @@
 
                     <tbody>
 
-                        <tr>
-                            <td>1</td>
-                            <td>{{ $data->software_name ?? '' }}</td>
-                            <td>{{ $data->month_year ?? '' }}</td>
-                            <td>Tk. {{ $data->amount ?? '' }}/=</td>
-                        </tr>
+                        @php
+                            $totalAmt = 0;
+                        @endphp
+                        @foreach ($details as $item)
+                            <tr>
+                                <td>{{ $loop->index+1 }}</td>
+                                <td>{{ $item->software_name ?? '' }}</td>
+                                <td>{{ $item->month_year ?? '' }}</td>
+                                <td>Tk. {{ $item->amount ?? '' }}/=</td>
+                            </tr>
+
+                            @php($totalAmt = $totalAmt += $item->amount)
+                        @endforeach
 
                         <tr>
                             <td colspan="3" style="text-align:right">
@@ -139,12 +146,12 @@
                                 <p><em>(excluding vat & tax)</em></p>
                             </td>
 
-                            <td>Tk. {{ $data->amount ?? '' }}/=</td>
+                            <td>Tk. {{ number_format($totalAmt, 2) ?? '' }}/=</td>
                         </tr>
                     </tbody>
                 </table>
 
-                <p class="font-14px" style="margin-top:10px">In-Words: <strong>{{ ucwords($word) ?? '' }} tk only</strong></p>
+                <p class="font-14px" style="margin-top:10px">In-Words: <strong style="text-transform: capitalize">{{ \Riskihajar\Terbilang\Facades\Terbilang::make($totalAmt) }} tk only</strong></p>
             </div>
         </main>
 
