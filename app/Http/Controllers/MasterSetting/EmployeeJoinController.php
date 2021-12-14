@@ -32,22 +32,21 @@ class EmployeeJoinController extends Controller
         // $month_id = implode(',', $request->month_id);
 
         $data = DB::select("
-            select s.id, CONCAT(c.client_name) AS customer, s.to_information, s.from_information,
-                   s.software_name, s.valid, s.send_to, s.amount
+            select m.id, c.client_name as customer, s.to_information, s.from_information,
+                    s.software_name, s.valid, s.send_to, s.amount,
+                    m.bill_no,
+                    m.service_confiq_id,
+                    date_format(m.created_at, '%d %b, %Y') as created_at
                 from
-            service_confiq s
+            maintenace_bill as m
                 join
-            client_information c on s.client_information_id = c.id
-                and s.valid = 1
-                and s.id in (
-                    select service_confiq_id
-                        from
-                    maintenace_bill
-                        where
-                            year_id = $request->year_id
-                        and
-                            month_id = $request->month_id
-                    )
+            service_confiq as s on m.service_confiq_id = s.id and s.valid = 1
+                join
+            client_information as c on s.client_information_id = c.id
+                where
+                    m.year_id = $request->year_id
+                and
+                    m.month_id = $request->month_id
         ");
 
         return datatables()->of($data)
@@ -56,25 +55,24 @@ class EmployeeJoinController extends Controller
 
     public function view($id, Request $request)
     {
-        $data['data'] = DB::table('service_confiq as a')
-            ->leftJoin('client_information as c', 'c.id', '=', 'a.client_information_id')
+        $data['data'] = DB::table('maintenace_bill as a')
+            ->join('service_confiq as b', 'b.id', '=', 'a.service_confiq_id')
+            ->join('client_information as c', 'c.id', '=', 'b.client_information_id')
             ->selectRaw('
                 a.id,
-                date_format(c.created_at, "%M %d, %Y") as date,
-                a.from_information,
+                a.send_to,
+                a.amount,
+                a.bill_no,
                 c.client_name,
                 c.address as client_address,
-                c.email as client_email,
-                a.software_name, a.send_to, a.amount
+                c.email as client_email
             ')
             ->where('a.id', $id)
             ->first();
 
-        $data['bill_no'] = Service::generate_tr_number("maintenace_bill", "bill_no");
+        // dump($data);
 
         $data['word'] = Terbilang::make($data['data']->amount);
-
-        // dd($data);
 
         return view('MasterSetting.join_employee.view', $data);
     }
@@ -120,11 +118,13 @@ class EmployeeJoinController extends Controller
                 where a.id not in (select service_confiq_id from maintenace_bill where year_id = $request->year and month_id = $request->month)
         ");
 
-        if (empty($data['data'])) {
+        if (empty($services)) {
             $success = false;
             $message = "Data already exists...!";
         } else {
-            $this->fillOtherTable($request, $services);
+            foreach ($services as $key => $service) {
+                $this->fillOtherTable($request, $service);
+            }
 
             $success = true;
             $message = "Data processed successfully..!";
@@ -136,28 +136,49 @@ class EmployeeJoinController extends Controller
         ]);
     }
 
-    protected function fillOtherTable($request, $services)
+    public function edit($id)
     {
-        foreach ($services as $key => $service) {
-            $bill_no = Service::generate_tr_number("maintenace_bill", "bill_no");
+        $maintenance = Maintenace::query()->findOrFail($id);
 
-            DB::transaction(function () use ($service, $request, $bill_no) {
-                $maintenance = new Maintenace;
-                $maintenance->service_confiq_id = $service->id;
-                $maintenance->year_id = $request->year;
-                $maintenance->month_id = $request->month;
-                $maintenance->bill_no = 'IBS-'.$bill_no;
-                $maintenance->amount = $service->amount;
-                $maintenance->send_to = $service->send_to;
-                $maintenance->save();
+        return view('MasterSetting.join_employee.edit', compact('maintenance'));
+    }
 
-                $data_in = new MaintenaceBillLedger;
-                $data_in->maintenace_bill_id = $maintenance->id;
-                $data_in->payableamount = $service->amount;
-                $data_in->receiving_amount = 0;
-                $data_in->save();
-            });
-        }
+    public function update($id, Request $request)
+    {
+        $data = $request->validate([
+            'bill_no' => 'required',
+            'created_at' => 'required',
+            'send_to' => 'required',
+            'amount' => 'required',
+        ]);
+
+        $maintenance = Maintenace::query()->findOrFail($id);
+
+        $maintenance->update($data);
+
+        return redirect()->to('/process_service');
+    }
+
+    protected function fillOtherTable($request, $service)
+    {
+        $bill_no = Service::generate_tr_number("maintenace_bill", "bill_no");
+
+        DB::transaction(function () use ($service, $request, $bill_no) {
+            $maintenance = new Maintenace;
+            $maintenance->service_confiq_id = $service->id;
+            $maintenance->year_id = $request->year;
+            $maintenance->month_id = $request->month;
+            $maintenance->bill_no = 'IBS-'.$bill_no;
+            $maintenance->amount = $service->amount;
+            $maintenance->send_to = $service->send_to;
+            $maintenance->save();
+
+            $data_in = new MaintenaceBillLedger;
+            $data_in->maintenace_bill_id = $maintenance->id;
+            $data_in->payableamount = $service->amount;
+            $data_in->receiving_amount = 0;
+            $data_in->save();
+        });
     }
 
     // protected function getDta($service): array

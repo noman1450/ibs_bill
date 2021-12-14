@@ -68,12 +68,14 @@
                                     <th  style="width: 3%">
                                         <input name="select_all" value="1" id="example-select-all" type="checkbox" />
                                     </th>
-                                    <th style="width: 20%">Customer Name</th>
-                                    <th style="width: 20%">Send To</th>
-                                    <th style="width: 15%">From Information</th>
-                                    <th style="width: 15%">To Information</th>
-                                    <th style="width: 15%">Amount</th>
-                                    <th style="width: 15%">Software Name</th>
+                                    <th style="width: 10%">BillNo</th>
+                                    <th style="width: 10%">BillDate</th>
+                                    <th style="width: 15%">CustomerName</th>
+                                    <th style="width: 17%">SendTo</th>
+                                    <th style="width: 15%">FromInformation</th>
+                                    <th style="width: 10%">ToInformation</th>
+                                    <th style="width: 10%">Amount</th>
+                                    <th style="width: 10%">SoftwareName</th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -155,6 +157,8 @@
                             },
                             orderable: false, searchable: false
                         },
+                        { data: "bill_no" },
+                        { data: "created_at" },
                         { data: "customer" },
                         { data: "send_to" },
                         { data: "from_information" },
@@ -163,8 +167,8 @@
                         { data: "software_name" },
                         { data: 'Link',
                             mRender: function (data, type, full) {
-                                return '<a target="_blank" href="{{ url("view_process_service") }}/'+full.id+'?year='+$("#year").val()+'&month='+$("#month").val()+'" class="btn btn-info btn-sm btn-block"><i class="fa fa-eye"></i> View</a>'
-                                    // + '<a href="{{ url("submitemployeeidcard") }}/'+full.id+'?year='+$("#year").val()+'&month='+$("#month").val()+'" class="btn btn-info btn-sm btn-block"><i class="fa fa-print"></i> Print</a>';
+                                return '<a href="{{ url("process_service") }}/'+full.id+'/edit" class="btn btn-success btn-sm btn-block"><i class="fa fa-edit"></i> Edit</a>'
+                                    + '<a target="_blank" href="{{ url("view_process_service") }}/'+full.id+'" class="btn btn-info btn-sm btn-block"><i class="fa fa-eye"></i> View</a>';
                             },
                             orderable: false, searchable: false
                         }

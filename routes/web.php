@@ -68,7 +68,8 @@ Route::middleware('auth')->group(function() {
     Route::post('get-process_service-data', 'MasterSetting\EmployeeJoinController@getData');
     Route::post('process_service',	'MasterSetting\EmployeeJoinController@store');
     Route::get('view_process_service/{id}',	'MasterSetting\EmployeeJoinController@view');
-    // Route::get('submitemployeeidcard/{id}',	'MasterSetting\EmployeeJoinController@submitemployeeidcard')->name('submitemployeeidcard');
+    Route::get('process_service/{id}/edit',	'MasterSetting\EmployeeJoinController@edit');
+    Route::patch('process_service/{id}/update',	'MasterSetting\EmployeeJoinController@update')->name('process_service.update');
 
     Route::get('dueCollection',	'MasterSetting\DueCollectionController@cllientdueinfo');
     Route::post('collectduesubmit',	'MasterSetting\DueCollectionController@collectduesubmit');

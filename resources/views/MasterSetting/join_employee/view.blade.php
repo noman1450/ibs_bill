@@ -44,7 +44,7 @@
                         <div style="padding: 20px">
                             <div>
                                 <p class="font-14px">
-                                    Reference: <strong>IBS-{{ $bill_no ?? '22112121' }}</strong>
+                                    Reference: <strong>{{ $data->bill_no ?? '22112121' }}</strong>
                                 </p>
 
                                 <p class="font-14px">
@@ -55,7 +55,7 @@
                                     To
                                 </p>
                                 <p style="font-weight: 500">
-                                    {{ $data->from_information ?? '' }}
+                                    {{ $data->send_to ?? '' }}
                                     {{-- Account Manager --}}
                                 </p>
 
@@ -73,10 +73,10 @@
                                     </em>
                                 </p>
 
-                                <p class="font-14px client-email">
+                                {{-- <p class="font-14px client-email">
                                     {{ $data->client_email ?? '' }}
-                                    {{-- amg@gmail.com --}}
-                                </p>
+                                    amg@gmail.com
+                                </p> --}}
                             </div>
 
                             <div style="margin-top: 50px">
@@ -167,7 +167,7 @@
 
             <div class="col-md-3">
                 <div style="padding: 20px">
-                    <a href="{{ route('submitemployeeidcard', ['id' => $data->id, 'year' => request('year'), 'month' => request('month')]) }}" class="btn btn-info">
+                    <a href="#" class="btn btn-info">
                         <i class="fa fa-print"></i> Make Pdf
                     </a>
                 </div>
