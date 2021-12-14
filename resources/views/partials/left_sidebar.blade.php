@@ -105,7 +105,7 @@
                         <a href="{{URL::to('/process_service_view')}}"><i class="fa fa-circle-o"></i>Process Service View</a>
                     </li>
                     <li>
-                        <a href="{{URL::to('/employeeidcard')}}"><i class="fa fa-circle-o"></i>Process Service</a>
+                        <a href="{{ url('/process_service')}}"><i class="fa fa-circle-o"></i>Process Service</a>
                     </li>
                     <li>
                         <a href="{{URL::to('/dueCollection')}}"><i class="fa fa-circle-o"></i>Due Collection</a>

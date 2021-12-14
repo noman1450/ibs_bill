@@ -43,19 +43,13 @@
                     </div>
 
                     <div class="col-lg-2 col-md-2 col-xs-12 form-group" style="padding-left: 0px; padding-top: 10px;">
-                        <select class="form-control select2" id="month" name="month" style="width: 100%;">
+                        <select class="form-control" id="month" name="month" style="width: 100%;">
                             <option disabled selected>-- Select Month --</option>
                             @foreach ($months as $month)
                                 <option value="{{ $month->id }}">{{ $month->name }}</option>
                             @endforeach
                         </select>
                     </div>
-
-                    {{-- <div class="col-lg-2 col-md-2 col-xs-12 form-group" style="padding-left: 0px; padding-top: 10px;">
-                        <select class="form-control" id="client_information_id" name="client_information_id" style="width: 100%;">
-
-                        </select>
-                    </div> --}}
 
                     <div class="col-md-4 form-group" style="padding-left: 0px; padding-top: 10px;">
                         <input type="button" id="Process" value="Process" class="btn-sm btn-success btn-flat btn" style="margin-right: 15px; padding: 7px 10px;">
@@ -96,21 +90,17 @@
 
 @section('script')
     <script>
-    $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': "{{ csrf_token() }}"
-        }
-    });
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': "{{ csrf_token() }}"
+            }
+        });
 
         $(document).ready(function($) {
-            $('.select2').select2({
-                placeholder: 'Select months'
-            })
-
             $('#Process').click(function(e) {
                 e.preventDefault()
 
-                $.post("{{ url('/submitemployeeidcardpost') }}", {
+                $.post("{{ url('/process_service') }}", {
                     year: $('#year').val(),
                     month: $('#month').val()
                 }).then((data) => {
@@ -150,7 +140,7 @@
                     autoWidth:    false,
                     width:        "100%",
                     ajax: {
-                        url: "{{ url('/employeeidcardlistdata') }}",
+                        url: "{{ url('/get-process_service-data') }}",
                         type: "POST",
                         dataType: "json",
                         data: function (query) {
@@ -173,7 +163,7 @@
                         { data: "software_name" },
                         { data: 'Link',
                             mRender: function (data, type, full) {
-                                return '<a target="_blank" href="{{ url("view_employee_id_card") }}/'+full.id+'?year='+$("#year").val()+'&month='+$("#month").val()+'" class="btn btn-info btn-sm btn-block"><i class="fa fa-eye"></i> View</a>'
+                                return '<a target="_blank" href="{{ url("view_process_service") }}/'+full.id+'?year='+$("#year").val()+'&month='+$("#month").val()+'" class="btn btn-info btn-sm btn-block"><i class="fa fa-eye"></i> View</a>'
                                     // + '<a href="{{ url("submitemployeeidcard") }}/'+full.id+'?year='+$("#year").val()+'&month='+$("#month").val()+'" class="btn btn-info btn-sm btn-block"><i class="fa fa-print"></i> Print</a>';
                             },
                             orderable: false, searchable: false

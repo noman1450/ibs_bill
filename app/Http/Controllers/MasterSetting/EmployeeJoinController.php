@@ -14,14 +14,14 @@ use Riskihajar\Terbilang\Facades\Terbilang;
 
 class EmployeeJoinController extends Controller
 {
-    public function employeeidcard()
+    public function index()
     {
         $months = DB::table('month')->get();
 
         return view('MasterSetting.join_employee.employeeidcard', compact('months'));
     }
 
-    public function employeeidcardlistdata(Request $request)
+    public function getData(Request $request)
     {
         // $where = '';
 
@@ -50,11 +50,8 @@ class EmployeeJoinController extends Controller
                     )
         ");
 
-        // dd($data);
         return datatables()->of($data)
             ->make(true);
-
-        return response()->json(['data' => $data]);
     }
 
     public function view($id, Request $request)
@@ -82,7 +79,7 @@ class EmployeeJoinController extends Controller
         return view('MasterSetting.join_employee.view', $data);
     }
 
-    public function submitemployeeidcard($id, Request $request)
+    public function show($id, Request $request)
     {
         // if (empty($request->ids)) {
         //     return back()->with('alert-danger', 'Please Check This List,Some Employees has no finger code!');
@@ -101,8 +98,6 @@ class EmployeeJoinController extends Controller
 
         $this->fillOtherTable($request, $data['data']);
 
-        // $data = $this->getDta($sendMailToClients);
-
         $data['bill_no'] = Service::generate_tr_number("maintenace_bill", "bill_no");
 
         $data['word'] = Terbilang::make($data['data']->amount);
@@ -110,17 +105,40 @@ class EmployeeJoinController extends Controller
         $pdf = PDF::loadView('mails.pdf', $data);
 
         return $pdf->stream('invoice.pdf');
-
-        // return response()->json([
-        //     'success'   => true,
-        //     'messages'  => 'Successfully update!'
-        // ]);
     }
 
-    protected function fillOtherTable($request, $service)
+    public function store(Request $request)
     {
-        // foreach ($sendMailToClients as $service) {
+        $services = DB::select("
+            select
+                a.id, a.from_information, c.client_name, c.address as client_address,
+                c.email as client_email, a.software_name, a.send_to, a.amount
+            from
+                service_confiq as a
+            join
+                client_information as c on c.id = a.client_information_id
+                where a.id not in (select service_confiq_id from maintenace_bill where year_id = $request->year and month_id = $request->month)
+        ");
 
+        if (empty($data['data'])) {
+            $success = false;
+            $message = "Data already exists...!";
+        } else {
+            $this->fillOtherTable($request, $services);
+
+            $success = true;
+            $message = "Data processed successfully..!";
+        }
+
+        return response()->json([
+            'success' => $success,
+            'message' => $message,
+        ]);
+    }
+
+    protected function fillOtherTable($request, $services)
+    {
+        foreach ($services as $key => $service) {
             $bill_no = Service::generate_tr_number("maintenace_bill", "bill_no");
 
             DB::transaction(function () use ($service, $request, $bill_no) {
@@ -139,95 +157,35 @@ class EmployeeJoinController extends Controller
                 $data_in->receiving_amount = 0;
                 $data_in->save();
             });
-        // }
-    }
-
-    protected function generatePdf($sendMailToClients)
-    {
-        // foreach($sendMailToClients as $service) {
-            $data = $this->getDta($sendMailToClients);
-
-            $pdf = PDF::loadView('mails.pdf', $data);
-
-            return $pdf->stream();
-        // }
-    }
-
-    public function submitemployeeidcardpost(Request $request)
-    {
-        $data['data'] = DB::select("
-            select
-                a.id, a.from_information, c.client_name, c.address as client_address,
-                c.email as client_email, a.software_name, a.send_to, a.amount
-            from
-                service_confiq as a
-            join
-                client_information as c on c.id = a.client_information_id
-                where a.id not in (select service_confiq_id from maintenace_bill where year_id = $request->year and month_id = $request->month)
-        ");
-
-        if (empty($data['data'])) {
-            $success = false;
-            $message = "Data already exists...!";
-        } else {
-            foreach ($data['data'] as $key => $service) {
-                $bill_no = Service::generate_tr_number("maintenace_bill", "bill_no");
-
-                DB::transaction(function () use ($service, $request, $bill_no) {
-                    $maintenance = new Maintenace;
-                    $maintenance->service_confiq_id = $service->id;
-                    $maintenance->year_id = $request->year;
-                    $maintenance->month_id = $request->month;
-                    $maintenance->bill_no = 'IBS-'.$bill_no;
-                    $maintenance->amount = $service->amount;
-                    $maintenance->send_to = $service->send_to;
-                    $maintenance->save();
-
-                    $data_in = new MaintenaceBillLedger;
-                    $data_in->maintenace_bill_id = $maintenance->id;
-                    $data_in->payableamount = $service->amount;
-                    $data_in->receiving_amount = 0;
-                    $data_in->save();
-                });
-            }
-
-            $success = true;
-            $message = "Data processed successfully..!";
         }
-
-
-        return response()->json([
-            'success' => $success,
-            'message' => $message,
-        ]);
     }
 
-    protected function getDta($service): array
-    {
-        $word = Terbilang::make($service->amount);
-        // $emailsInfo = $service->to_information;
-        // $emails = explode(',', $emailsInfo);
+    // protected function getDta($service): array
+    // {
+    //     $word = Terbilang::make($service->amount);
+    //     // $emailsInfo = $service->to_information;
+    //     // $emails = explode(',', $emailsInfo);
 
-        $bill_no = Service::generate_tr_number("maintenace_bill", "bill_no");
+    //     $bill_no = Service::generate_tr_number("maintenace_bill", "bill_no");
 
-        $dt = date('d M Y', strtotime($service->created_at));
+    //     $dt = date('d M Y', strtotime($service->created_at));
 
-        $data["name"] = 'BD accounts';
-        $data["subject"] = "Maintenance charge for $service->software_name";
-        $data["to_information"] = $service->to_information;
-        $data["email"] = $service->from_information;
-        $data["amount"] = $service->amount;
-        $data["softwarename"] = 'Maintenance charge for '.$service->software_name;
-        $data["address"] = $service->address;
-        $data["client_name"] = $service->client_name;
-        $data["client_code"] = 'IBS-'.$bill_no;
-        $data["contact_person"] = $service->contact_person;
-        $data["client_email"] = $service->email;
-        $data["send_to"] = $service->send_to;
-        $data["created_at"] = $dt;
-        $data["word"] = $word;
-        // $data["emailsinfo"] = $emails;
+    //     $data["name"] = 'BD accounts';
+    //     $data["subject"] = "Maintenance charge for $service->software_name";
+    //     $data["to_information"] = $service->to_information;
+    //     $data["email"] = $service->from_information;
+    //     $data["amount"] = $service->amount;
+    //     $data["softwarename"] = 'Maintenance charge for '.$service->software_name;
+    //     $data["address"] = $service->address;
+    //     $data["client_name"] = $service->client_name;
+    //     $data["client_code"] = 'IBS-'.$bill_no;
+    //     $data["contact_person"] = $service->contact_person;
+    //     $data["client_email"] = $service->email;
+    //     $data["send_to"] = $service->send_to;
+    //     $data["created_at"] = $dt;
+    //     $data["word"] = $word;
+    //     // $data["emailsinfo"] = $emails;
 
-        return $data;
-    }
+    //     return $data;
+    // }
 }

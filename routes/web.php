@@ -64,13 +64,11 @@ Route::middleware('auth')->group(function() {
     Route::get('services/{id}/cancel/',	'MasterSetting\ServiceConfiqController@cancel');
     Route::resource('services', 'MasterSetting\ServiceConfiqController');
 
-    Route::get('employeeidcard', 'MasterSetting\EmployeeJoinController@employeeidcard');
-
-    Route::post('employeeidcardlistdata', 'MasterSetting\EmployeeJoinController@employeeidcardlistdata');
-
-    Route::get('submitemployeeidcard/{id}',	'MasterSetting\EmployeeJoinController@submitemployeeidcard')->name('submitemployeeidcard');
-    Route::post('submitemployeeidcardpost',	'MasterSetting\EmployeeJoinController@submitemployeeidcardpost');
-    Route::get('view_employee_id_card/{id}',	'MasterSetting\EmployeeJoinController@view');
+    Route::get('process_service', 'MasterSetting\EmployeeJoinController@index');
+    Route::post('get-process_service-data', 'MasterSetting\EmployeeJoinController@getData');
+    Route::post('process_service',	'MasterSetting\EmployeeJoinController@store');
+    Route::get('view_process_service/{id}',	'MasterSetting\EmployeeJoinController@view');
+    // Route::get('submitemployeeidcard/{id}',	'MasterSetting\EmployeeJoinController@submitemployeeidcard')->name('submitemployeeidcard');
 
     Route::get('dueCollection',	'MasterSetting\DueCollectionController@cllientdueinfo');
     Route::post('collectduesubmit',	'MasterSetting\DueCollectionController@collectduesubmit');
