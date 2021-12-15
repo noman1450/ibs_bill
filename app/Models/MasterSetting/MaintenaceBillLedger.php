@@ -6,8 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class MaintenaceBillLedger extends Model
 {
-   public $timestamps   = true;
+    protected $guarded = ['id'];
 
-   protected $table = 'maintenace_bill_ledger';
-   protected $primaryKey = 'id';
+    protected $table = 'maintenace_bill_ledger';
 }

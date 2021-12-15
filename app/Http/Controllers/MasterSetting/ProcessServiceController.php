@@ -28,23 +28,32 @@ class ProcessServiceController extends Controller
         $month_id = implode(',', $request->month_id);
 
         $data = DB::select("
-            select m.id, c.client_name as customer, s.to_information, s.from_information,
-                s.software_name, s.valid, s.send_to, s.amount,
-                m.bill_no,
-                date_format(m.created_at, '%d %b, %Y') as created_at,
-                concat_ws(' | ', mm.name, m.year_id) as month_year
+            select
+                b.id,
+                c.client_name as customer,
+                s.to_information,
+                s.from_information,
+                a.software_name,
+                s.valid,
+                s.send_to,
+                a.payableamount as amount,
+                b.bill_no,
+                date_format(b.created_at, '%d %b, %Y') as created_at,
+                concat_ws(' | ', mm.name, b.year_id) as month_year
             from
-            maintenace_bill as m
+            maintenace_bill_ledger as a
                 join
-            service_confiq as s on m.service_confiq_id = s.id and s.valid = 1
+            maintenace_bill as b on a.maintenace_bill_id = b.id
                 join
-            month as mm on m.month_id = mm.id
+            service_confiq as s on a.service_confiq_id = s.id and s.valid = 1
+                join
+            month as mm on b.month_id = mm.id
                 join
             client_information as c on s.client_information_id = c.id
                 where
-                    m.year_id = $request->year_id
+                    b.year_id = $request->year_id
                 and
-                    m.month_id in ($month_id)
+                    b.month_id in ($month_id)
                 $condition
         ");
 
@@ -54,37 +63,28 @@ class ProcessServiceController extends Controller
 
     public function generate(Request $request)
     {
-        // dd($request->ids);
         $data['info'] = DB::table('maintenace_bill as m')
             ->selectRaw("
                 m.id,
                 c.client_name,
                 c.address as client_address,
-                s.send_to
+                m.send_to
             ")
-            ->join('service_confiq as s', function($join) {
-                $join->on('m.service_confiq_id', '=', 's.id')
-                    ->where('s.valid', 1);
-            })
             ->join('month as mm', 'm.month_id', '=', 'mm.id')
-            ->join('client_information as c', 's.client_information_id', '=', 'c.id')
+            ->join('client_information as c', 'm.client_information_id', '=', 'c.id')
             ->whereIn('m.id', $request->ids)
             ->first();
-
 
         $data['details'] = DB::table('maintenace_bill as m')
             ->selectRaw("
                 m.id,
-                s.software_name,
-                s.amount,
+                ledger.software_name,
+                ledger.payableamount as amount,
                 concat_ws(' - ', mm.name, m.year_id) as month_year
             ")
-            ->join('service_confiq as s', function($join) {
-                $join->on('m.service_confiq_id', '=', 's.id')
-                    ->where('s.valid', 1);
-            })
+            ->join('maintenace_bill_ledger as ledger', 'ledger.maintenace_bill_id', '=', 'm.id')
             ->join('month as mm', 'm.month_id', '=', 'mm.id')
-            ->join('client_information as c', 's.client_information_id', '=', 'c.id')
+            ->join('client_information as c', 'm.client_information_id', '=', 'c.id')
             ->whereIn('m.id', $request->ids)
             ->get();
 

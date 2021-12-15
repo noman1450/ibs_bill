@@ -133,7 +133,7 @@
                                 <td>{{ $loop->index+1 }}</td>
                                 <td>{{ $item->software_name ?? '' }}</td>
                                 <td>{{ $item->month_year ?? '' }}</td>
-                                <td>Tk. {{ $item->amount ?? '' }}/=</td>
+                                <td>Tk. {{ number_format($item->amount) ?? '' }}/=</td>
                             </tr>
 
                             @php($totalAmt = $totalAmt += $item->amount)
@@ -146,7 +146,7 @@
                                 <p><em>(excluding vat & tax)</em></p>
                             </td>
 
-                            <td>Tk. {{ number_format($totalAmt, 2) ?? '' }}/=</td>
+                            <td>Tk. {{ number_format($totalAmt) ?? '' }}/=</td>
                         </tr>
                     </tbody>
                 </table>

@@ -89,7 +89,7 @@
                         </table>
 
                         <div class="text-center">
-                            <button type="submit" class="btn btn-success">Submit</button>
+                            <button type="submit" id="smbtBtn" class="btn btn-success" style="display: none">Submit</button>
                         </div>
                     </form>
                 </div>
@@ -109,11 +109,6 @@
         $(document).ready(function($) {
             $('.select2').select2({
                 placeholder: 'Select months'
-            })
-
-            $('#client_information_id').change((e) => {
-                console.log(e.target.value);
-                $('#client_id').val(e.target.value)
             })
 
             $("#search").click(function(e) {
@@ -188,7 +183,7 @@
             }
 
 
-            $("#client_information_id").select2({
+            var $clientInfo = $("#client_information_id").select2({
                 placeholder: 'Search Customer',
                 width: '100%',
                 allowClear: true,
@@ -209,6 +204,16 @@
                     },
                 },
             });
+
+            $clientInfo.on('select2:select', () => {
+
+                $('#smbtBtn').show()
+            })
+
+            $clientInfo.on('select2:unselect', () => {
+
+                $('#smbtBtn').hide()
+            })
         });
     </script>
 @endsection

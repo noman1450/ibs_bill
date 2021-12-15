@@ -3,10 +3,9 @@
     <!-- Logo -->
     <a href="{{ route('home') }}" class="logo">
         <!-- mini logo for sidebar mini 50x50 pixels -->
-        <span class="logo-mini"><b>Accounts</b>LT</span>
+        <span class="logo-mini"><b>Bill</b></span>
         <!-- logo for regular state and mobile devices -->
-        {{-- <span class="logo-lg"><b>Admin</b>LTE</span> --}}
-        <span class="logo-lg">{{ config('app.name') }}</span>
+        <span class="logo-lg">Bill Management</span>
     </a>
 
     <!-- Header Navbar: style can be found in header.less -->
@@ -22,14 +21,14 @@
                 <li class="dropdown user user-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <img src="{{ asset('admin/dist/img/user2-160x160.jpg') }}" class="user-image">
-                        <span class="hidden-xs">Alexander Pierce</span>
+                        <span class="hidden-xs">{{ auth()->user()->name }}</span>
                     </a>
                     <ul class="dropdown-menu">
                         <!-- User image -->
                         <li class="user-header">
                             <img src="{{ asset('admin/dist/img/user2-160x160.jpg') }}" class="img-circle">
                             <p>
-                                Alexander Pierce - Web Developer
+                                {{ auth()->user()->name }}
                             </p>
                         </li>
 

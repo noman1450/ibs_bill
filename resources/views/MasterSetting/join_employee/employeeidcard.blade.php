@@ -65,9 +65,6 @@
                         <table id="designation_list_table" class="table table-striped table-bordered" width="100%">
                             <thead>
                                 <tr>
-                                    <th  style="width: 3%">
-                                        <input name="select_all" value="1" id="example-select-all" type="checkbox" />
-                                    </th>
                                     <th style="width: 10%">BillNo</th>
                                     <th style="width: 10%">BillDate</th>
                                     <th style="width: 10%">MonthYear</th>
@@ -75,8 +72,8 @@
                                     <th style="width: 10%">SendTo</th>
                                     <th style="width: 10%">FromInformation</th>
                                     <th style="width: 10%">ToInformation</th>
-                                    <th style="width: 10%">Amount</th>
-                                    <th style="width: 10%">SoftwareName</th>
+                                    <th style="width: 5%">Amount</th>
+                                    <th style="width: 15%">SoftwareName</th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -152,12 +149,6 @@
                         }
                     },
                     columns: [
-                        { data: "checkbox",
-                            mRender: function (data, type, full) {
-                                return '<input type="checkbox" name="ids[]" value="'+full.id+'">';
-                            },
-                            orderable: false, searchable: false
-                        },
                         { data: "bill_no" },
                         { data: "created_at" },
                         { data: "month_year" },
@@ -169,7 +160,7 @@
                         { data: "software_name" },
                         { data: 'Link',
                             mRender: function (data, type, full) {
-                                return '<a href="{{ url("process_service") }}/'+full.id+'/edit" class="btn btn-success btn-sm btn-block"><i class="fa fa-edit"></i> Edit</a>'
+                                return '<a target="_blank" href="{{ url("process_service") }}/'+full.maintenace_bill_ledger_id+'/edit" class="btn btn-success btn-sm btn-block"><i class="fa fa-edit"></i> Edit</a>'
                                     + '<a target="_blank" href="{{ url("view_process_service") }}/'+full.id+'" class="btn btn-info btn-sm btn-block"><i class="fa fa-eye"></i> View</a>';
                             },
                             orderable: false, searchable: false

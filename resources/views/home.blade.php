@@ -1,9 +1,9 @@
 @extends('layouts.main')
 @section('content')
     <!-- Button trigger modal -->
-    <button type="button" id="modalButton_0" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModalBody_0" onClick="createNewModal(this)">
+    {{-- <button type="button" id="modalButton_0" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModalBody_0" onClick="createNewModal(this)">
         Launch demo modal
-    </button>
+    </button> --}}
 
     <div id="dialogs">
         <div class="dialog-tmpl">

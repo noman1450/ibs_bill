@@ -125,12 +125,25 @@
 
                     <tbody>
 
-                        <tr>
-                            <td>1</td>
-                            <td>{{ $data->software_name ?? '' }}</td>
-                            <td>{{ $data->month_year ?? '' }}</td>
-                            <td>Tk. {{ $data->amount ?? '' }}/=</td>
-                        </tr>
+                        @php
+                            $totalAmt = 0;
+                        @endphp
+                        @foreach ($details as $item)
+                            <tr>
+                                <td  class="text-center">{{ $loop->index+1 }}</td>
+                                <td  class="text-center">
+                                    {{ $item->software_name ?? '' }}
+                                </td>
+                                <td  class="text-center">
+                                    {{ $item->month_year }}
+                                </td>
+                                <td  class="text-center">Tk.
+                                    {{ number_format($item->amount) ?? '' }}/=
+                                </td>
+                            </tr>
+
+                            @php($totalAmt = $totalAmt += $item->amount)
+                        @endforeach
 
                         <tr>
                             <td colspan="3" style="text-align:right">
@@ -139,12 +152,12 @@
                                 <p><em>(excluding vat & tax)</em></p>
                             </td>
 
-                            <td>Tk. {{ $data->amount ?? '' }}/=</td>
+                            <td>Tk. {{ number_format($totalAmt) ?? '' }}/=</td>
                         </tr>
                     </tbody>
                 </table>
 
-                <p class="font-14px" style="margin-top:10px">In-Words: <strong>{{ ucwords($word) ?? '' }} tk only</strong></p>
+                <p class="font-14px" style="margin-top:10px">In-Words: <strong style="text-transform: capitalize">{{ ucwords(\Riskihajar\Terbilang\Facades\Terbilang::make($totalAmt)) ?? '' }} tk only</strong></p>
             </div>
         </main>
 

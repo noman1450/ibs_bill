@@ -15,7 +15,7 @@
 		</div>
 
 
-        <form method="post" action="{{ route('process_service.update', $maintenance->id) }}" onkeypress="return event.keyCode != 13;">
+        <form method="post" action="{{ route('process_service.update', $maintenanceLedger->id) }}" onkeypress="return event.keyCode != 13;">
         	@method('PATCH')
         	@php $form_type='edit' @endphp
     		@include('MasterSetting.join_employee._form')
