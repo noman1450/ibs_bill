@@ -5,24 +5,39 @@
         <!-- sidebar menu: : style can be found in sidebar.less -->
         <ul class="sidebar-menu">
 
-            <li>
-                <a href="{{URL::to('/customer_information')}}"><i class="fa fa-circle-o"></i>Customer Information</a>
+            <li class="{{ request()->is('customer_information') ? 'active' : null }}">
+                <a href="{{ url('/customer_information') }}">
+                    <i class="fa fa-circle-o"></i>
+                    Customer Information
+                </a>
             </li>
 
-            <li>
-                <a href="{{ URL::to('/services') }}"><i class="fa fa-circle-o"></i>Service Confiq</a>
+            <li class="{{ request()->is('services') ? 'active' : null }}">
+                <a href="{{ url('/services') }}">
+                    <i class="fa fa-circle-o"></i>
+                    Service Config
+                </a>
             </li>
 
-            <li>
-                <a href="{{ url('/process_service')}}"><i class="fa fa-circle-o"></i>Process Service</a>
+            <li class="{{ request()->is('process_service') ? 'active' : null }}">
+                <a href="{{ url('/process_service') }}">
+                    <i class="fa fa-circle-o"></i>
+                    Process Service
+                </a>
             </li>
 
-            <li>
-                <a href="{{URL::to('/process_service_view')}}"><i class="fa fa-circle-o"></i>Combind Invoice Generate</a>
+            <li class="{{ request()->is('process_service_view') ? 'active' : null }}">
+                <a href="{{ url('/process_service_view') }}">
+                    <i class="fa fa-circle-o"></i>
+                    Combind Invoice Generate
+                </a>
             </li>
 
-            <li>
-                <a href="{{URL::to('/dueCollection')}}"><i class="fa fa-circle-o"></i>Due Collection</a>
+            <li class="{{ request()->is('dueCollection') ? 'active' : null }}">
+                <a href="{{ url('/dueCollection') }}">
+                    <i class="fa fa-circle-o"></i>
+                    Due Collection
+                </a>
             </li>
         </ul>
     </section>

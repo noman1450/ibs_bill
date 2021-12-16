@@ -46,7 +46,7 @@
                         <select class="form-control" id="month" name="month" style="width: 100%;">
                             <option disabled selected>-- Select Month --</option>
                             @foreach ($months as $month)
-                                <option value="{{ $month->id }}">{{ $month->name }}</option>
+                                <option value="{{ $month->id }}" {{ date('F', strtotime('-1 month')) === $month->name ? 'selected' : null }}>{{ $month->name }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -183,6 +183,8 @@
                     }
                 });
             }
+
+            load_table()
 
 
             $("#client_information_id").select2({

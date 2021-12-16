@@ -64,13 +64,20 @@ Route::middleware('auth')->group(function() {
     Route::get('services/{id}/cancel/',	'MasterSetting\ServiceConfiqController@cancel');
     Route::resource('services', 'MasterSetting\ServiceConfiqController');
 
-    Route::get('process_service', 'MasterSetting\EmployeeJoinController@index');
-    Route::post('get-process_service-data', 'MasterSetting\EmployeeJoinController@getData');
-    Route::post('process_service',	'MasterSetting\EmployeeJoinController@store');
-    Route::get('process_service/{id}/show', 'MasterSetting\EmployeeJoinController@show')->name('process_service.show');
-    Route::get('view_process_service/{id}',	'MasterSetting\EmployeeJoinController@view');
-    Route::get('process_service/{id}/edit',	'MasterSetting\EmployeeJoinController@edit');
-    Route::patch('process_service/{id}/update',	'MasterSetting\EmployeeJoinController@update')->name('process_service.update');
+    // process_service
+    Route::get('process_service', 'MasterSetting\ProcessServiceController@index');
+    Route::post('get-process_service-data', 'MasterSetting\ProcessServiceController@getData');
+    Route::post('process_service',	'MasterSetting\ProcessServiceController@store');
+    Route::get('process_service/{id}/show', 'MasterSetting\ProcessServiceController@show')->name('process_service.show');
+    Route::get('view_process_service/{id}',	'MasterSetting\ProcessServiceController@view');
+    Route::get('process_service/{id}/edit',	'MasterSetting\ProcessServiceController@edit');
+    Route::patch('process_service/{id}/update',	'MasterSetting\ProcessServiceController@update')->name('process_service.update');
+
+    // process_service_view
+    Route::get('process_service_view', 'MasterSetting\CombindInvoiceGenerateController@index');
+    Route::post('get-process_service_view-data', 'MasterSetting\CombindInvoiceGenerateController@getData');
+    Route::post('process_service_generate', 'MasterSetting\CombindInvoiceGenerateController@generate');
+
 
     Route::get('dueCollection',	'MasterSetting\DueCollectionController@cllientdueinfo');
     Route::post('collectduesubmit',	'MasterSetting\DueCollectionController@collectduesubmit');
@@ -85,9 +92,4 @@ Route::middleware('auth')->group(function() {
     Route::get('get-customer_information-data', 'MasterSetting\CustomerInformationController@getData');
     Route::resource('customer_information', 'MasterSetting\CustomerInformationController');
     // ! Customer or Client Controller
-
-    // process_service_view
-    Route::post('get-process_service_view-data', 'MasterSetting\ProcessServiceController@getData');
-    Route::get('process_service_view', 'MasterSetting\ProcessServiceController@index');
-    Route::post('process_service_generate', 'MasterSetting\ProcessServiceController@generate');
 });
