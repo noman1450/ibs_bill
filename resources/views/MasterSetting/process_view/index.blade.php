@@ -39,21 +39,16 @@
                 </div>
 
                 <div class="col-lg-2 col-md-2 col-xs-12 form-group" style="padding-left: 0px; padding-top: 10px;">
-                    <select class="form-control select2" id="month" name="month" multiple style="width: 100%;">
+                    <select class="form-control select2" id="month" name="month" multiple="false" style="width: 100%;">
                         @foreach ($months as $month)
-                            <option value="{{ $month->id }}">{{ $month->name }}</option>
+                            <option value="{{ $month->id }}" {{ date('F', strtotime('-1 month')) === $month->name ? 'selected' : null }}>{{ $month->name }}</option>
                         @endforeach
                     </select>
                 </div>
 
                 <div class="col-lg-2 col-md-2 col-xs-12 form-group" style="padding-left: 0px; padding-top: 10px;">
                     <select class="form-control" id="client_information_id" name="client_information_id" style="width: 100%;">
-
                     </select>
-                </div>
-
-                <div class="col-lg-2 col-md-2 col-xs-12 form-group" style="padding-left: 0px; padding-top: 10px;">
-                    <input type="button" id="search" value="Search" class="btn-sm btn-primary btn-flat btn" style="margin-right: 15px; padding: 7px 10px;">
                 </div>
             </div>
         </div>
@@ -61,7 +56,7 @@
         <div class="box-body">
             <div class="row">
                 <div class="form-group col-lg-12 col-md-12 col-xs-12">
-                    <form action="{{ url('/process_service_generate') }}" method="post">
+                    <form action="{{ url('/process_service_generate') }}" method="post" target="_blank">
                         @csrf
 
                         <input type="hidden" name="client_id" id="client_id">
@@ -111,7 +106,7 @@
                 placeholder: 'Select months'
             })
 
-            $("#search").click(function(e) {
+            $("#month").change(function(e) {
                 e.preventDefault();
 
                 load_table()
@@ -182,6 +177,8 @@
                 });
             }
 
+            load_table()
+
 
             var $clientInfo = $("#client_information_id").select2({
                 placeholder: 'Search Customer',
@@ -205,12 +202,18 @@
                 },
             });
 
-            $clientInfo.on('select2:select', () => {
+            $clientInfo.on('select2:select', (e) => {
+                $('#client_id').val(e.params.data.id)
+
+                load_table()
 
                 $('#smbtBtn').show()
             })
 
             $clientInfo.on('select2:unselect', () => {
+                $('#client_id').val('')
+
+                load_table()
 
                 $('#smbtBtn').hide()
             })

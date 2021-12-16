@@ -159,7 +159,7 @@
 
             <div class="col-md-3">
                 <div style="padding: 20px">
-                    <a href="{{ route('process_service.show', $data->id) }}" class="btn btn-info">
+                    <a href="{{ route('process_service.show', $data->id) }}" class="btn btn-info" target="_blank">
                         <i class="fa fa-print"></i> Make Pdf
                     </a>
                 </div>

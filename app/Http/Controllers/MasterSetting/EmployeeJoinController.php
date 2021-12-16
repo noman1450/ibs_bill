@@ -24,26 +24,34 @@ class EmployeeJoinController extends Controller
     public function getData(Request $request)
     {
         $data = DB::select("
-            select m.id, b.id as maintenace_bill_ledger_id, c.client_name as customer, s.to_information, s.from_information,
-                    b.software_name, s.valid, m.send_to, b.payableamount as  amount,
-                    m.bill_no,
-                    b.service_confiq_id,
-                    date_format(m.created_at, '%d %b, %Y') as created_at,
-                    concat_ws(' | ', mm.name, m.year_id) as month_year
+            select
+                a.id,
+                a.send_to,
+                a.bill_no,
+                b.id as maintenace_bill_ledger_id,
+                b.software_name,
+                b.payableamount as  amount,
+                b.service_confiq_id,
+                e.client_name as customer,
+                c.to_information,
+                c.from_information,
+                date_format(a.created_at, '%d %b, %Y') as created_at,
+                concat_ws(' | ', d.name, a.year_id) as month_year
+
                 from
-            maintenace_bill as m
+            maintenace_bill as a
                 join
-            maintenace_bill_ledger b On m.id = b.maintenace_bill_id
-                JOIN
-            service_confiq as s on b.service_confiq_id = s.id and s.valid = 1
+            maintenace_bill_ledger b on a.id = b.maintenace_bill_id
                 join
-            month as mm on m.month_id = mm.id
+            service_confiq as c on b.service_confiq_id = c.id and c.valid = 1
                 join
-            client_information as c on s.client_information_id = c.id
+            month as d on a.month_id = d.id
+                join
+            client_information as e on c.client_information_id = e.id
                 where
-                    m.year_id = $request->year_id
+                    a.year_id = $request->year_id
                 and
-                    m.month_id = $request->month_id
+                    a.month_id = $request->month_id
         ");
 
         return datatables()->of($data)
@@ -53,31 +61,25 @@ class EmployeeJoinController extends Controller
     public function view($id)
     {
         $data['data'] = DB::table('maintenace_bill as a')
-            ->join('maintenace_bill_ledger as e', 'e.maintenace_bill_id', '=', 'a.id')
-            ->join('service_confiq as b', 'b.id', '=', 'e.service_confiq_id')
-            ->join('client_information as c', 'c.id', '=', 'b.client_information_id')
-            ->join('month as d', 'a.month_id', '=', 'd.id')
+            ->join('client_information as b', 'b.id', '=', 'a.client_information_id')
             ->selectRaw("
                 a.id,
                 a.send_to,
                 a.bill_no,
                 a.created_at,
-                c.client_name
+                b.client_name
             ")
             ->where('a.id', $id)
             ->first();
 
         $data['details'] = DB::table('maintenace_bill as a')
-            ->join('maintenace_bill_ledger as e', 'e.maintenace_bill_id', '=', 'a.id')
-            ->join('service_confiq as b', 'b.id', '=', 'e.service_confiq_id')
-            ->join('client_information as c', 'c.id', '=', 'b.client_information_id')
-            ->join('month as d', 'a.month_id', '=', 'd.id')
+            ->join('maintenace_bill_ledger as b', 'b.maintenace_bill_id', '=', 'a.id')
+            ->join('month as c', 'a.month_id', '=', 'c.id')
             ->selectRaw("
                 a.id,
-                e.payableamount as amount,
-                e.software_name,
-                c.address as client_address,
-                concat_ws(' - ', d.name, a.year_id) as month_year
+                b.payableamount as amount,
+                b.software_name,
+                concat_ws(' - ', c.name, a.year_id) as month_year
             ")
             ->where('a.id', $id)
             ->get();
@@ -90,31 +92,25 @@ class EmployeeJoinController extends Controller
     public function show($id)
     {
         $data['data'] = DB::table('maintenace_bill as a')
-            ->join('maintenace_bill_ledger as e', 'e.maintenace_bill_id', '=', 'a.id')
-            ->join('service_confiq as b', 'b.id', '=', 'e.service_confiq_id')
-            ->join('client_information as c', 'c.id', '=', 'b.client_information_id')
-            ->join('month as d', 'a.month_id', '=', 'd.id')
+            ->join('client_information as b', 'b.id', '=', 'a.client_information_id')
             ->selectRaw("
                 a.id,
                 a.send_to,
                 a.bill_no,
                 a.created_at,
-                c.client_name
+                b.client_name
             ")
             ->where('a.id', $id)
             ->first();
 
         $data['details'] = DB::table('maintenace_bill as a')
-            ->join('maintenace_bill_ledger as e', 'e.maintenace_bill_id', '=', 'a.id')
-            ->join('service_confiq as b', 'b.id', '=', 'e.service_confiq_id')
-            ->join('client_information as c', 'c.id', '=', 'b.client_information_id')
-            ->join('month as d', 'a.month_id', '=', 'd.id')
+            ->join('maintenace_bill_ledger as b', 'b.maintenace_bill_id', '=', 'a.id')
+            ->join('month as c', 'a.month_id', '=', 'c.id')
             ->selectRaw("
                 a.id,
-                e.payableamount as amount,
-                e.software_name,
-                c.address as client_address,
-                concat_ws(' - ', d.name, a.year_id) as month_year
+                b.payableamount as amount,
+                b.software_name,
+                concat_ws(' - ', c.name, a.year_id) as month_year
             ")
             ->where('a.id', $id)
             ->get();
