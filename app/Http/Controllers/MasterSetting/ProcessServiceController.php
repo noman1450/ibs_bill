@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\MasterSetting;
 
 use Illuminate\Http\Request;
-use App\Jobs\SendMailToClientJob;
 use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
@@ -218,7 +217,7 @@ class ProcessServiceController extends Controller
         return redirect()->to('/process_service');
     }
 
-    public function send_mail($id)
+    public function send_mail(Request $request)
     {
         $data['data'] = DB::table('maintenace_bill as a')
             ->join('client_information as b', 'b.id', '=', 'a.client_information_id')
@@ -233,7 +232,7 @@ class ProcessServiceController extends Controller
                 b.email as customer_email,
                 b.cc_email
             ")
-            ->where('a.id', $id)
+            ->where('a.id', $request->maintenace_bill_id)
             ->first();
 
         $data['details'] = DB::table('maintenace_bill as a')
@@ -245,31 +244,32 @@ class ProcessServiceController extends Controller
                 b.software_name,
                 concat_ws(' - ', c.name, a.year_id) as month_year
             ")
-            ->where('a.id', $id)
+            ->where('a.id', $request->maintenace_bill_id)
             ->get();
 
         $pdf = PDF::loadView('mails.pdf', $data);
 
-        $mailData['to_email'] = $data['data']->customer_email;
-        $mailData['from_email'] = $data['data']->from_email;
-        // $mailData['from_email'] = 'hello@gamil.com';
-        $mailData['cc_email'] = explode(';', $data['data']->cc_email);
-        $mailData["subject"] = "Maintenance Charge";
+        $mailData['to_email'] = $request->to_email;
+        $mailData['from_email'] = $request->from_email;
+        $mailData['sender_name'] = $request->sender_name;
+        $mailData['cc_email'] = explode(';', $request->cc_email);
+        $mailData["subject"] = $request->subject;
+        $mailData["body"] = $request->body;
 
         try {
 
             Mail::send('mails.mail', $mailData, function($message) use ($mailData, $pdf) {
                 $message
+                    ->from($mailData["from_email"], $mailData['sender_name'])
                     ->to($mailData['to_email'])
                     ->cc($mailData['cc_email'])
                     ->subject($mailData["subject"])
                     ->attachData($pdf->output(), "invoice.pdf");
 
-                    // ->from($mailData["from_email"])
             });
 
             DB::table('maintenace_bill')
-                ->where('id', $id)
+                ->where('id', $request->maintenace_bill_id)
                 ->increment('mail_count');
 
             return back()->with('message', 'Mail Send Successfully..!');

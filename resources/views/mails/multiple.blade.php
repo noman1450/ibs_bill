@@ -151,7 +151,7 @@
                     </tbody>
                 </table>
 
-                <p class="font-14px" style="margin-top:10px">In-Words: <strong style="text-transform: capitalize">{{ \Riskihajar\Terbilang\Facades\Terbilang::make($totalAmt) }} tk only</strong></p>
+                <p class="font-14px" style="margin-top:10px">In-Words: <strong style="text-transform: capitalize">{{ ucwords(\Riskihajar\Terbilang\Facades\Terbilang::make($totalAmt)) }} tk only</strong></p>
             </div>
         </main>
 

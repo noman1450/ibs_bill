@@ -72,8 +72,9 @@
                                     <th style="width: 10%">MonthYear</th>
                                     <th style="width: 10%">CustomerName</th>
                                     <th style="width: 10%">SendTo</th>
-                                    <th style="width: 10%">FromInformation</th>
-                                    <th style="width: 10%">ToInformation</th>
+                                    <th style="width: 10%">FromEmail</th>
+                                    <th style="width: 10%">ToEmail</th>
+                                    <th style="width: 10%">CC-Email</th>
                                     <th style="width: 10%">Amount</th>
                                     <th style="width: 10%">SoftwareName</th>
                                     <th></th>
@@ -84,7 +85,8 @@
                         </table>
 
                         <div class="text-center">
-                            <button type="submit" id="smbtBtn" class="btn btn-success" style="display: none">Submit</button>
+                            <button type="submit" id="smbtBtn" name="send_or_view" value="send" class="btn btn-success" style="display: none"><i class="fa fa-send"></i> Send Mail</button>
+                            <button type="submit" id="viewBtn" name="send_or_view" value="view" class="btn btn-primary" style="display: none">View</button>
                         </div>
                     </form>
                 </div>
@@ -150,6 +152,7 @@
                         { data: "send_to" },
                         { data: "from_information" },
                         { data: "to_information" },
+                        { data: "cc_email" },
                         { data: "amount" },
                         { data: "software_name" },
                         { data: 'Link',
@@ -208,6 +211,7 @@
                 load_table()
 
                 $('#smbtBtn').show()
+                $('#viewBtn').show()
             })
 
             $clientInfo.on('select2:unselect', () => {
@@ -216,6 +220,7 @@
                 load_table()
 
                 $('#smbtBtn').hide()
+                $('#viewBtn').hide()
             })
         });
     </script>

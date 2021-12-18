@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Mail;
 use App\Models\MasterSetting\Service;
 
 class CombindInvoiceGenerateController extends Controller
@@ -22,7 +23,7 @@ class CombindInvoiceGenerateController extends Controller
         $condition = '';
 
         if ($request->client_information_id) {
-            $condition = " and c.client_information_id = $request->client_information_id";
+            $condition = " and b.client_information_id = $request->client_information_id";
         }
 
         $month_id = implode(',', $request->month_id ?? [0]);
@@ -31,12 +32,13 @@ class CombindInvoiceGenerateController extends Controller
             select
                 b.id,
                 a.id as maintenace_bill_ledger_id,
-                e.client_name as customer,
+                c.client_name as customer,
 
-                c.to_information,
-                c.from_information,
+                c.email as to_information,
+                c.from_email as from_information,
+                c.cc_email,
                 a.software_name,
-                c.send_to,
+                b.send_to,
 
                 a.payableamount as amount,
                 b.bill_no,
@@ -47,11 +49,9 @@ class CombindInvoiceGenerateController extends Controller
                 join
             maintenace_bill as b on a.maintenace_bill_id = b.id
                 join
-            service_confiq as c on a.service_confiq_id = c.id and c.valid = 1
+            client_information as c on b.client_information_id = c.id
                 join
             month as d on b.month_id = d.id
-                join
-            client_information as e on c.client_information_id = e.id
                 where
                     b.year_id = $request->year_id
                 and
@@ -65,15 +65,20 @@ class CombindInvoiceGenerateController extends Controller
 
     public function generate(Request $request)
     {
+        // dd($request->send_or_view);
+
         $data['info'] = DB::table('maintenace_bill as a')
             ->selectRaw("
                 a.id,
-                c.client_name,
-                c.address as client_address,
+                b.client_name,
+                b.address as client_address,
+                b.from_email,
+                b.email as customer_email,
+                b.cc_email,
                 a.send_to
             ")
-            ->join('client_information as c', 'a.client_information_id', '=', 'c.id')
-            ->where('c.id', $request->client_id)
+            ->join('client_information as b', 'a.client_information_id', '=', 'b.id')
+            ->where('b.id', $request->client_id)
             ->first();
 
         $data['details'] = DB::table('maintenace_bill as a')
@@ -93,6 +98,38 @@ class CombindInvoiceGenerateController extends Controller
 
         $pdf = PDF::loadView('mails.multiple', $data);
 
-        return $pdf->stream('invoice.pdf');
+        if ($request->send_or_view === 'view') {
+            return $pdf->stream('invoice.pdf');
+        }
+        elseif ($request->send_or_view === 'send') {
+            $mailData['to_email'] = $data['info']->customer_email;
+            $mailData['from_email'] = $data['info']->from_email;
+            $mailData['sender_name'] = "I-infotech Bussiness Solution";
+            $mailData['cc_email'] = explode(';', $data['info']->cc_email);
+            $mailData["subject"] = "Maintanence Charge For ....";
+            $mailData["body"] = "Lorem ipsum dolor sit amet consectetur adipisicing elit. Excepturi quae nulla nihil ipsa, consectetur quam assumenda inventore tempore ad sint.";
+
+
+            try {
+
+                Mail::send('mails.mail', $mailData, function($message) use ($mailData, $pdf) {
+                    $message
+                        ->from($mailData["from_email"], $mailData['sender_name'])
+                        ->to($mailData['to_email'])
+                        ->cc($mailData['cc_email'])
+                        ->subject($mailData["subject"])
+                        ->attachData($pdf->output(), "invoice.pdf");
+
+                });
+
+                DB::table('maintenace_bill')
+                    ->where('id', $request->maintenace_bill_id)
+                    ->increment('mail_count');
+
+                return back()->with('message', 'Mail Send Successfully..!');
+            } catch (\Exception $e) {
+                dd($e->getMessage());
+            }
+        }
     }
 }

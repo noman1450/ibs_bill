@@ -105,13 +105,21 @@
                     <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
                 </div>
 
-                <form action="">
+                <form action="{{ url("process_service/send_mail") }}" method="post">
+
+                    @csrf
+
                     <div class="modal-body" id="modal_body">
-                        <input type="hidden" name="master_id" id="master_id">
+                        <input type="hidden" name="maintenace_bill_id" id="master_id">
 
                         <div class="form-group">
                             <label>From Email</label>
                             <input type="email" class="form-control" id="from_email" name="from_email" value="" placeholder="from_email">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Sender Name</label>
+                            <input type="text" class="form-control" id="sender_name" name="sender_name" value="I-infotech Bussiness Solution">
                         </div>
 
                         <div class="form-group">
@@ -146,7 +154,7 @@ Lorem, ipsum dolor.
 
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary"><i class="fa fa-send"></i> Send Mail</button>
+                        <button type="submit" class="btn btn-primary"><i class="fa fa-send"></i> Send Mail</button>
                     </div>
                 </form>
             </div>
@@ -235,7 +243,6 @@ Lorem, ipsum dolor.
                             mRender: function (data, type, full) {
                                 return '<a target="_blank" href="{{ url("process_service") }}/'+full.maintenace_bill_ledger_id+'/edit" class="btn btn-success btn-sm btn-block"><i class="fa fa-edit"></i> Edit</a>'
                                     + '<a target="_blank" href="{{ url("view_process_service") }}/'+full.id+'" class="btn btn-info btn-sm btn-block"><i class="fa fa-eye"></i> View</a>'
-                                    // + '<a href="{{ url("process_service/send_mail") }}/'+full.id+'" class="btn btn-primary btn-sm btn-block"><i class="fa fa-send"></i> Mail ('+full.mail_count+')</a>'
                                     + '<a href="#" data-master_id="'+full.id+'" data-to_information="'+full.to_information+'" data-from_information="'+full.from_information+'" data-cc_email="'+full.cc_email+'" class="btn showme btn-primary btn-sm btn-block"><i class="fa fa-send"></i> Mail ('+full.mail_count+')</a>';
                             },
                             orderable: false, searchable: false
@@ -285,6 +292,8 @@ Lorem, ipsum dolor.
             });
 
             $('#designation_list_table').on('click', '.showme', function(e) {
+                e.preventDefault()
+
                 $('#master_id').val($(this).data('master_id'));
                 $('#from_email').val($(this).data('from_information'));
                 $('#to_email').val($(this).data('to_information'));
