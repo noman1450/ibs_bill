@@ -1,7 +1,11 @@
 @extends('layouts.main')
 
-@section('styles')
-<link rel="stylesheet" href="{{asset('plugins/datatables/dataTables.bootstrap.min.css')}}">
+@section('style')
+<style>
+    table.table tbody td {
+        word-break: break-word !important;
+    }
+</style>
 @endsection
 
 
@@ -28,13 +32,15 @@
 	              	<table id="customer-table" class="table table-bordered table-hover">
 		                <thead>
 			                <tr>
-			                  	<th>CustomerCode</th>
-			                  	<th>CustomerName</th>
-			                  	<th>Email</th>
-			                  	<th>Address</th>
-			                  	<th>ContactPerson</th>
-			                  	<th>Active Status</th>
-			                  	<th>Action</th>
+			                  	<th style="width: 5%">Code</th>
+			                  	<th style="width: 10%">CustomerName</th>
+			                  	<th style="width: 10%">FromEmail</th>
+			                  	<th style="width: 10%">CustomerEmail</th>
+			                  	<th style="width: 25%">CC-Email</th>
+			                  	<th style="width: 20%">Address</th>
+			                  	<th style="width: 10%">ContactPerson</th>
+			                  	<th style="width: 5%">Active</th>
+			                  	<th style="width: 5%">Action</th>
 			                </tr>
 		                </thead>
 		                <tbody>
@@ -76,7 +82,9 @@
 		    "columns": [
 				{ "data": "client_code" },
 				{ "data": "client_name" },
+				{ "data": "from_email" },
 				{ "data": "email" },
+				{ "data": "cc_email" },
 				{ "data": "address" },
 				{ "data": "contact_person" },
 				{ "data": "activity" },

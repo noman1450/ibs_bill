@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers\MasterSetting;
 
+use Illuminate\Http\Request;
 use App\Jobs\SendMailToClientJob;
+use Barryvdh\DomPDF\Facade as PDF;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Mail;
+use App\Models\MasterSetting\Service;
 use App\Models\MasterSetting\Maintenace;
 use App\Models\MasterSetting\MaintenaceBillLedger;
-use App\Models\MasterSetting\Service;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\DB;
-use Barryvdh\DomPDF\Facade as PDF;
 
 class ProcessServiceController extends Controller
 {
@@ -26,14 +27,16 @@ class ProcessServiceController extends Controller
             select
                 a.id,
                 a.send_to,
+                a.mail_count,
                 a.bill_no,
                 b.id as maintenace_bill_ledger_id,
                 b.software_name,
                 b.payableamount as  amount,
                 b.service_confiq_id,
-                e.client_name as customer,
-                c.to_information,
-                c.from_information,
+                c.client_name as customer,
+                c.email as to_information,
+                c.cc_email,
+                c.from_email as from_information,
                 date_format(a.created_at, '%d %b, %Y') as created_at,
                 concat_ws(' | ', d.name, a.year_id) as month_year
 
@@ -42,11 +45,9 @@ class ProcessServiceController extends Controller
                 join
             maintenace_bill_ledger b on a.id = b.maintenace_bill_id
                 join
-            service_confiq as c on b.service_confiq_id = c.id and c.valid = 1
+            client_information as c on a.client_information_id = c.id
                 join
             month as d on a.month_id = d.id
-                join
-            client_information as e on c.client_information_id = e.id
                 where
                     a.year_id = $request->year_id
                 and
@@ -83,8 +84,6 @@ class ProcessServiceController extends Controller
             ->where('a.id', $id)
             ->get();
 
-        // dd($data);
-
         return view('MasterSetting.process_service.view', $data);
     }
 
@@ -113,10 +112,6 @@ class ProcessServiceController extends Controller
             ")
             ->where('a.id', $id)
             ->get();
-
-        // dd($data);
-
-        // SendMailToClientJob::dispatch($data);
 
         $pdf = PDF::loadView('mails.pdf', $data);
 
@@ -221,37 +216,63 @@ class ProcessServiceController extends Controller
         return redirect()->to('/process_service');
     }
 
-    protected function fillOtherTable($request, $service)
+    public function send_mail($id)
     {
+        $data['data'] = DB::table('maintenace_bill as a')
+            ->join('client_information as b', 'b.id', '=', 'a.client_information_id')
+            ->selectRaw("
+                a.id,
+                a.send_to,
+                a.bill_no,
+                a.created_at,
+                b.client_name,
+                b.address as client_address,
+                b.from_email,
+                b.email as customer_email,
+                b.cc_email
+            ")
+            ->where('a.id', $id)
+            ->first();
 
+        $data['details'] = DB::table('maintenace_bill as a')
+            ->join('maintenace_bill_ledger as b', 'b.maintenace_bill_id', '=', 'a.id')
+            ->join('month as c', 'a.month_id', '=', 'c.id')
+            ->selectRaw("
+                a.id,
+                b.payableamount as amount,
+                b.software_name,
+                concat_ws(' - ', c.name, a.year_id) as month_year
+            ")
+            ->where('a.id', $id)
+            ->get();
+
+        $pdf = PDF::loadView('mails.pdf', $data);
+
+        $mailData['to_email'] = $data['data']->customer_email;
+        $mailData['from_email'] = $data['data']->from_email;
+        // $mailData['from_email'] = 'hello@gamil.com';
+        $mailData['cc_email'] = explode(';', $data['data']->cc_email);
+        $mailData["subject"] = "Maintenance Charge";
+
+        try {
+
+            Mail::send('mails.mail', $mailData, function($message) use ($mailData, $pdf) {
+                $message
+                    ->to($mailData['to_email'])
+                    ->cc($mailData['cc_email'])
+                    ->subject($mailData["subject"])
+                    ->attachData($pdf->output(), "invoice.pdf");
+
+                    // ->from($mailData["from_email"])
+            });
+
+            DB::table('maintenace_bill')
+                ->where('id', $id)
+                ->increment('mail_count');
+
+            return back()->with('message', 'Mail Send Successfully..!');
+        } catch (\Exception $e) {
+            dd($e->getMessage());
+        }
     }
-
-    // protected function getDta($service): array
-    // {
-    //     $word = Terbilang::make($service->amount);
-    //     // $emailsInfo = $service->to_information;
-    //     // $emails = explode(',', $emailsInfo);
-
-    //     $bill_no = Service::generate_tr_number("maintenace_bill", "bill_no");
-
-    //     $dt = date('d M Y', strtotime($service->created_at));
-
-    //     $data["name"] = 'BD accounts';
-    //     $data["subject"] = "Maintenance charge for $service->software_name";
-    //     $data["to_information"] = $service->to_information;
-    //     $data["email"] = $service->from_information;
-    //     $data["amount"] = $service->amount;
-    //     $data["softwarename"] = 'Maintenance charge for '.$service->software_name;
-    //     $data["address"] = $service->address;
-    //     $data["client_name"] = $service->client_name;
-    //     $data["client_code"] = 'IBS-'.$bill_no;
-    //     $data["contact_person"] = $service->contact_person;
-    //     $data["client_email"] = $service->email;
-    //     $data["send_to"] = $service->send_to;
-    //     $data["created_at"] = $dt;
-    //     $data["word"] = $word;
-    //     // $data["emailsinfo"] = $emails;
-
-    //     return $data;
-    // }
 }

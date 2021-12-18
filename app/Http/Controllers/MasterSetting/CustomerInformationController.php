@@ -19,6 +19,7 @@ class CustomerInformationController extends Controller
         $customer = DB::table('client_information')
             ->selectRaw("
                 id, client_name, client_code, email, address, contact_person,
+                from_email, cc_email,
                 if(activity = 1, 'Active', 'Inactive') as activity
             ");
 
@@ -40,10 +41,16 @@ class CustomerInformationController extends Controller
         $data = $request->validate([
             'client_name' => 'required|string|max:255',
             'client_code' => 'nullable|string|max:45',
-            'email' => 'nullable|string|email|max:45',
+            'email' => 'nullable|string|email|max:100',
+            'from_email' => 'nullable|string|email|max:100',
+            'cc_email' => 'nullable|string',
             'address' => 'required|string|max:255',
             'contact_person' => 'nullable|string|max:255',
         ]);
+
+        $data['email'] = strtolower(trim($request->email));
+        $data['from_email'] = strtolower(trim($request->from_email));
+        $data['cc_email'] = strtolower(trim($request->cc_email));
 
         DB::beginTransaction();
         try {
@@ -74,9 +81,15 @@ class CustomerInformationController extends Controller
             'client_name' => 'required|string|max:255',
             'client_code' => 'nullable|string|max:45',
             'email' => 'nullable|string|email|max:45',
+            'from_email' => 'nullable|string|email|max:100',
+            'cc_email' => 'nullable|string',
             'address' => 'required|string|max:255',
             'contact_person' => 'nullable|string|max:255',
         ]);
+
+        $data['email'] = strtolower(trim($request->email));
+        $data['from_email'] = strtolower(trim($request->from_email));
+        $data['cc_email'] = strtolower(trim($request->cc_email));
 
         DB::beginTransaction();
         try {

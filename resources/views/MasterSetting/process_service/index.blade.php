@@ -22,74 +22,86 @@
 
 @section('content')
     <div class="box box-default">
-        {{-- <form method="post" action="{{ url('submitemployeeidcardpost') }}" onkeypress="return event.keyCode != 13;"> --}}
-            @csrf
+        <div class="box-header with-border">
 
-            <div class="box-header with-border">
-                <h3 class="box-title">Process Service</h3>
-
-                <div class="box-tools pull-right">
-                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-                </div>
-
-                <div class="row" style="margin-left:10px; ">
-
-                    <div class="col-lg-2 col-md-2 col-xs-12 form-group" style="padding-left: 0px; padding-top: 10px;">
-                        <select class="form-control" id="year" name="year" style="width: 100%;">
-                            <option>{{ date('Y', strtotime('-1 year')) }}</option>
-                            <option selected>{{ date('Y') }}</option>
-                            <option>{{ date('Y', strtotime('+1 year')) }}</option>
-                        </select>
-                    </div>
-
-                    <div class="col-lg-2 col-md-2 col-xs-12 form-group" style="padding-left: 0px; padding-top: 10px;">
-                        <select class="form-control" id="month" name="month" style="width: 100%;">
-                            <option disabled selected>-- Select Month --</option>
-                            @foreach ($months as $month)
-                                <option value="{{ $month->id }}" {{ date('F', strtotime('-1 month')) === $month->name ? 'selected' : null }}>{{ $month->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-
-                    <div class="col-md-4 form-group" style="padding-left: 0px; padding-top: 10px;">
-                        <input type="button" id="Process" value="Process" class="btn-sm btn-success btn-flat btn" style="margin-right: 15px; padding: 7px 10px;">
-
-                        <span id="successMsg"></span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="box-body">
+            @if (session('message'))
                 <div class="row">
-                    <div class="form-group col-lg-12 col-md-12 col-xs-12">
-                        <table id="designation_list_table" class="table table-striped table-bordered" width="100%">
-                            <thead>
-                                <tr>
-                                    <th style="width: 10%">BillNo</th>
-                                    <th style="width: 10%">BillDate</th>
-                                    <th style="width: 10%">MonthYear</th>
-                                    <th style="width: 10%">CustomerName</th>
-                                    <th style="width: 10%">SendTo</th>
-                                    <th style="width: 10%">FromInformation</th>
-                                    <th style="width: 10%">ToInformation</th>
-                                    <th style="width: 5%">Amount</th>
-                                    <th style="width: 15%">SoftwareName</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            </tbody>
-                        </table>
+                    <div class="col-xs-12">
+                        <div class="alert alert-success" alert-dismissible>
+                            <a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>
+
+                            {{ session('message') }}
+                        </div>
                     </div>
-                    {{-- <input type="submit" class="btn btn-success btn-flat pull-right" value="Multiple Print" id="btnSubmit" style="margin-right: 10px;"> --}}
+                </div>
+            @endif
+
+            <h3 class="box-title">Process Service</h3>
+
+            <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+            </div>
+
+            <div class="row" style="margin-left:10px; ">
+
+                <div class="col-lg-2 col-md-2 col-xs-12 form-group" style="padding-left: 0px; padding-top: 10px;">
+                    <select class="form-control" id="year" name="year" style="width: 100%;">
+                        <option>{{ date('Y', strtotime('-1 year')) }}</option>
+                        <option selected>{{ date('Y') }}</option>
+                        <option>{{ date('Y', strtotime('+1 year')) }}</option>
+                    </select>
+                </div>
+
+                <div class="col-lg-2 col-md-2 col-xs-12 form-group" style="padding-left: 0px; padding-top: 10px;">
+                    <select class="form-control" id="month" name="month" style="width: 100%;">
+                        <option disabled selected>-- Select Month --</option>
+                        @foreach ($months as $month)
+                            <option value="{{ $month->id }}" {{ date('F', strtotime('-1 month')) === $month->name ? 'selected' : null }}>{{ $month->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div class="col-md-4 form-group" style="padding-left: 0px; padding-top: 10px;">
+                    <input type="button" id="Process" value="Process" class="btn-sm btn-success btn-flat btn" style="margin-right: 15px; padding: 7px 10px;">
+
+                    <span id="successMsg"></span>
                 </div>
             </div>
-        {{-- </form> --}}
+        </div>
+
+        <div class="box-body">
+            <div class="row">
+                <div class="form-group col-lg-12 col-md-12 col-xs-12">
+                    <table id="designation_list_table" class="table table-striped table-bordered" width="100%">
+                        <thead>
+                            <tr>
+                                <th style="width: 8%">BillNo</th>
+                                <th style="width: 8%">BillDate</th>
+                                <th style="width: 10%">MonthYear</th>
+                                <th style="width: 10%">CustomerName</th>
+                                <th style="width: 10%">SendTo</th>
+                                <th style="width: 10%">FromEmail</th>
+                                <th style="width: 10%">ToEmail</th>
+                                <th style="width: 14%">CC-Email</th>
+                                <th style="width: 5%">Amount</th>
+                                <th style="width: 15%">SoftwareName</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
 @endsection
 
 @section('script')
+    <script src="https://cdn.rawgit.com/ashl1/datatables-rowsgroup/fbd569b8768155c7a9a62568e66a64115887d7d0/dataTables.rowsGroup.js"></script>
+
     <script>
+
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': "{{ csrf_token() }}"
@@ -139,6 +151,8 @@
                     info:         true,
                     autoWidth:    false,
                     width:        "100%",
+                    // rowsGroup:    [0],
+
                     ajax: {
                         url: "{{ url('/get-process_service-data') }}",
                         type: "POST",
@@ -148,6 +162,7 @@
                             query.month_id = $("#month").val()
                         }
                     },
+
                     columns: [
                         { data: "bill_no" },
                         { data: "created_at" },
@@ -156,17 +171,19 @@
                         { data: "send_to" },
                         { data: "from_information" },
                         { data: "to_information" },
+                        { data: "cc_email" },
                         { data: "amount" },
                         { data: "software_name" },
                         { data: 'Link',
                             mRender: function (data, type, full) {
                                 return '<a target="_blank" href="{{ url("process_service") }}/'+full.maintenace_bill_ledger_id+'/edit" class="btn btn-success btn-sm btn-block"><i class="fa fa-edit"></i> Edit</a>'
-                                    + '<a target="_blank" href="{{ url("view_process_service") }}/'+full.id+'" class="btn btn-info btn-sm btn-block"><i class="fa fa-eye"></i> View</a>';
+                                    + '<a target="_blank" href="{{ url("view_process_service") }}/'+full.id+'" class="btn btn-info btn-sm btn-block"><i class="fa fa-eye"></i> View</a>'
+                                    + '<a href="{{ url("process_service/send_mail") }}/'+full.id+'" class="btn btn-primary btn-sm btn-block"><i class="fa fa-send"></i> Mail ('+full.mail_count+')</a>';
                             },
                             orderable: false, searchable: false
                         }
                     ],
-                    order: [ 1, 'asc' ]
+                    // order: [ 1, 'asc' ]
                 });
 
                 $('#example-select-all').on('click', function() {

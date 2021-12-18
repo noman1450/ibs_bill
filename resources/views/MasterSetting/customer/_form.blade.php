@@ -39,8 +39,22 @@
 
         <div class="col-lg-12 col-md-12 col-xs-12">
             <div class="input-group col-md-6">
-            	<label>Email</label>
+            	<label>From Email</label>
+                <input type="email" class="form-control" name="from_email" placeholder="From Email.." value="{{ old('from_email', $customer->from_email ?? null) }}">
+            </div>
+        </div>
+
+        <div class="col-lg-12 col-md-12 col-xs-12">
+            <div class="input-group col-md-6">
+            	<label>Customer Email</label>
                 <input type="email" class="form-control" name="email" placeholder="Customer Email.." value="{{ old('email', $customer->email ?? null) }}">
+            </div>
+        </div>
+
+        <div class="col-lg-12 col-md-12 col-xs-12">
+            <div class="input-group col-md-6">
+                <label>CC Email</label>
+                <textarea class="form-control" name="cc_email" placeholder="CC Emails..">{{ old('cc_email', $customer->cc_email ?? null) }}</textarea>
             </div>
         </div>
 
