@@ -122,10 +122,6 @@ class CombindInvoiceGenerateController extends Controller
 
                 });
 
-                DB::table('maintenace_bill')
-                    ->where('id', $request->maintenace_bill_id)
-                    ->increment('mail_count');
-
                 return back()->with('message', 'Mail Send Successfully..!');
             } catch (\Exception $e) {
                 dd($e->getMessage());
