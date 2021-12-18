@@ -146,7 +146,6 @@ class ProcessServiceController extends Controller
         } else {
             $CheckClients_id = 0;
             foreach ($services as  $service) {
-                // $this->fillOtherTable($request, $service);
                 if($CheckClients_id!=$service->client_information_id) {
                     $CheckClients_id = 0;
                 }

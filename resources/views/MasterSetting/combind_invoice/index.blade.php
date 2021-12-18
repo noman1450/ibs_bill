@@ -139,7 +139,7 @@
                     columns: [
                         { data: "checkbox",
                             mRender: function (data, type, full) {
-                                return '<input type="checkbox" name="ids[]" value="'+full.id+'">';
+                                return '<input type="checkbox" name="ids[]" value="'+full.maintenace_bill_ledger_id+'">';
                             },
                             orderable: false, searchable: false
                         },

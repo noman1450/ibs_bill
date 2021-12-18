@@ -30,6 +30,7 @@ class CombindInvoiceGenerateController extends Controller
         $data = DB::select("
             select
                 b.id,
+                a.id as maintenace_bill_ledger_id,
                 e.client_name as customer,
 
                 c.to_information,
@@ -64,8 +65,6 @@ class CombindInvoiceGenerateController extends Controller
 
     public function generate(Request $request)
     {
-        // dd($request->all());
-
         $data['info'] = DB::table('maintenace_bill as a')
             ->selectRaw("
                 a.id,
@@ -87,10 +86,8 @@ class CombindInvoiceGenerateController extends Controller
             ->join('maintenace_bill_ledger as b', 'b.maintenace_bill_id', '=', 'a.id')
             ->join('client_information as c', 'a.client_information_id', '=', 'c.id')
             ->join('month as d', 'a.month_id', '=', 'd.id')
-            ->whereIn('a.id', $request->ids)
+            ->whereIn('b.id', $request->ids)
             ->get();
-
-        // dd($data);
 
         $data['bill_no'] = Service::generate_tr_number("maintenace_bill", "bill_no");
 
