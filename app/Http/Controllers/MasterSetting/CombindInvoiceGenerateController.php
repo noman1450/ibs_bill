@@ -65,8 +65,6 @@ class CombindInvoiceGenerateController extends Controller
 
     public function generate(Request $request)
     {
-        // dd($request->send_or_view);
-
         $data['info'] = DB::table('maintenace_bill as a')
             ->selectRaw("
                 a.id,
