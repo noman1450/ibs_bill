@@ -34,9 +34,11 @@ class ProcessServiceController extends Controller
                 b.payableamount as  amount,
                 b.service_confiq_id,
                 c.client_name as customer,
+
                 c.email as to_information,
                 c.cc_email,
                 c.from_email as from_information,
+
                 date_format(a.created_at, '%d %b, %Y') as created_at,
                 concat_ws(' | ', d.name, a.year_id) as month_year
 

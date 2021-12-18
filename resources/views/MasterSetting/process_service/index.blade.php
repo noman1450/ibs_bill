@@ -95,6 +95,63 @@
             </div>
         </div>
     </div>
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                </div>
+
+                <form action="">
+                    <div class="modal-body" id="modal_body">
+                        <input type="hidden" name="master_id" id="master_id">
+
+                        <div class="form-group">
+                            <label>From Email</label>
+                            <input type="email" class="form-control" id="from_email" name="from_email" value="" placeholder="from_email">
+                        </div>
+
+                        <div class="form-group">
+                            <label>To</label>
+                            <input type="email" class="form-control" id="to_email" name="to_email" value="" placeholder="to_email">
+                        </div>
+
+                        <div class="form-group">
+                            <label>CC</label>
+                            <textarea class="form-control" id="cc_email" name="cc_email" placeholder="cc_email.."></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Subject</label>
+                            <input type="text" class="form-control" id="subject" name="subject" placeholder="Subject.." value="{{ date('M') }}">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Body</label>
+<textarea class="form-control" id="body" name="body" rows="5" placeholder="Email Body..">
+Lorem, ipsum dolor.
+
+
+
+
+
+
+Lorem, ipsum dolor.
+</textarea>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary"><i class="fa fa-send"></i> Send Mail</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @section('script')
@@ -178,7 +235,8 @@
                             mRender: function (data, type, full) {
                                 return '<a target="_blank" href="{{ url("process_service") }}/'+full.maintenace_bill_ledger_id+'/edit" class="btn btn-success btn-sm btn-block"><i class="fa fa-edit"></i> Edit</a>'
                                     + '<a target="_blank" href="{{ url("view_process_service") }}/'+full.id+'" class="btn btn-info btn-sm btn-block"><i class="fa fa-eye"></i> View</a>'
-                                    + '<a href="{{ url("process_service/send_mail") }}/'+full.id+'" class="btn btn-primary btn-sm btn-block"><i class="fa fa-send"></i> Mail ('+full.mail_count+')</a>';
+                                    // + '<a href="{{ url("process_service/send_mail") }}/'+full.id+'" class="btn btn-primary btn-sm btn-block"><i class="fa fa-send"></i> Mail ('+full.mail_count+')</a>'
+                                    + '<a href="#" data-master_id="'+full.id+'" data-to_information="'+full.to_information+'" data-from_information="'+full.from_information+'" data-cc_email="'+full.cc_email+'" class="btn showme btn-primary btn-sm btn-block"><i class="fa fa-send"></i> Mail ('+full.mail_count+')</a>';
                             },
                             orderable: false, searchable: false
                         }
@@ -226,42 +284,23 @@
                 },
             });
 
-            // $( "#all_frm_data" ).submit(function(event){
-            //     event.preventDefault();
-            //     $("#btnSubmit").attr("disabled", true);
-            //     $("#btnSubmit").val('Please wait..');
-            //     var $form   = $( this ),
+            $('#designation_list_table').on('click', '.showme', function(e) {
+                $('#master_id').val($(this).data('master_id'));
+                $('#from_email').val($(this).data('from_information'));
+                $('#to_email').val($(this).data('to_information'));
+                $('#cc_email').val($(this).data('cc_email'));
+                $('#subject').val($('#month option:selected').text() +' - '+ $('#year').val())
 
-            //     url = $form.attr( "action" );
-            //     token = $("[name='_token']").val();
-            //     $.ajax({
-            //         type        : 'POST', // define the type of HTTP verb we want to use (POST for our form)
-            //         url         : url, // the url where we want to POST
-            //         data        : $form.serialize(),
-            //         dataType    : 'json', // what type of data do we expect back from the server
-            //         encode      : true,
-            //         _token      : token
-            //     })
-            //         .done(function(response) {
-            //             if (response['success']) {
-            //                 $('#btnSubmit').attr("disabled", false);
-            //                 $("#btnSubmit").val('Submit');
+                $('#exampleModal').modal('show');
+            });
 
-            //                 toastr.success(response.messages)
-            //                 var audio = new Audio("{{ asset('/audio/audio_file.mp3') }}");
-            //                 audio.play();
-            //                 window.setTimeout(function () {
-            //                     window.location.reload();
-            //                 }, 3000)
-            //             } else {
-            //                 toastr.error(response.messages);
-            //                 var audio = new Audio("{{ asset('/audio/audio_file1.mp3') }}");
-            //                 audio.play();
-            //                 $('#btnSubmit').attr("disabled", false);
-            //                 $("#btnSubmit").val('Submit');
-            //             }
-            //         });
-            // })
+            $('#exampleModal').on('hidden.bs.modal', function() {
+                $('#master_id').val("");
+                $('#from_email').val("");
+                $('#to_email').val("");
+                $('#cc_email').val("");
+                $('#subject').val("")
+            })
         });
     </script>
 @endsection
