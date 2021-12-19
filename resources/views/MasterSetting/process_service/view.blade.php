@@ -22,7 +22,6 @@
 
 @section('content')
 <section class="content">
-	<div id="alert-danger"></div>
 	<div class="box box-default">
 		<div class="box-header with-border">
 			<h3 class="box-title">Invoice for {{ ucwords($data->client_name) ?? '' }}</h3>

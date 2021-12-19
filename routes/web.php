@@ -93,4 +93,9 @@ Route::middleware('auth')->group(function() {
     Route::get('get-customer_information-data', 'MasterSetting\CustomerInformationController@getData');
     Route::resource('customer_information', 'MasterSetting\CustomerInformationController');
     // ! Customer or Client Controller
+
+    // Money Receipt Controller
+    Route::get('get-money_receipt-data', 'MasterSetting\MoneyReceiptController@getData');
+    Route::resource('money_receipt', 'MasterSetting\MoneyReceiptController');
+    // ! Money Receipt Controller
 });

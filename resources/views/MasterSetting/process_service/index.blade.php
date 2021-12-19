@@ -102,7 +102,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <h3 class="modal-title" id="exampleModalLabel">Send Mail Configuration</h3>
                 </div>
 
                 <form action="{{ url("process_service/send_mail") }}" method="post">

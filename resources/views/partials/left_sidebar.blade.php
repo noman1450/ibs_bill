@@ -39,6 +39,13 @@
                     Due Collection
                 </a>
             </li>
+
+            <li class="{{ request()->is('money_receipt', 'money_receipt/*') ? 'active' : null }}">
+                <a href="{{ url('/money_receipt') }}">
+                    <i class="fa fa-circle-o"></i>
+                    Generate Money Receipt
+                </a>
+            </li>
         </ul>
     </section>
     <!-- /.sidebar -->
