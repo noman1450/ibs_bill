@@ -15,6 +15,20 @@
         .bottom-dot {
             border-bottom: 2px dotted #000;
         }
+
+        .watermark { position: relative; }
+        .watermark::after {
+            content: "";
+            width: 100%;
+            height: 100px;
+            opacity: 0.3;
+            background: url('https://i-infotechsolution.com/assets/img/logo.png') no-repeat;
+            background-size: 500px 100px;
+            position: absolute;
+            left: 10%;
+            bottom: 50%;
+            transform: rotate(-30deg);
+        }
     </style>
 @endsection
 
@@ -33,14 +47,14 @@
 
             <div class="col-md-6">
                 <div style="padding: 10px 15px">
-                    <div style="border:2px solid #f7bd62;padding:30px 30px 300px;">
-                        <div style="border:5px solid #479FD0;padding:10px 0;height:auto;border-radius:4px;">
+                    <div style="border:2px solid #f7bd62;padding:30px;">
+                        <div class="watermark" style="border:5px solid #479FD0;padding:10px 0;height:auto;border-radius:4px;">
                             <div class="text-center">
                                 <h3 style="font-weight:600;color:#056083">I-infotech Business Solution</h3>
-                                <p class="text-14" style="font-weight:500">House:1266,3rd floor,Road-10,Avenue-2 , Mirpur- DOHS, Dhaka-121</p>
+                                <p class="text-14" style="font-weight:500">House:126,Road-01,Avenue-3 , Mirpur-DOHS, Dhaka-1216</p>
                                 <p class="text-14" style="font-weight:500">Phone: +8801673-201560</p>
                                 <p class="text-14" style="font-weight:500">Email: info@i-infotechsolution.com</p>
-                                <p class="text-14" style="font-weight:500"> Website: http://i-infotechsolution.com/</p>
+                                <p class="text-14" style="font-weight:500"> Website: http://i-infotechsolution.com</p>
                             </div>
 
                             <div class="text-center">
@@ -49,7 +63,7 @@
 
                             <div style="display:flex;align-items:center;justify-content:space-between;padding:0 10px;margin-top:15px">
                                 <p>
-                                    <strong class="text-15">Cash Receipt #:</strong> {{ $money_receipt->receipt_no }}
+                                    <strong class="text-15">Receipt No #:</strong> {{ $money_receipt->receipt_no }}
                                 </p>
                                 <p>
                                     <strong class="text-15">Date:</strong> {{ $money_receipt->date }}
@@ -57,8 +71,8 @@
                             </div>
 
                             <div style="padding:0 10px;margin-top:15px">
-                                <strong class="text-15" style="word-wrap:break-word;line-height:2;">
-                                    <span>Cash Received From</span>
+                                <strong class="text-15" style="word-break:break-word;line-height:2;">
+                                    <span>{{ $money_receipt->receipt_type === 'Bank' ? 'Cheque' : 'Cash' }} Received From</span>
                                     <span class="bottom-dot" style="font-weight:600;font-size:13px;padding:0 50px 0 30px">{{ $money_receipt->client_name ?? '' }}</span>
                                     <span>of Tk</span>
                                     <span class="bottom-dot" style="font-weight:600;font-size:13px;padding:0 50px 0 30px">{{ number_format($money_receipt->amount) ?? '' }}/=</span>
@@ -68,12 +82,12 @@
                             </div>
 
                             <div style="padding:0 10px;margin-top:15px">
-                                <p style="margin-bottom: 10px">Bank Name: </p>
-                                <p>Check No: </p>
+                                <p style="margin-bottom: 10px">Bank Name: {{ $money_receipt->bank_name ?? '' }}</p>
+                                <p>Cheque No: {{ $money_receipt->check_no ?? '' }}</p>
                             </div>
 
                             <div style="padding:0 10px;margin-top:15px">
-                                <p>In Word: <strong>Six thousand & Five Hundred only</strong></p>
+                                <p>In Word: <strong style="text-transform: capitalize">{{ ucwords(\Riskihajar\Terbilang\Facades\Terbilang::make($money_receipt->amount)) ?? '' }} tk only</strong></p>
                             </div>
 
                             <div style="padding:0 10px;margin-top:15px">
@@ -92,7 +106,13 @@
                 </div>
             </div>
 
-            <div class="col-md-3"></div>
+            <div class="col-md-3">
+                <div style="padding: 20px 0">
+                    <a href="{{ route('money_receipt.send', encrypt($money_receipt->id)) }}" class="btn btn-info" target="_blank">
+                        <i class="fa fa-send"></i> Send Mail
+                    </a>
+                </div>
+            </div>
         </div>
 
 	</div>

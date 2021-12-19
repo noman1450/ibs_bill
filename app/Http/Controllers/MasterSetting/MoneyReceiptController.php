@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\MasterSetting\Service;
 use App\Models\MasterSetting\MoneyReceipt;
 use Illuminate\Support\Facades\DB;
+use Barryvdh\DomPDF\Facade as PDF;
 
 class MoneyReceiptController extends Controller
 {
@@ -66,24 +67,14 @@ class MoneyReceiptController extends Controller
 
     public function show($id)
     {
-        $money_receipt = DB::table('money_receipt as a')
-            ->join('client_information as b', 'a.client_information_id', '=', 'b.id')
-            ->select('a.*', 'b.client_name')
-            ->where('a.id', decrypt($id))
-            ->first();
+        $money_receipt = $this->getSingleData(decrypt($id));
 
         return view('MasterSetting.money_receipt.show', compact('money_receipt'));
     }
 
     public function edit($id)
     {
-        $money_receipt = DB::table('money_receipt as a')
-            ->join('client_information as b', 'a.client_information_id', '=', 'b.id')
-            ->select('a.*', 'b.client_name')
-            ->where('a.id', decrypt($id))
-            ->first();
-
-        // dd($money_receipt);
+        $money_receipt = $this->getSingleData(decrypt($id));
 
         return view('MasterSetting.money_receipt.edit', compact('money_receipt'));
     }
@@ -111,5 +102,23 @@ class MoneyReceiptController extends Controller
         } catch (\Exception $e) {
             return back()->with('message', $e->getMessage());
         }
+    }
+
+    public function send($id)
+    {
+        $money_receipt['money_receipt'] = $this->getSingleData(decrypt($id));
+
+        $pdf = PDF::loadView('mails.money_receipt', $money_receipt);
+
+        return $pdf->stream('money_receipt.pdf');
+    }
+
+    protected function getSingleData($id)
+    {
+        return DB::table('money_receipt as a')
+            ->join('client_information as b', 'a.client_information_id', '=', 'b.id')
+            ->select('a.*', 'b.client_name')
+            ->where('a.id', $id)
+            ->first();
     }
 }
