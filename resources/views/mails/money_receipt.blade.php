@@ -27,10 +27,10 @@
         <div class="watermark" style="border:5px solid #479FD0;padding:10px 0;height:auto;border-radius:4px;">
             <div style="text-align:center">
                 <h2 style="font-weight:600;color:#056083;margin-top:5px;margin-bottom:5px">I-infotech Business Solution</h2>
-                <p style="font-weight:normal;margin:0;line-height:1.2">House:126,Road-01,Avenue-3 , Mirpur-DOHS, Dhaka-1216</p>
-                <p style="font-weight:normal;margin:0;line-height:1.2">Phone: +8801673-201560</p>
-                <p style="font-weight:normal;margin:0;line-height:1.2">Email: info@i-infotechsolution.com</p>
-                <p style="font-weight:normal;margin:0;line-height:1.2"> Website: http://i-infotechsolution.com</p>
+                <p style="font-size:13px;font-weight:normal;margin:0;line-height:1.2">House:126,Road-01,Avenue-3 , Mirpur-DOHS, Dhaka-1216</p>
+                <p style="font-size:13px;font-weight:normal;margin:0;line-height:1.2">Phone: +8801673-201560</p>
+                <p style="font-size:13px;font-weight:normal;margin:0;line-height:1.2">Email: info@i-infotechsolution.com</p>
+                <p style="font-size:13px;font-weight:normal;margin:0;line-height:1.2"> Website: http://i-infotechsolution.com</p>
             </div>
 
             <div style="text-align:center">
