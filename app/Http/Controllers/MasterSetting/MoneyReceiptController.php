@@ -3,11 +3,12 @@
 namespace App\Http\Controllers\MasterSetting;
 
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade as PDF;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Mail;
 use App\Models\MasterSetting\Service;
 use App\Models\MasterSetting\MoneyReceipt;
-use Illuminate\Support\Facades\DB;
-use Barryvdh\DomPDF\Facade as PDF;
 
 class MoneyReceiptController extends Controller
 {
@@ -56,7 +57,7 @@ class MoneyReceiptController extends Controller
             $bill_no = Service::generate_tr_number("money_receipt", "receipt_no");
 
             MoneyReceipt::create(
-                array_merge($data, ['receipt_no' => 'MR-'.$bill_no])
+                array_merge($data, ['receipt_no' => 'MR-'.$bill_no, 'users_id' => auth()->id()])
             );
 
             return redirect()->route('money_receipt.index')->with('message', 'Money receipt has been created..!!');
@@ -95,7 +96,9 @@ class MoneyReceiptController extends Controller
 
             $money_receipt = MoneyReceipt::query()->findOrFail($id);
 
-            $money_receipt->update($data);
+            $money_receipt->update(
+                array_merge($data, ['users_id' => auth()->id()])
+            );
 
 
             return redirect()->route('money_receipt.index')->with('message', 'Money receipt has been updated..!!');
@@ -104,13 +107,43 @@ class MoneyReceiptController extends Controller
         }
     }
 
-    public function send($id)
+    public function send($id, Request $request)
     {
         $money_receipt['money_receipt'] = $this->getSingleData(decrypt($id));
 
         $pdf = PDF::loadView('mails.money_receipt', $money_receipt);
 
-        return $pdf->stream('money_receipt.pdf');
+        $mailData['to_email'] = $request->to_email;
+        $mailData['from_email'] = $request->from_email;
+        $mailData['sender_name'] = $request->sender_name;
+        if (!empty($request->cc_email)) {
+            $mailData['cc_email'] = $request->cc_email;
+        }
+        $mailData["subject"] = $request->subject;
+        $mailData["body"] = $request->body;
+
+        try {
+
+            Mail::send('mails.mail', $mailData, function($message) use ($mailData, $pdf) {
+                if (!empty($mailData['cc_email'])) {
+                    $message->cc($mailData['cc_email']);
+                }
+
+                $message
+                    ->from($mailData["from_email"], $mailData['sender_name'])
+                    ->to($mailData['to_email'])
+                    ->subject($mailData["subject"])
+                    ->attachData($pdf->output(), "money_receipt.pdf");
+            });
+
+            MoneyReceipt::query()
+                ->findOrFail(decrypt($id))
+                ->update(['is_send' => true]);
+
+            return back()->with('message', 'Mail Send Successfully..!');
+        } catch (\Exception $e) {
+            dd($e->getMessage());
+        }
     }
 
     protected function getSingleData($id)

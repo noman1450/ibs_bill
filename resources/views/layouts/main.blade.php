@@ -106,6 +106,7 @@
 <script src="{{ asset('/admin/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js') }}"></script>
 <!-- Select2 -->
 <script src="{{ asset('/admin/bower_components/select2/dist/js/select2.full.min.js') }}"></script>
+<script src="{{ asset('js/ckeditor.js') }}"></script>
 
 <!-- AdminLTE App -->
 <script src="{{ asset('/admin/dist/js/adminlte.min.js') }}"></script>
@@ -115,6 +116,15 @@
 
 <script src="{{asset('js/formsubmitscript.js')}}"></script>
 @include('layouts/modal')
+
+<script>
+    // $(document).ready(() => {
+        $("#cc_email").select2({
+            placeholder: 'Enter cc emails..'
+            // tags: true
+        });
+    // })
+</script>
 
 @yield('script')
 

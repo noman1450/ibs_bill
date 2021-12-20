@@ -252,20 +252,24 @@ class ProcessServiceController extends Controller
         $mailData['to_email'] = $request->to_email;
         $mailData['from_email'] = $request->from_email;
         $mailData['sender_name'] = $request->sender_name;
-        $mailData['cc_email'] = explode(';', $request->cc_email);
+        if (!empty($request->cc_email)) {
+            $mailData['cc_email'] = $request->cc_email;
+        }
         $mailData["subject"] = $request->subject;
         $mailData["body"] = $request->body;
 
         try {
 
             Mail::send('mails.mail', $mailData, function($message) use ($mailData, $pdf) {
+                if (!empty($mailData['cc_email'])) {
+                    $message->cc($mailData['cc_email']);
+                }
+
                 $message
                     ->from($mailData["from_email"], $mailData['sender_name'])
                     ->to($mailData['to_email'])
-                    ->cc($mailData['cc_email'])
                     ->subject($mailData["subject"])
                     ->attachData($pdf->output(), "invoice.pdf");
-
             });
 
             DB::table('maintenace_bill')

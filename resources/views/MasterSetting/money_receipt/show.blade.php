@@ -29,6 +29,7 @@
             bottom: 50%;
             transform: rotate(-30deg);
         }
+        .ck-editor__editable {min-height: 150px;}
     </style>
 @endsection
 
@@ -66,7 +67,7 @@
                                     <strong class="text-15">Receipt No #:</strong> {{ $money_receipt->receipt_no }}
                                 </p>
                                 <p>
-                                    <strong class="text-15">Date:</strong> {{ $money_receipt->date }}
+                                    <strong class="text-15">Date:</strong> {{ date('d M, Y', strtotime($money_receipt->date)) }}
                                 </p>
                             </div>
 
@@ -108,13 +109,91 @@
 
             <div class="col-md-3">
                 <div style="padding: 20px 0">
-                    <a href="{{ route('money_receipt.send', encrypt($money_receipt->id)) }}" class="btn btn-info" target="_blank">
-                        <i class="fa fa-send"></i> Send Mail
+                    <a href="#" data-toggle="modal" data-target="#exampleModal" class="btn btn-info">
+                        <i class="fa fa-envelope"></i> Configure Email
                     </a>
                 </div>
             </div>
         </div>
-
 	</div>
 </section>
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="exampleModalLabel">Send Mail Configuration</h3>
+            </div>
+
+            <form action="{{ route('money_receipt.send', encrypt($money_receipt->id)) }}" method="post">
+
+                @csrf
+
+                <div class="modal-body" id="modal_body">
+                    <div class="form-group">
+                        <label>From Email</label>
+                        <input type="email" class="form-control" id="from_email" name="from_email" value="" placeholder="from_email">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Sender Name</label>
+                        <input type="text" class="form-control" id="sender_name" name="sender_name" value="I-infotech Business Solution">
+                    </div>
+
+                    <div class="form-group">
+                        <label>To</label>
+                        <input type="email" class="form-control" id="to_email" name="to_email" value="" placeholder="to_email">
+                    </div>
+
+                    <div class="form-group">
+                        <label>CC</label>
+                        <select class="form-control tagable" id="cc_email" name="cc_email[]" multiple="multiple" style="width: 100%">
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Subject</label>
+                        <input type="text" class="form-control" id="subject" name="subject" placeholder="Subject.." value="{{ date('F', strtotime('-1 month')).' - '.date('Y') }}">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Body</label>
+                        <textarea class="form-control" id="editor" name="body" rows="5" placeholder="Email Body..">Lorem, ipsum dolor.</textarea>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary"><i class="fa fa-send"></i> Send Mail</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+@endsection
+
+@section('script')
+
+<script>
+    $(document).ready(() => {
+        ClassicEditor
+            .create(document.querySelector('#editor'), {
+                toolbar: [
+                    'heading','bold', 'italic', 'link', 'blockQuote',
+                    'alignment', 'selectAll', 'fontBackgroundColor',
+                    'fontColor', 'fontSize', 'numberedList', 'bulletedList',
+                    'imageUpload', 'undo', 'redo', 'highlight', 'horizontalLine'
+                ]
+
+            }).then(editor => {
+                window.editor = editor;
+                editor.ui.view.editable.element.style.height = '150px';
+            }).catch( err => {
+                console.error( err.stack );
+            });
+    })
+</script>
+
 @endsection

@@ -15,7 +15,7 @@ class CombindInvoiceGenerateController extends Controller
     {
         $months = DB::table('month')->get();
 
-        return view('MasterSetting.combind_invoice.index', compact('months'));
+        return view('MasterSetting.combined_invoice.index', compact('months'));
     }
 
     public function getData(Request $request)
@@ -100,24 +100,28 @@ class CombindInvoiceGenerateController extends Controller
             return $pdf->stream('invoice.pdf');
         }
         elseif ($request->send_or_view === 'send') {
-            $mailData['to_email'] = $data['info']->customer_email;
-            $mailData['from_email'] = $data['info']->from_email;
-            $mailData['sender_name'] = "I-infotech Bussiness Solution";
-            $mailData['cc_email'] = explode(';', $data['info']->cc_email);
-            $mailData["subject"] = "Maintanence Charge For ....";
-            $mailData["body"] = "Lorem ipsum dolor sit amet consectetur adipisicing elit. Excepturi quae nulla nihil ipsa, consectetur quam assumenda inventore tempore ad sint.";
+            $mailData['to_email'] = $request->to_email;
+            $mailData['from_email'] = $request->from_email;
+            $mailData['sender_name'] = $request->sender_name;
+            if (!empty($request->cc_email)) {
+                $mailData['cc_email'] = $request->cc_email;
+            }
+            $mailData["subject"] = $request->subject;
+            $mailData["body"] = $request->body;
 
 
             try {
 
                 Mail::send('mails.mail', $mailData, function($message) use ($mailData, $pdf) {
+                    if (!empty($mailData['cc_email'])) {
+                        $message->cc($mailData['cc_email']);
+                    }
+
                     $message
                         ->from($mailData["from_email"], $mailData['sender_name'])
                         ->to($mailData['to_email'])
-                        ->cc($mailData['cc_email'])
                         ->subject($mailData["subject"])
                         ->attachData($pdf->output(), "invoice.pdf");
-
                 });
 
                 return back()->with('message', 'Mail Send Successfully..!');

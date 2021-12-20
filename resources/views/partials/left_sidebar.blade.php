@@ -5,28 +5,28 @@
         <!-- sidebar menu: : style can be found in sidebar.less -->
         <ul class="sidebar-menu">
 
-            <li class="{{ request()->is('customer_information') ? 'active' : null }}">
+            <li class="{{ request()->is('customer_information', 'customer_information/*') ? 'active' : null }}">
                 <a href="{{ url('/customer_information') }}">
                     <i class="fa fa-circle-o"></i>
                     Customer Information
                 </a>
             </li>
 
-            <li class="{{ request()->is('services') ? 'active' : null }}">
+            <li class="{{ request()->is('services', 'services/*') ? 'active' : null }}">
                 <a href="{{ url('/services') }}">
                     <i class="fa fa-circle-o"></i>
                     Service Config
                 </a>
             </li>
 
-            <li class="{{ request()->is('process_service') ? 'active' : null }}">
+            <li class="{{ request()->is('process_service', 'process_service/*') ? 'active' : null }}">
                 <a href="{{ url('/process_service') }}">
                     <i class="fa fa-circle-o"></i>
                     Process Service
                 </a>
             </li>
 
-            <li class="{{ request()->is('process_service_view') ? 'active' : null }}">
+            <li class="{{ request()->is('process_service_view', 'process_service_view/*') ? 'active' : null }}">
                 <a href="{{ url('/process_service_view') }}">
                     <i class="fa fa-circle-o"></i>
                     Combind Invoice Generate

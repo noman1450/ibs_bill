@@ -1,21 +1,8 @@
 @extends('layouts.main')
 
-@section('styles')
-    <style type="text/css">
-        .table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
-            padding: 5px;
-        }
-
-        table.dataTable thead > tr > th {
-            padding-right: 25px;
-        }
-        .table>tbody{
-            font-size: small;
-        }
-        .table>thead{
-            font-size: smaller;
-            background-color: #C1C2C7;
-        }
+@section('style')
+    <style>
+        .ck-editor__editable {min-height: 150px;}
     </style>
 @endsection
 
@@ -39,7 +26,7 @@
                 </div>
 
                 <div class="col-lg-2 col-md-2 col-xs-12 form-group" style="padding-left: 0px; padding-top: 10px;">
-                    <select class="form-control select2" id="month" name="month" multiple="false" style="width: 100%;">
+                    <select class="form-control" id="month" name="month" multiple style="width: 100%;">
                         @foreach ($months as $month)
                             <option value="{{ $month->id }}" {{ date('F', strtotime('-1 month')) === $month->name ? 'selected' : null }}>{{ $month->name }}</option>
                         @endforeach
@@ -85,8 +72,58 @@
                         </table>
 
                         <div class="text-center">
-                            <button type="submit" id="smbtBtn" name="send_or_view" value="send" class="btn btn-success" style="display: none"><i class="fa fa-send"></i> Send Mail</button>
+                            <button type="button" id="smbtBtn" data-toggle="modal" data-target="#exampleModal" class="btn btn-success" style="display: none"><i class="fa fa-envelope"></i> Configure Email</button>
                             <button type="submit" id="viewBtn" name="send_or_view" value="view" class="btn btn-primary" style="display: none">View</button>
+                        </div>
+
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h3 class="modal-title" id="exampleModalLabel">Send Mail Configuration</h3>
+                                    </div>
+
+                                    <div class="modal-body" id="modal_body">
+                                        <div class="form-group">
+                                            <label>From Email</label>
+                                            <input type="email" class="form-control" id="from_email" name="from_email" value="" placeholder="from_email">
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>Sender Name</label>
+                                            <input type="text" class="form-control" id="sender_name" name="sender_name" value="I-infotech Business Solution">
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>To</label>
+                                            <input type="email" class="form-control" id="to_email" name="to_email" value="" placeholder="to_email">
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>CC</label>
+                                            <select class="form-control tagable" id="cc_email" name="cc_email[]" multiple style="width: 100%">
+                                            </select>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>Subject</label>
+                                            <input type="text" class="form-control" id="subject" name="subject" placeholder="Subject.." value="{{ date('F', strtotime('-1 month')).' - '.date('Y') }}">
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>Body</label>
+                                            <textarea class="form-control" id="editor" name="body" rows="5" placeholder="Email Body..">Lorem, ipsum dolor.</textarea>
+                                        </div>
+                                    </div>
+
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <button type="submit" name="send_or_view" value="send" class="btn btn-primary"><i class="fa fa-send"></i> Send Mail</button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </form>
                 </div>
@@ -104,7 +141,25 @@
         });
 
         $(document).ready(function($) {
-            $('.select2').select2({
+            ClassicEditor
+                .create(document.querySelector('#editor'), {
+                    toolbar: [
+                        'heading','bold', 'italic', 'link', 'blockQuote',
+                        'alignment', 'selectAll', 'fontBackgroundColor',
+                        'fontColor', 'fontSize', 'numberedList', 'bulletedList',
+                        'imageUpload', 'undo', 'redo', 'highlight', 'horizontalLine'
+                    ]
+
+                }).then(editor => {
+                    window.editor = editor;
+                    editor.ui.view.editable.element.style.height = '150px';
+                }).catch( err => {
+                    console.error( err.stack );
+                });
+
+
+
+            $('#month').select2({
                 placeholder: 'Select months'
             })
 

@@ -1,21 +1,8 @@
 @extends('layouts.main')
 
-@section('styles')
+@section('style')
     <style>
-        .table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
-            padding: 5px;
-        }
-
-        table.dataTable thead > tr > th {
-            padding-right: 25px;
-        }
-        .table>tbody{
-            font-size: small;
-        }
-        .table>thead{
-            font-size: smaller;
-            background-color: #C1C2C7;
-        }
+        .ck-editor__editable {min-height: 150px;}
     </style>
 @endsection
 
@@ -119,7 +106,7 @@
 
                         <div class="form-group">
                             <label>Sender Name</label>
-                            <input type="text" class="form-control" id="sender_name" name="sender_name" value="I-infotech Bussiness Solution">
+                            <input type="text" class="form-control" id="sender_name" name="sender_name" value="I-infotech Business Solution">
                         </div>
 
                         <div class="form-group">
@@ -129,7 +116,8 @@
 
                         <div class="form-group">
                             <label>CC</label>
-                            <textarea class="form-control" id="cc_email" name="cc_email" placeholder="cc_email.."></textarea>
+                            <select class="form-control tagable" id="cc_email" name="cc_email[]" multiple="multiple" style="width: 100%">
+                            </select>
                         </div>
 
                         <div class="form-group">
@@ -139,16 +127,7 @@
 
                         <div class="form-group">
                             <label>Body</label>
-<textarea class="form-control" id="body" name="body" rows="5" placeholder="Email Body..">
-Lorem, ipsum dolor.
-
-
-
-
-
-
-Lorem, ipsum dolor.
-</textarea>
+                            <textarea class="form-control" id="editor" name="body" rows="5" placeholder="Email Body.."></textarea>
                         </div>
                     </div>
 
@@ -174,6 +153,23 @@ Lorem, ipsum dolor.
         });
 
         $(document).ready(function($) {
+            ClassicEditor
+                .create(document.querySelector('#editor'), {
+                    toolbar: [
+                        'heading','bold', 'italic', 'link', 'blockQuote',
+                        'alignment', 'selectAll', 'fontBackgroundColor',
+                        'fontColor', 'fontSize', 'numberedList', 'bulletedList',
+                        'imageUpload', 'undo', 'redo', 'highlight', 'horizontalLine'
+                    ]
+
+                }).then(editor => {
+                    window.editor = editor;
+                    editor.ui.view.editable.element.style.height = '150px';
+                }).catch( err => {
+                    console.error( err.stack );
+                });
+
+
             $('#Process').click(function(e) {
                 e.preventDefault()
 
