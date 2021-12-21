@@ -118,12 +118,12 @@
 @include('layouts/modal')
 
 <script>
-    // $(document).ready(() => {
+    $(document).ready(() => {
         $("#cc_email").select2({
-            placeholder: 'Enter cc emails..'
+            placeholder: 'Enter cc emails..',
             tags: true
         });
-    // })
+    })
 </script>
 
 @yield('script')
