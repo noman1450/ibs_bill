@@ -121,7 +121,7 @@
     // $(document).ready(() => {
         $("#cc_email").select2({
             placeholder: 'Enter cc emails..'
-            // tags: true
+            tags: true
         });
     // })
 </script>
