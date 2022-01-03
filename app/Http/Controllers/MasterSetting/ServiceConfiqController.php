@@ -49,10 +49,11 @@ class ServiceConfiqController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'to_information'             => 'nullable',
-            'from_information'           => 'required',
-            'software_name'              => 'required',
-            'send_to'                    => 'required',
+            'from_information'           => 'nullable',
+            'software_name'              => 'nullable',
+            'send_to'                    => 'nullable',
             'amount'                     => 'required',
+            'client_id'                  => 'required'
         ]);
 
        if( $validator->fails() ){
@@ -93,10 +94,11 @@ class ServiceConfiqController extends Controller
     {
          $validator = Validator::make($request->all(), [
             'to_information'             => 'nullable',
-            'from_information'           => 'required',
-            'software_name'              => 'required',
-            'send_to'                    => 'required',
+            'from_information'           => 'nullable',
+            'software_name'              => 'nullable',
+            'send_to'                    => 'nullable',
             'amount'                     => 'required',
+            'client_id'                  => 'required'
        ]);
 
        if( $validator->fails() ){
