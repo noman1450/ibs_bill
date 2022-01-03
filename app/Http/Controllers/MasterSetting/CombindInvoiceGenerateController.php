@@ -32,7 +32,7 @@ class CombindInvoiceGenerateController extends Controller
             select
                 b.id,
                 a.id as maintenace_bill_ledger_id,
-                c.client_name as customer,
+                concat(c.client_name, coalesce(concat(' | ', c.client_code), '')) as customer,
 
                 c.email as to_information,
                 c.from_email as from_information,

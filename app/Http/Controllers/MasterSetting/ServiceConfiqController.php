@@ -21,7 +21,7 @@ class ServiceConfiqController extends Controller
     {
         $service  =  DB::SELECT("SELECT
             service_confiq.id,
-            CONCAT(client_information.client_name) AS customer,
+            concat(client_information.client_name, coalesce(concat(' | ', client_information.client_code), '')) AS customer,
             service_confiq.to_information,service_confiq.from_information,service_confiq.software_name,service_confiq.amount,service_confiq.send_to,service_confiq.valid,
             CASE WHEN service_confiq.valid = 1 THEN 'Active' ELSE 'Inactive' END active_status
             FROM service_confiq
