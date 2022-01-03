@@ -54,7 +54,13 @@
         <div class="col-lg-12 col-md-12 col-xs-12">
             <div class="input-group col-md-6">
                 <label>CC Email</label>
-                <textarea class="form-control" name="cc_email" placeholder="CC Emails..">{{ old('cc_email', $customer->cc_email ?? null) }}</textarea>
+                <select class="form-control" name="cc_email[]" id="cc_email" multiple>
+                    @if ($form_type === 'edit')
+                        @foreach ($cc_emails as $email)
+                            <option selected>{{ $email }}</option>
+                        @endforeach
+                    @endif
+                </select>
             </div>
         </div>
 

@@ -142,7 +142,7 @@
 @endsection
 
 @section('script')
-    <script src="https://cdn.rawgit.com/ashl1/datatables-rowsgroup/fbd569b8768155c7a9a62568e66a64115887d7d0/dataTables.rowsGroup.js"></script>
+    {{-- <script src="https://cdn.rawgit.com/ashl1/datatables-rowsgroup/fbd569b8768155c7a9a62568e66a64115887d7d0/dataTables.rowsGroup.js"></script> --}}
 
     <script>
 
@@ -293,8 +293,17 @@
                 $('#master_id').val($(this).data('master_id'));
                 $('#from_email').val($(this).data('from_information'));
                 $('#to_email').val($(this).data('to_information'));
-                $('#cc_email').val($(this).data('cc_email'));
+                // $('#cc_email').val($(this).data('cc_email'));
                 $('#subject').val($('#month option:selected').text() +' - '+ $('#year').val())
+
+                let arr = $(this).data('cc_email').split(',')
+                $('#cc_email').select2({
+                    data: [...arr],
+                    tags: true
+                });
+                $('#cc_email').val([...arr]).trigger('change')
+
+                console.log($(this).data('cc_email'));
 
                 $('#exampleModal').modal('show');
             });

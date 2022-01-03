@@ -38,19 +38,21 @@ class CustomerInformationController extends Controller
 
     public function store(Request $request)
     {
+        // dd($request->all());
+
         $data = $request->validate([
             'client_name' => 'required|string|max:255',
             'client_code' => 'nullable|string|max:45',
             'email' => 'nullable|string|email|max:100',
             'from_email' => 'nullable|string|email|max:100',
-            'cc_email' => 'nullable|string',
+            // 'cc_email' => 'nullable|string',
             'address' => 'required|string|max:255',
             'contact_person' => 'nullable|string|max:255',
         ]);
 
         $data['email'] = strtolower(trim($request->email));
         $data['from_email'] = strtolower(trim($request->from_email));
-        $data['cc_email'] = strtolower(trim($request->cc_email));
+        $data['cc_email'] = implode(',', $request->cc_email);
 
         DB::beginTransaction();
         try {
@@ -72,7 +74,10 @@ class CustomerInformationController extends Controller
     {
         $customer = Clients::query()->findOrFail(decrypt($id));
 
-        return view('MasterSetting.customer.edit', compact('customer'));
+        // dd(explode(',', $customer->cc_email));
+        $cc_emails = explode(',', $customer->cc_email);
+
+        return view('MasterSetting.customer.edit', compact('customer', 'cc_emails'));
     }
 
     public function update($id, Request $request)
