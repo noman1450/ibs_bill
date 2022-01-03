@@ -53,7 +53,7 @@ class ServiceConfiqController extends Controller
             'software_name'              => 'nullable',
             'send_to'                    => 'nullable',
             'amount'                     => 'required',
-            'client_id'                  => 'required'
+            'client_id'                  => 'required|not_in:-- Select Client --'
         ]);
 
        if( $validator->fails() ){
@@ -98,7 +98,7 @@ class ServiceConfiqController extends Controller
             'software_name'              => 'nullable',
             'send_to'                    => 'nullable',
             'amount'                     => 'required',
-            'client_id'                  => 'required'
+            'client_id'                  => 'required|not_in:-- Select Client --'
        ]);
 
        if( $validator->fails() ){
