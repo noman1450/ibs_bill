@@ -68,7 +68,7 @@
 	  	$('#customer-table').DataTable( {
 		    "processing":   true,
 		    "serverSide":   true,
-		    "paging":       true,
+		    "paging":       false,
 		    "lengthChange": true,
 		    "searching":    true,
 		    "ordering":     true,
