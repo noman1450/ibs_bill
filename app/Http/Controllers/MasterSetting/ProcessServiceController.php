@@ -38,7 +38,7 @@ class ProcessServiceController extends Controller
                 b.software_name,
                 b.payableamount as  amount,
                 b.service_confiq_id,
-                c.client_name as customer,
+                concat(c.client_name, coalesce(concat(' | ', c.client_code), '')) as customer,
 
                 c.email as to_information,
                 c.cc_email,
@@ -98,7 +98,7 @@ class ProcessServiceController extends Controller
 
     public function show($id)
     {
-        $data['data'] = DB::table('maintenace_bill as a')
+        $data['info'] = DB::table('maintenace_bill as a')
             ->join('client_information as b', 'b.id', '=', 'a.client_information_id')
             ->selectRaw("
                 a.id,

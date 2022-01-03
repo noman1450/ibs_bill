@@ -88,14 +88,14 @@
                                         @endphp
                                         @foreach ($details as $item)
                                             <tr>
-                                                <td  class="text-center">{{ $loop->index+1 }}</td>
-                                                <td  class="text-center">
+                                                <td class="text-center">{{ $loop->index+1 }}</td>
+                                                <td class="text-center">
                                                     {{ $item->software_name ?? '' }}
                                                 </td>
-                                                <td  class="text-center">
+                                                <td class="text-center">
                                                     {{ $item->month_year }}
                                                 </td>
-                                                <td  class="text-center">Tk.
+                                                <td class="text-center">Tk.
                                                     {{ number_format($item->amount) ?? '' }}/=
                                                 </td>
                                             </tr>
@@ -111,14 +111,14 @@
                                             </td>
 
                                             <td class="text-center" style="vertical-align: middle">Tk.
-                                                {{ number_format($totalAmt) ?? '' }}/=
+                                                <strong>Tk. {{ number_format($totalAmt) ?? '' }}/=</strong>
                                             </td>
                                         </tr>
                                     </tbody>
                                 </table>
 
                                 <p class="font-14px" style="margin-top:10px">In-Words: <strong>
-                                    {{ ucwords(\Riskihajar\Terbilang\Facades\Terbilang::make($totalAmt)) ?? '' }} tk only
+                                    {{ ucwords(\Riskihajar\Terbilang\Facades\Terbilang::make($totalAmt)) ?? '' }} Tk. Only
                                 </strong></p>
                             </div>
 
