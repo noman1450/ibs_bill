@@ -80,7 +80,7 @@
     </head>
 
     <body style="border:2px solid #479FD0;padding:0;">
-        @include('mails.pdf_base')
+        @include('mails.pdf_base', ['multiple' => true])
 
     </body>
 </html>
