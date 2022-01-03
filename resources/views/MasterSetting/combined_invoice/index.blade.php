@@ -147,7 +147,8 @@
                         'heading','bold', 'italic', 'link', 'blockQuote',
                         'alignment', 'selectAll', 'fontBackgroundColor',
                         'fontColor', 'fontSize', 'numberedList', 'bulletedList',
-                        'imageUpload', 'undo', 'redo', 'highlight', 'horizontalLine'
+                        'imageUpload', 'undo', 'redo', 'highlight', 'horizontalLine',
+                        'underline', 'subscript', 'superscript',
                     ]
 
                 }).then(editor => {
