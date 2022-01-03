@@ -32,7 +32,7 @@
             <div class="row" style="margin-left:10px; ">
 
                 <div class="col-lg-2 col-md-2 col-xs-12 form-group" style="padding-left: 0px; padding-top: 10px;">
-                    <select class="form-control" id="year" name="year" style="width: 100%;">
+                    <select class="form-control monthchange" id="year" name="year" style="width: 100%;">
                         <option>{{ date('Y', strtotime('-1 year')) }}</option>
                         <option selected>{{ date('Y') }}</option>
                         <option>{{ date('Y', strtotime('+1 year')) }}</option>
@@ -40,7 +40,7 @@
                 </div>
 
                 <div class="col-lg-2 col-md-2 col-xs-12 form-group" style="padding-left: 0px; padding-top: 10px;">
-                    <select class="form-control" id="month" name="month" style="width: 100%;">
+                    <select class="form-control monthchange" id="month" name="month" style="width: 100%;">
                         <option disabled selected>-- Select Month --</option>
                         @foreach ($months as $month)
                             <option value="{{ $month->id }}" {{ date('F', strtotime('-1 month')) === $month->name ? 'selected' : null }}>{{ $month->name }}</option>
@@ -193,7 +193,7 @@
                 })
             })
 
-            $("#month").change(function(e) {
+            $(".monthchange").change(function(e) {
                 e.preventDefault();
 
                 load_table()
