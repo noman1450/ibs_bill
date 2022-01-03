@@ -46,7 +46,7 @@
                                     Bill No.: <strong>{{ $data->bill_no ?? '22112121' }}</strong>
                                 </p>
                                 <p class="font-14px">
-                                    Bill Date: <strong>{{ date('dS M, Y', strtotime($data->created_at)) }}</strong>
+                                    Bill Date: <strong>{{ date('jS M, Y', strtotime($data->created_at)) }}</strong>
                                 </p>
                                 <p style="margin-top: 15px">
                                     To
@@ -55,7 +55,7 @@
                                     {{ $data->send_to ?? '' }}
                                 </p>
 
-                                <p class="client-name">
+                                <p class="client-name" style="font-size:16px">
                                     <strong>
                                         {{ ucwords($data->client_name) ?? '' }}
                                     </strong>
