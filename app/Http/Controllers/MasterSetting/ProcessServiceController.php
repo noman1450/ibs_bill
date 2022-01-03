@@ -22,6 +22,12 @@ class ProcessServiceController extends Controller
 
     public function getData(Request $request)
     {
+        $condition = '';
+
+        if ($request->client_information_id) {
+            $condition = " and a.client_information_id = $request->client_information_id";
+        }
+
         $data = DB::select("
             select
                 a.id,
@@ -53,6 +59,7 @@ class ProcessServiceController extends Controller
                     a.year_id = $request->year_id
                 and
                     a.month_id = $request->month_id
+                $condition
         ");
 
         return datatables()->of($data)
@@ -68,7 +75,8 @@ class ProcessServiceController extends Controller
                 a.send_to,
                 a.bill_no,
                 a.created_at,
-                b.client_name
+                b.client_name,
+                b.address as client_address
             ")
             ->where('a.id', $id)
             ->first();
@@ -97,7 +105,8 @@ class ProcessServiceController extends Controller
                 a.send_to,
                 a.bill_no,
                 a.created_at,
-                b.client_name
+                b.client_name,
+                b.address as client_address
             ")
             ->where('a.id', $id)
             ->first();
@@ -121,6 +130,12 @@ class ProcessServiceController extends Controller
 
     public function store(Request $request)
     {
+        $condition = '';
+
+        if ($request->client_information_id) {
+            $condition = " and a.client_information_id = $request->client_information_id";
+        }
+
         $services = DB::select("
             select
                 a.id, a.from_information, c.client_name, c.address as client_address,
@@ -133,8 +148,11 @@ class ProcessServiceController extends Controller
                 where a.id not in (
                     select a.service_confiq_id from maintenace_bill_ledger a JOIN maintenace_bill b ON a.maintenace_bill_id=b.id
                     where b.year_id = $request->year and b.month_id = $request->month
-                    )
+                )
+                $condition
         ");
+
+        // dd($services);
 
         if (empty($services)) {
             $success = false;

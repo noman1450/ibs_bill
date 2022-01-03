@@ -48,7 +48,7 @@ class ServiceConfiqController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'to_information'             => 'required',
+            'to_information'             => 'nullable',
             'from_information'           => 'required',
             'software_name'              => 'required',
             'send_to'                    => 'required',
@@ -92,7 +92,7 @@ class ServiceConfiqController extends Controller
     public function update(Request $request, $id)
     {
          $validator = Validator::make($request->all(), [
-            'to_information'             => 'required',
+            'to_information'             => 'nullable',
             'from_information'           => 'required',
             'software_name'              => 'required',
             'send_to'                    => 'required',

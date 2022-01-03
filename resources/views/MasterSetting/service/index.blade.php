@@ -4,7 +4,7 @@
 <link rel="stylesheet" href="{{asset('plugins/datatables/dataTables.bootstrap.min.css')}}">
 @endsection
 
- 
+
 
 @section('content')
 <section class="content">
@@ -20,7 +20,7 @@
 			<div class="row">
 		        <div class="form-group col-lg-12 col-md-12 col-xs-12">
 		            <a href="{{ URL::to('services/create')}}"><input type="button" value="Create New" class="btn-success btn btn-sm button btn-flat pull-left" style="font-size: 12px; font-weight: bold;"></a>
-		        </div>				
+		        </div>
 			</div>
 
 			<div class="row">
@@ -40,7 +40,7 @@
 		                </thead>
 		                <tbody>
 		                </tbody>
-	              	</table>					
+	              	</table>
 				</div>
 			</div>
 
@@ -50,17 +50,10 @@
 </section>
 @endsection
 
-
-
-
-
 @section('script')
 <script src="{{asset('plugins/datatables/jquery.dataTables.min.js')}}"></script>
 <script src="{{asset('plugins/datatables/dataTables.bootstrap.min.js')}}"></script>
 
-<!-- <script src="{{url('js/jquery.min.js')}}"></script>
- -->
- 
 
 <script type="text/javascript">
 	$(document).ready(function() {
@@ -68,8 +61,8 @@
 	  	$('#branch-table').DataTable( {
 		    "processing":   true,
 		    "serverSide":   true,
-		    "paging":       true,
-		    "lengthChange": true,
+		    "paging":       false,
+		    "lengthChange": false,
 		    "searching":    true,
 		    "ordering":     true,
 		    "info":         true,
@@ -78,7 +71,7 @@
 				"url": 		"{{URL::to('/')}}/service",
 				"type": 	"GET",
 		        "dataType": "json",
-			},    
+			},
 		    "columns": [
 				{ "data": "customer" },
 				{ "data": "send_to" },
@@ -88,20 +81,20 @@
 				{ "data": "amount" },
 				{ "data": "Link",
                 "mRender": function (data, type, full) {
-                
+
                 if(full.valid == 1 ){
                   return '<a href="{{URL::to('/')}}/services/'+full.id+'/cancel"  onclick="return confirm(\'Do you really want to DELETE?\');" class="btn btn-danger btn-sm btn-flat"><span class="glyphicon glyphicon-trash"></span> Delete</a>';
-                  
+
                 }else{
                   return '<a href="{{URL::to('/')}}/services/'+full.id+'/reactive"   class="btn btn-success btn-sm btn-flat"><span class="glyphicon glyphicon-share-alt"></span> Reactive</a>';
                 }
               }
             },
-				{ "data": "Link", name: 'link', orderable: false, searchable: false}      
+				{ "data": "Link", name: 'link', orderable: false, searchable: false}
 		    ],
 		    "order": [[0, 'asc']]
 	  	});
-	});		
+	});
 
 
 
