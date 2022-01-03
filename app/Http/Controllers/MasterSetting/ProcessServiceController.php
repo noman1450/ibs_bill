@@ -236,7 +236,7 @@ class ProcessServiceController extends Controller
 
     public function send_mail(Request $request)
     {
-        $data['data'] = DB::table('maintenace_bill as a')
+        $data['info'] = DB::table('maintenace_bill as a')
             ->join('client_information as b', 'b.id', '=', 'a.client_information_id')
             ->selectRaw("
                 a.id,
