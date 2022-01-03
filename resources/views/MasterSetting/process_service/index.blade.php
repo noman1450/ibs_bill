@@ -3,6 +3,9 @@
 @section('style')
     <style>
         .ck-editor__editable {min-height: 150px;}
+        .ck.ck-content.ck-editor__editable.ck-rounded-corners.ck-editor__editable_inline p {
+            margin: 0;
+        }
     </style>
 @endsection
 
@@ -45,6 +48,11 @@
                         @foreach ($months as $month)
                             <option value="{{ $month->id }}" {{ date('F', strtotime('-1 month')) === $month->name ? 'selected' : null }}>{{ $month->name }}</option>
                         @endforeach
+                    </select>
+                </div>
+
+                <div class="col-lg-2 col-md-2 col-xs-12 form-group" style="padding-left: 0px; padding-top: 10px;">
+                    <select class="form-control" id="client_information_id" style="width: 100%;">
                     </select>
                 </div>
 
@@ -165,8 +173,19 @@
                 }).then(editor => {
                     window.editor = editor;
                     editor.ui.view.editable.element.style.height = '150px';
-                }).catch( err => {
-                    console.error( err.stack );
+                    editor.setData(`<p>Dear Sir,</p>
+<p>Here is the attached <span id="show-subject">${$('#month option:selected').text()} - ${$('#year').val()}</span> Software Maintenance due bill. Please pay as soon as possible.</p>
+
+<p>--</p>
+<p>Regards,</p>
+<p><strong>Abdullah Al Noman</strong></p>
+<p><strong>Co-Founder,</strong></p>
+<p><strong><a href="https://i-infotechsolution.com/">i-infotech Business Solution</a></strong></p>
+<p>House:126,Road-01,Avenue-3 , Mirpur-DOHS, Dhaka-1216</p>
+<p><strong>Cell: +88 01722565045</strong></p>
+                    `);
+                }).catch(err => {
+                    console.error(err.stack);
                 });
 
 
@@ -175,7 +194,8 @@
 
                 $.post("{{ url('/process_service') }}", {
                     year: $('#year').val(),
-                    month: $('#month').val()
+                    month: $('#month').val(),
+                    client_information_id: $('#client_information_id').val(),
                 }).then((data) => {
                     console.log(data);
                     $('#successMsg').css({
@@ -199,14 +219,20 @@
                 load_table()
             });
 
+            $("#client_information_id").change(function(e) {
+                e.preventDefault()
+
+                load_table()
+            })
+
             function load_table() {
                 var table = $('#designation_list_table').DataTable({
                     destroy:      true,
                     responsive:   true,
                     processing:   true,
                     serverSide:   true,
-                    paging:       true,
-                    lengthChange: true,
+                    paging:       false,
+                    lengthChange: false,
                     searching:    true,
                     ordering:     true,
                     info:         true,
@@ -221,6 +247,7 @@
                         data: function (query) {
                             query.year_id = $("#year").val()
                             query.month_id = $("#month").val()
+                            query.client_information_id = $("#client_information_id").val()
                         }
                     },
 
@@ -295,15 +322,17 @@
                 $('#to_email').val($(this).data('to_information'));
                 // $('#cc_email').val($(this).data('cc_email'));
                 $('#subject').val($('#month option:selected').text() +' - '+ $('#year').val())
+                // $('.ck.ck-content.ck-editor__editable.ck-rounded-corners.ck-editor__editable_inline p span#show-subject')
+                //     .text($('#month option:selected').text() +' - '+ $('#year').val())
 
-                let arr = $(this).data('cc_email').split(',')
-                $('#cc_email').select2({
-                    data: [...arr],
-                    tags: true
-                });
-                $('#cc_email').val([...arr]).trigger('change')
-
-                console.log($(this).data('cc_email'));
+                if ($(this).data('cc_email') != null) {
+                    let arr = $(this).data('cc_email').split(',')
+                    $('#cc_email').select2({
+                        data: [...arr],
+                        tags: true
+                    });
+                    $('#cc_email').val([...arr]).trigger('change')
+                }
 
                 $('#exampleModal').modal('show');
             });
