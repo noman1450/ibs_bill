@@ -14,7 +14,7 @@
 				<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
 			</div>
 		</div>
-		<form method="POST" action="{{ route('services.store') }}" onkeypress = "return event.keyCode != 13;" id="frm_data">
+		<form method="POST" action="{{ route('services.store') }}" onkeypress = "return event.keyCode != 13;">
 			@php $form_type ='create' @endphp
 			@include('MasterSetting/service/_form')
 		</form>
@@ -22,7 +22,7 @@
 
 
 
-	</div>		
+	</div>
 </section>
 @endsection
 
