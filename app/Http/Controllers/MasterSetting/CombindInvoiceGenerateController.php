@@ -94,6 +94,8 @@ class CombindInvoiceGenerateController extends Controller
 
         $data['bill_no'] = Service::generate_tr_number("maintenace_bill", "bill_no");
 
+        // dd($data);
+
         $pdf = PDF::loadView('mails.multiple', $data);
 
         if ($request->send_or_view === 'view') {

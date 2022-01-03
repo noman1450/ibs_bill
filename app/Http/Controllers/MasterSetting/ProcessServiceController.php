@@ -152,8 +152,6 @@ class ProcessServiceController extends Controller
                 $condition
         ");
 
-        // dd($services);
-
         if (empty($services)) {
             $success = false;
             $message = "Data already exists...!";
@@ -164,8 +162,9 @@ class ProcessServiceController extends Controller
                     $CheckClients_id = 0;
                 }
 
+                $bill_no = Service::generate_tr_number("maintenace_bill", "bill_no");
+
                 if ($CheckClients_id === 0) {
-                    $bill_no = Service::generate_tr_number("maintenace_bill", "bill_no");
                     $maintenance = new Maintenace;
 
                     $maintenance->client_information_id = $service->client_information_id;

@@ -6,7 +6,7 @@
     <div style="padding: 20px">
         <div>
             <p class="font-14px">
-                Bill No.: <strong>IBS-{{ $bill_no ?? '' }}</strong>
+                Bill No.: <strong>IBS-{{ ($multiple ? $bill_no : $info->bill_no) ?? '' }}</strong>
             </p>
             <p class="font-14px">
                 Bill Date: <strong>{{ date('jS M, Y') }}</strong>
