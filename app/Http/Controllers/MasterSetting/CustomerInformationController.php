@@ -87,14 +87,14 @@ class CustomerInformationController extends Controller
             'client_code' => 'nullable|string|max:45',
             'email' => 'nullable|string|email|max:45',
             'from_email' => 'nullable|string|email|max:100',
-            'cc_email' => 'nullable|string',
+            // 'cc_email' => 'nullable|string',
             'address' => 'required|string|max:255',
             'contact_person' => 'nullable|string|max:255',
         ]);
 
         $data['email'] = strtolower(trim($request->email));
         $data['from_email'] = strtolower(trim($request->from_email));
-        $data['cc_email'] = strtolower(trim($request->cc_email));
+        $data['cc_email'] = implode(',', $request->cc_email);
 
         DB::beginTransaction();
         try {
