@@ -147,8 +147,7 @@
                         'heading','bold', 'italic', 'link', 'blockQuote',
                         'alignment', 'selectAll', 'fontBackgroundColor',
                         'fontColor', 'fontSize', 'numberedList', 'bulletedList',
-                        'imageUpload', 'undo', 'redo', 'highlight', 'horizontalLine',
-                        'underline', 'subscript', 'superscript',
+                        'imageUpload', 'undo', 'redo', 'highlight', 'horizontalLine'
                     ]
 
                 }).then(editor => {
@@ -276,6 +275,18 @@
                 $('#client_id').val(e.params.data.id)
 
                 load_table()
+
+                $('#from_email').val(e.params.data.from_email)
+                $('#to_email').val(e.params.data.email)
+
+                if (e.params.data.cc_email != null) {
+                    let arr = e.params.data.cc_email.split(',')
+                    $('#cc_email').select2({
+                        data: [...arr],
+                        tags: true
+                    });
+                    $('#cc_email').val([...arr]).trigger('change')
+                }
 
                 $('#smbtBtn').show()
                 $('#viewBtn').show()
