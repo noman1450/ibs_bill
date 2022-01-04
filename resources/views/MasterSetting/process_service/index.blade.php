@@ -3,9 +3,9 @@
 @section('style')
     <style>
         .ck-editor__editable {min-height: 150px;}
-        .ck.ck-content.ck-editor__editable.ck-rounded-corners.ck-editor__editable_inline p {
+        /* .ck.ck-content.ck-editor__editable.ck-rounded-corners.ck-editor__editable_inline p {
             margin: 0;
-        }
+        } */
     </style>
 @endsection
 
@@ -174,15 +174,15 @@
                     window.editor = editor;
                     editor.ui.view.editable.element.style.height = '150px';
                     editor.setData(`<p>Dear Sir,</p>
-<p>Here is the attached <span id="show-subject">${$('#month option:selected').text()} - ${$('#year').val()}</span> Software Maintenance due bill. Please pay as soon as possible.</p>
+<p>Here is the attached Software Maintenance due bill. Please pay as soon as possible.</p>
 
 <p>--</p>
-<p>Regards,</p>
-<p><strong>Abdullah Al Noman</strong></p>
-<p><strong>Co-Founder,</strong></p>
-<p><strong><a href="https://i-infotechsolution.com/">i-infotech Business Solution</a></strong></p>
-<p>House:126,Road-01,Avenue-3 , Mirpur-DOHS, Dhaka-1216</p>
-<p><strong>Cell: +88 01722565045</strong></p>
+<line>Regards,</line> <br/>
+<line><strong>Abdullah Al Noman</strong></line> <br/>
+<line><strong>Co-Founder,</strong></line> <br/>
+<line><strong><a href="https://i-infotechsolution.com/">i-infotech Business Solution</a></strong></line> <br/>
+<line>House:126,Road-01,Avenue-3 , Mirpur-DOHS, Dhaka-1216</line> <br/>
+<line><strong>Cell: +88 01722565045</strong></line>
                     `);
                 }).catch(err => {
                     console.error(err.stack);
@@ -266,7 +266,8 @@
                             mRender: function (data, type, full) {
                                 return '<a target="_blank" href="{{ url("process_service") }}/'+full.maintenace_bill_ledger_id+'/edit" class="btn btn-success btn-sm btn-block"><i class="fa fa-edit"></i> Edit</a>'
                                     + '<a target="_blank" href="{{ url("view_process_service") }}/'+full.id+'" class="btn btn-info btn-sm btn-block"><i class="fa fa-eye"></i> View</a>'
-                                    + '<a href="#" data-master_id="'+full.id+'" data-to_information="'+full.to_information+'" data-from_information="'+full.from_information+'" data-cc_email="'+full.cc_email+'" class="btn showme btn-primary btn-sm btn-block"><i class="fa fa-send"></i> Mail ('+full.mail_count+')</a>';
+                                    + '<a href="#" data-master_id="'+full.id+'" data-to_information="'+full.to_information+'" data-from_information="'+full.from_information+'" data-cc_email="'+full.cc_email+'" class="btn showme btn-primary btn-sm btn-block"><i class="fa fa-send"></i> Mail ('+full.mail_count+')</a>'
+                                    + '<a href="{{ url("process_service_delete") }}/'+full.id+'/delete" class="btn btn-danger btn-sm btn-block"><i class="fa fa-trash"></i> Delete</a>';
                             },
                             orderable: false, searchable: false
                         }
@@ -322,8 +323,6 @@
                 $('#to_email').val($(this).data('to_information'));
                 // $('#cc_email').val($(this).data('cc_email'));
                 $('#subject').val($('#month option:selected').text() +' - '+ $('#year').val())
-                // $('.ck.ck-content.ck-editor__editable.ck-rounded-corners.ck-editor__editable_inline p span#show-subject')
-                //     .text($('#month option:selected').text() +' - '+ $('#year').val())
 
                 if ($(this).data('cc_email') != null) {
                     let arr = $(this).data('cc_email').split(',')

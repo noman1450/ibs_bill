@@ -70,6 +70,7 @@ Route::middleware('auth')->group(function() {
     Route::post('process_service',	'MasterSetting\ProcessServiceController@store');
     Route::get('process_service/{id}/show', 'MasterSetting\ProcessServiceController@show')->name('process_service.show');
     Route::get('view_process_service/{id}',	'MasterSetting\ProcessServiceController@view');
+    Route::get('process_service_delete/{id}/delete', 'MasterSetting\ProcessServiceController@delete');
     Route::post('process_service/send_mail',	'MasterSetting\ProcessServiceController@send_mail');
     Route::get('process_service/{id}/edit',	'MasterSetting\ProcessServiceController@edit');
     Route::patch('process_service/{id}/update',	'MasterSetting\ProcessServiceController@update')->name('process_service.update');

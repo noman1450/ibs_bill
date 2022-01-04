@@ -68,6 +68,7 @@ class CombindInvoiceGenerateController extends Controller
         $data['info'] = DB::table('maintenace_bill as a')
             ->selectRaw("
                 a.id,
+                b.client_code,
                 b.client_name,
                 b.address as client_address,
                 b.from_email,
@@ -94,12 +95,10 @@ class CombindInvoiceGenerateController extends Controller
 
         $data['bill_no'] = Service::generate_tr_number("maintenace_bill", "bill_no");
 
-        // dd($data);
-
         $pdf = PDF::loadView('mails.multiple', $data);
 
         if ($request->send_or_view === 'view') {
-            return $pdf->stream('invoice.pdf');
+            return $pdf->stream('combined_bill.pdf');
         }
         elseif ($request->send_or_view === 'send') {
             $mailData['to_email'] = $request->to_email;
@@ -123,7 +122,7 @@ class CombindInvoiceGenerateController extends Controller
                         ->from($mailData["from_email"], $mailData['sender_name'])
                         ->to($mailData['to_email'])
                         ->subject($mailData["subject"])
-                        ->attachData($pdf->output(), "invoice.pdf");
+                        ->attachData($pdf->output(), "combined_bill.pdf");
                 });
 
                 return back()->with('message', 'Mail Send Successfully..!');

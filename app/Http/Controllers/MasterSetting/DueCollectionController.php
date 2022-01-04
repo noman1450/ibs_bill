@@ -22,7 +22,7 @@ class DueCollectionController extends Controller
 
     public function customer_name_list(Request $request)
     {
-        $data = DB::SELECT("SELECT id, CONCAT(ifnull(client_code,''),' | ', client_name) as text FROM client_information 
+        $data = DB::SELECT("SELECT id, CONCAT(ifnull(client_code,''),' | ', client_name) as text, from_email  FROM client_information
              WHERE  client_name  LIKE '%$request->term%' OR client_code LIKE '%$request->term%'");
 
         return response()->json($data);

@@ -106,6 +106,7 @@ class ProcessServiceController extends Controller
                 a.bill_no,
                 a.created_at,
                 b.client_name,
+                b.client_code,
                 b.address as client_address
             ")
             ->where('a.id', $id)
@@ -118,14 +119,19 @@ class ProcessServiceController extends Controller
                 a.id,
                 b.payableamount as amount,
                 b.software_name,
-                concat_ws(' - ', c.name, a.year_id) as month_year
+                concat_ws(' - ', c.name, a.year_id) as month_year,
+                concat_ws('_', lower(substring(c.name, 1, 3)), a.year_id) as month_year_pdf
             ")
             ->where('a.id', $id)
             ->get();
 
+        $client_code = $data['info']->client_code !== null ? $data['info']->client_code.'_' : '';
+
+        $pdf_name = $client_code . $data['details'][0]->month_year_pdf;
+
         $pdf = PDF::loadView('mails.pdf', $data);
 
-        return $pdf->stream('invoice.pdf');
+        return $pdf->stream($pdf_name.'.pdf');
     }
 
     public function store(Request $request)
@@ -245,6 +251,7 @@ class ProcessServiceController extends Controller
                 a.created_at,
                 b.client_name,
                 b.address as client_address,
+                b.client_code,
                 b.from_email,
                 b.email as customer_email,
                 b.cc_email
@@ -259,10 +266,15 @@ class ProcessServiceController extends Controller
                 a.id,
                 b.payableamount as amount,
                 b.software_name,
-                concat_ws(' - ', c.name, a.year_id) as month_year
+                concat_ws(' - ', c.name, a.year_id) as month_year,
+                concat_ws('_', lower(substring(c.name, 1, 3)), a.year_id) as month_year_pdf
             ")
             ->where('a.id', $request->maintenace_bill_id)
             ->get();
+
+        $client_code = $data['info']->client_code !== null ? $data['info']->client_code.'_' : '';
+
+        $mailData['pdf_name'] = $client_code . $data['details'][0]->month_year_pdf.'.pdf';
 
         $pdf = PDF::loadView('mails.pdf', $data);
 
@@ -286,7 +298,7 @@ class ProcessServiceController extends Controller
                     ->from($mailData["from_email"], $mailData['sender_name'])
                     ->to($mailData['to_email'])
                     ->subject($mailData["subject"])
-                    ->attachData($pdf->output(), "invoice.pdf");
+                    ->attachData($pdf->output(), $mailData['pdf_name']);
             });
 
             DB::table('maintenace_bill')
@@ -295,6 +307,28 @@ class ProcessServiceController extends Controller
 
             return back()->with('message', 'Mail Send Successfully..!');
         } catch (\Exception $e) {
+            dd($e->getMessage());
+        }
+    }
+
+    public function delete($id)
+    {
+        DB::beginTransaction();
+        try {
+            Maintenace::query()
+                ->findOrFail($id)->delete();
+
+            MaintenaceBillLedger::query()
+                ->where('maintenace_bill_id', $id)
+                ->get()
+                ->each->delete();
+
+            DB::commit();
+
+            return back()->with('message', 'Data has been deleted..!');
+        } catch (\Exception $e) {
+            DB::rollBack();
+
             dd($e->getMessage());
         }
     }
