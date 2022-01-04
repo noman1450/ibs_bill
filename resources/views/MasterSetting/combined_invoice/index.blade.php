@@ -297,6 +297,10 @@
 
                 load_table()
 
+                $('#from_email').val('')
+                $('#to_email').val('')
+                $('#cc_email').val('')
+
                 $('#smbtBtn').hide()
                 $('#viewBtn').hide()
             })
