@@ -146,6 +146,15 @@ class MoneyReceiptController extends Controller
         }
     }
 
+    public function pdfView($id)
+    {
+        $money_receipt['money_receipt'] = $this->getSingleData(decrypt($id));
+
+        $pdf = PDF::loadView('mails.money_receipt', $money_receipt);
+
+        return $pdf->stream('money_receipt.pdf');
+    }
+
     protected function getSingleData($id)
     {
         return DB::table('money_receipt as a')

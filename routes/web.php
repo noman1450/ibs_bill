@@ -98,6 +98,7 @@ Route::middleware('auth')->group(function() {
     // Money Receipt Controller
     Route::get('get-money_receipt-data', 'MasterSetting\MoneyReceiptController@getData');
     Route::post('money_receipt/{id}/send', 'MasterSetting\MoneyReceiptController@send')->name('money_receipt.send');
+    Route::post('money_receipt/{id}/pdf', 'MasterSetting\MoneyReceiptController@pdfView')->name('money_receipt.pdf');
     Route::resource('money_receipt', 'MasterSetting\MoneyReceiptController');
     // ! Money Receipt Controller
 });
