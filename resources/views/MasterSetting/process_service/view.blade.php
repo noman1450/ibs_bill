@@ -123,6 +123,10 @@
                             </div>
 
                             <div style="padding-right:20px;margin-top:100px;">
+                                <div style="text-align:right;margin-bottom:-90px;margin-right:185px">
+                                    <img src="https://i-infotechsolution.com/assets/ibs/seal.png" width="100">
+                                </div>
+
                                 <div style="text-align:right">
                                     <img src="https://i-infotechsolution.com/assets/ibs/signature.jpg" width="150">
 
