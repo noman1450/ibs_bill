@@ -9,7 +9,7 @@
                 Bill No.: <strong>{{ ($multiple ? 'IBS-'.$bill_no : $info->bill_no) ?? '' }}</strong>
             </p>
             <p class="font-14px">
-                Bill Date: <strong>{{ date('jS M, Y') }}</strong>
+                Bill Date: <strong>{{ ($multiple ? date('jS M, Y') : date('jS M, Y', strtotime($info->created_at))) ?? '' }}</strong>
             </p>
             <p style="margin-top: 15px">
                 To

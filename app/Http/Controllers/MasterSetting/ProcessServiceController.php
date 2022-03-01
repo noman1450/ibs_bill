@@ -127,7 +127,7 @@ class ProcessServiceController extends Controller
 
         $client_code = $data['info']->client_code !== null ? $data['info']->client_code.'_' : '';
 
-        $pdf_name = $client_code . $data['details'][0]->month_year_pdf;
+        $pdf_name = $client_code.$data['details'][0]->month_year_pdf;
 
         $pdf = PDF::loadView('mails.pdf', $data);
 
