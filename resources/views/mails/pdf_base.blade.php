@@ -74,15 +74,21 @@
 </main>
 
 <footer>
-    <div style="padding-right: 20px">
-        <div style="text-align:right">
-            <img src="https://i-infotechsolution.com/assets/ibs/signature.jpg" width="150">
+    <div>
+        <div style="text-align:center;margin-bottom:-90px;margin-right:-100px">
+            <img src="https://i-infotechsolution.com/assets/ibs/seal.png" width="150">
+        </div>
 
-            <p>
-                -------------------------------------
-            </p>
+        <div style="padding-right: 20px">
+            <div style="text-align:right">
+                <img src="https://i-infotechsolution.com/assets/ibs/signature.jpg" width="150">
 
-            <p class="font-14px">Authorized Signature</p>
+                <p>
+                    -------------------------------------
+                </p>
+
+                <p class="font-14px">Authorized Signature</p>
+            </div>
         </div>
     </div>
 
