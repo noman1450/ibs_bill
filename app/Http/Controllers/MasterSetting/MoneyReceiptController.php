@@ -21,10 +21,14 @@ class MoneyReceiptController extends Controller
     {
         $money_receipt = DB::table('money_receipt as a')
             ->join('client_information as b', 'a.client_information_id', '=', 'b.id')
-            ->select('a.*', 'b.client_name')
             ->selectRaw("
+                a.*,
+                concat_ws(' | ', b.client_name, b.client_code) as client_name,
                 date_format(a.date, '%d %b, %Y') as date
             ")
+            ->when(request()->client_information_id, function($q) {
+                $q->where('a.client_information_id', request()->client_information_id);
+            })
             ->get();
 
         return datatables()->of($money_receipt)
@@ -56,11 +60,12 @@ class MoneyReceiptController extends Controller
         try {
             $bill_no = Service::generate_tr_number("money_receipt", "receipt_no");
 
-            MoneyReceipt::create(
+            $money_receipt_id = MoneyReceipt::create(
                 array_merge($data, ['receipt_no' => 'MR-'.$bill_no, 'users_id' => auth()->id()])
-            );
+            )->id;
 
-            return redirect()->route('money_receipt.index')->with('message', 'Money receipt has been created..!!');
+            return redirect()->route('money_receipt.show', encrypt($money_receipt_id))
+                ->with('message', 'Money receipt has been created..!!');
         } catch (\Exception $e) {
             return back()->with('message', $e->getMessage());
         }
