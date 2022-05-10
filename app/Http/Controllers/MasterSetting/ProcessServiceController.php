@@ -288,7 +288,6 @@ class ProcessServiceController extends Controller
         $mailData["body"] = $request->body;
 
         try {
-
             Mail::send('mails.mail', $mailData, function($message) use ($mailData, $pdf) {
                 if (!empty($mailData['cc_email'])) {
                     $message->cc($mailData['cc_email']);
