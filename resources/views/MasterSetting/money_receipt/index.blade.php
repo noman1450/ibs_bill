@@ -31,27 +31,25 @@
 		        </div>
 			</div>
 
-			<div class="row">
-				<div class="form-group col-lg-12 col-md-12 col-xs-12">
-	              	<table id="money_receipt-table" class="table table-bordered table-hover">
-		                <thead>
-			                <tr>
-                                <th></th>
-			                  	<th style="width: 10%">ReceiptNo</th>
-			                  	<th style="width: 10%">ReceiptType</th>
-			                  	<th style="width: 10%">CustomerName</th>
-			                  	<th style="width: 15%">ChargeFor</th>
-			                  	<th style="width: 10%">Amount</th>
-			                  	<th style="width: 10%">Date</th>
-			                  	<th style="width: 10%">BankName</th>
-			                  	<th style="width: 15%">CheckNo</th>
-			                  	<th style="width: 10%">Action</th>
-			                </tr>
-		                </thead>
-		                <tbody>
-		                </tbody>
-	              	</table>
-				</div>
+			<div class="table-responsive">
+              	<table id="money_receipt-table" class="table table-bordered table-hover">
+	                <thead>
+		                <tr>
+                            <th></th>
+		                  	<th style="width: 10%">ReceiptNo</th>
+		                  	<th style="width: 10%">ReceiptType</th>
+		                  	<th style="width: 10%">CustomerName</th>
+		                  	<th style="width: 15%">ChargeFor</th>
+		                  	<th style="width: 10%">Amount</th>
+		                  	<th style="width: 10%">Date</th>
+		                  	<th style="width: 10%">BankName</th>
+		                  	<th style="width: 15%">CheckNo</th>
+		                  	<th style="width: 10%">Action</th>
+		                </tr>
+	                </thead>
+	                <tbody>
+	                </tbody>
+              	</table>
 			</div>
 		</div>
 	</div>

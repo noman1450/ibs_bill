@@ -65,28 +65,26 @@
         </div>
 
         <div class="box-body">
-            <div class="row">
-                <div class="form-group col-lg-12 col-md-12 col-xs-12">
-                    <table id="designation_list_table" class="table table-striped table-bordered" width="100%">
-                        <thead>
-                            <tr>
-                                <th style="width: 8%">BillNo</th>
-                                <th style="width: 8%">BillDate</th>
-                                <th style="width: 10%">MonthYear</th>
-                                <th style="width: 10%">CustomerName</th>
-                                <th style="width: 10%">SendTo</th>
-                                <th style="width: 10%">FromEmail</th>
-                                <th style="width: 10%">ToEmail</th>
-                                <th style="width: 14%">CC-Email</th>
-                                <th style="width: 5%">Amount</th>
-                                <th style="width: 15%">SoftwareName</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        </tbody>
-                    </table>
-                </div>
+            <div class="table-responsive">
+                <table id="designation_list_table" class="table table-striped table-bordered" width="100%">
+                    <thead>
+                        <tr>
+                            <th style="width: 8%">BillNo</th>
+                            <th style="width: 8%">BillDate</th>
+                            <th style="width: 10%">MonthYear</th>
+                            <th style="width: 10%">CustomerName</th>
+                            <th style="width: 10%">SendTo</th>
+                            <th style="width: 10%">FromEmail</th>
+                            <th style="width: 10%">ToEmail</th>
+                            <th style="width: 14%">CC-Email</th>
+                            <th style="width: 5%">Amount</th>
+                            <th style="width: 15%">SoftwareName</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>

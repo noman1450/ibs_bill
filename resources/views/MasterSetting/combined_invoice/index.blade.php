@@ -41,92 +41,90 @@
         </div>
 
         <div class="box-body">
-            <div class="row">
-                <div class="form-group col-lg-12 col-md-12 col-xs-12">
-                    <form action="{{ url('/process_service_generate') }}" method="post" target="_blank">
-                        @csrf
+            <div class="table-responsive">
+                <form action="{{ url('/process_service_generate') }}" method="post" target="_blank">
+                    @csrf
 
-                        <input type="hidden" name="client_id" id="client_id">
+                    <input type="hidden" name="client_id" id="client_id">
 
-                        <table id="designation_list_table" class="table table-striped table-bordered" width="100%">
-                            <thead>
-                                <tr>
-                                    <th  style="width: 3%">
-                                        <input name="select_all" value="1" id="example-select-all" type="checkbox" />
-                                    </th>
-                                    <th style="width: 10%">BillNo</th>
-                                    <th style="width: 10%">BillDate</th>
-                                    <th style="width: 10%">MonthYear</th>
-                                    <th style="width: 10%">CustomerName</th>
-                                    <th style="width: 10%">SendTo</th>
-                                    <th style="width: 10%">FromEmail</th>
-                                    <th style="width: 10%">ToEmail</th>
-                                    <th style="width: 10%">CC-Email</th>
-                                    <th style="width: 10%">Amount</th>
-                                    <th style="width: 10%">SoftwareName</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            </tbody>
-                        </table>
+                    <table id="designation_list_table" class="table table-striped table-bordered" width="100%">
+                        <thead>
+                            <tr>
+                                <th  style="width: 3%">
+                                    <input name="select_all" value="1" id="example-select-all" type="checkbox" />
+                                </th>
+                                <th style="width: 10%">BillNo</th>
+                                <th style="width: 10%">BillDate</th>
+                                <th style="width: 10%">MonthYear</th>
+                                <th style="width: 10%">CustomerName</th>
+                                <th style="width: 10%">SendTo</th>
+                                <th style="width: 10%">FromEmail</th>
+                                <th style="width: 10%">ToEmail</th>
+                                <th style="width: 10%">CC-Email</th>
+                                <th style="width: 10%">Amount</th>
+                                <th style="width: 10%">SoftwareName</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
 
-                        <div class="text-center">
-                            <button type="button" id="smbtBtn" data-toggle="modal" data-target="#exampleModal" class="btn btn-success" style="display: none"><i class="fa fa-envelope"></i> Configure Email</button>
-                            <button type="submit" id="viewBtn" name="send_or_view" value="view" class="btn btn-primary" style="display: none">View</button>
-                        </div>
+                    <div class="text-center">
+                        <button type="button" id="smbtBtn" data-toggle="modal" data-target="#exampleModal" class="btn btn-success" style="display: none"><i class="fa fa-envelope"></i> Configure Email</button>
+                        <button type="submit" id="viewBtn" name="send_or_view" value="view" class="btn btn-primary" style="display: none">View</button>
+                    </div>
 
 
-                        <!-- Modal -->
-                        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h3 class="modal-title" id="exampleModalLabel">Send Mail Configuration</h3>
+                    <!-- Modal -->
+                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h3 class="modal-title" id="exampleModalLabel">Send Mail Configuration</h3>
+                                </div>
+
+                                <div class="modal-body" id="modal_body">
+                                    <div class="form-group">
+                                        <label>From Email</label>
+                                        <input type="email" class="form-control" id="from_email" name="from_email" value="" placeholder="from_email">
                                     </div>
 
-                                    <div class="modal-body" id="modal_body">
-                                        <div class="form-group">
-                                            <label>From Email</label>
-                                            <input type="email" class="form-control" id="from_email" name="from_email" value="" placeholder="from_email">
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label>Sender Name</label>
-                                            <input type="text" class="form-control" id="sender_name" name="sender_name" value="I-infotech Business Solution">
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label>To</label>
-                                            <input type="email" class="form-control" id="to_email" name="to_email" value="" placeholder="to_email">
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label>CC</label>
-                                            <select class="form-control tagable" id="cc_email" name="cc_email[]" multiple style="width: 100%">
-                                            </select>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label>Subject</label>
-                                            <input type="text" class="form-control" id="subject" name="subject" placeholder="Subject.." value="{{ date('F', strtotime('-1 month')).' - '.date('Y') }}">
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label>Body</label>
-                                            <textarea class="form-control" id="editor" name="body" rows="5" placeholder="Email Body..">Lorem, ipsum dolor.</textarea>
-                                        </div>
+                                    <div class="form-group">
+                                        <label>Sender Name</label>
+                                        <input type="text" class="form-control" id="sender_name" name="sender_name" value="I-infotech Business Solution">
                                     </div>
 
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                        <button type="submit" name="send_or_view" value="send" class="btn btn-primary"><i class="fa fa-send"></i> Send Mail</button>
+                                    <div class="form-group">
+                                        <label>To</label>
+                                        <input type="email" class="form-control" id="to_email" name="to_email" value="" placeholder="to_email">
                                     </div>
+
+                                    <div class="form-group">
+                                        <label>CC</label>
+                                        <select class="form-control tagable" id="cc_email" name="cc_email[]" multiple style="width: 100%">
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Subject</label>
+                                        <input type="text" class="form-control" id="subject" name="subject" placeholder="Subject.." value="{{ date('F', strtotime('-1 month')).' - '.date('Y') }}">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Body</label>
+                                        <textarea class="form-control" id="editor" name="body" rows="5" placeholder="Email Body..">Lorem, ipsum dolor.</textarea>
+                                    </div>
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="submit" name="send_or_view" value="send" class="btn btn-primary"><i class="fa fa-send"></i> Send Mail</button>
                                 </div>
                             </div>
                         </div>
-                    </form>
-                </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

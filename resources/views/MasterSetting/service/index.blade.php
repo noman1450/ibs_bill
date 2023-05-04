@@ -4,13 +4,11 @@
 <link rel="stylesheet" href="{{asset('plugins/datatables/dataTables.bootstrap.min.css')}}">
 @endsection
 
-
-
 @section('content')
 <section class="content">
 	<div class="box box-default">
 		<div class="box-header with-border">
-			<h3 class="box-title">Service Information List</h3>
+		    <h3 class="box-title">Service Information List</h3>
 			<div class="box-tools pull-right">
 				<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
 			</div>
@@ -23,29 +21,25 @@
 		        </div>
 			</div>
 
-			<div class="row">
-				<div class="form-group col-lg-12 col-md-12 col-xs-12">
-	              	<table id="branch-table" class="table table-bordered table-hover">
-		                <thead>
-			                <tr>
-			                  	<th>Customer Name</th>
-			                  	<th>Send To</th>
-			                  	<th>From Information</th>
-			                  	<th>To Information</th>
-			                  	<th>Software Name</th>
-			                  	<th>Amount</th>
-			                  	<th>Active Status</th>
-			                  	<th>Action</th>
-			                </tr>
-		                </thead>
-		                <tbody>
-		                </tbody>
-	              	</table>
-				</div>
+			<div class="table-responsive">
+              	<table id="branch-table" class="table table-bordered table-hover">
+	                <thead>
+		                <tr>
+		                  	<th>Customer Name</th>
+		                  	<th>Send To</th>
+		                  	<th>From Information</th>
+		                  	<th>To Information</th>
+		                  	<th>Software Name</th>
+		                  	<th>Amount</th>
+		                  	<th>Active Status</th>
+		                  	<th>Action</th>
+		                </tr>
+	                </thead>
+	                <tbody>
+	                </tbody>
+              	</table>
 			</div>
-
 		</div>
-
 	</div>
 </section>
 @endsection

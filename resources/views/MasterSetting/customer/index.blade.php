@@ -27,33 +27,29 @@
 		        </div>
 			</div>
 
-			<div class="row">
-				<div class="form-group col-lg-12 col-md-12 col-xs-12">
-	              	<table id="customer-table" class="table table-bordered table-hover">
-		                <thead>
-			                <tr>
-			                  	<th style="width: 5%">Code</th>
-			                  	<th style="width: 10%">CustomerName</th>
-			                  	<th style="width: 10%">FromEmail</th>
-			                  	<th style="width: 10%">CustomerEmail</th>
-			                  	<th style="width: 25%">CC-Email</th>
-			                  	<th style="width: 20%">Address</th>
-			                  	<th style="width: 10%">ContactPerson</th>
-			                  	<th style="width: 5%">Active</th>
-			                  	<th style="width: 5%">Action</th>
-			                </tr>
-		                </thead>
-		                <tbody>
-		                </tbody>
-	              	</table>
-				</div>
+			<div class="table-responsive">
+              	<table id="customer-table" class="table table-bordered table-hover">
+	                <thead>
+		                <tr>
+		                  	<th style="width: 5%">Code</th>
+		                  	<th style="width: 10%">CustomerName</th>
+		                  	<th style="width: 10%">FromEmail</th>
+		                  	<th style="width: 10%">CustomerEmail</th>
+		                  	<th style="width: 25%">CC-Email</th>
+		                  	<th style="width: 20%">Address</th>
+		                  	<th style="width: 10%">ContactPerson</th>
+		                  	<th style="width: 5%">Active</th>
+		                  	<th style="width: 5%">Action</th>
+		                </tr>
+	                </thead>
+	                <tbody>
+	                </tbody>
+              	</table>
 			</div>
 		</div>
 	</div>
 </section>
 @endsection
-
-
 
 
 
