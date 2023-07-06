@@ -222,7 +222,7 @@ class ProcessServiceController extends Controller
         $request->validate([
             'bill_no' => 'required',
             'created_at' => 'required',
-            'send_to' => 'required',
+            'send_to' => 'nullable',
             'payableamount' => 'required',
             'software_name' => 'required',
         ]);

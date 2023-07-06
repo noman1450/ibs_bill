@@ -117,7 +117,7 @@
 
                                             <tr>
                                                 <td colspan="3" style="text-align:right">
-                                                    <p style="font-weight:900;font-size:12px">VAT ({{ $data->vat }} %)</p>
+                                                    <p style="font-weight:900;font-size:12px">+ VAT ({{ $data->vat }} %)</p>
                                                 </td>
 
                                                 @php($vatAmount = $totalAmt * $data->vat / 100)
@@ -155,7 +155,7 @@
                                 </table>
 
                                 <p class="font-14px" style="margin-top:10px">In-Words: <strong>
-                                    {{ ucwords(\Riskihajar\Terbilang\Facades\Terbilang::make($totalAmt)) ?? '' }} Tk. Only
+                                    {{ ucwords(\Riskihajar\Terbilang\Facades\Terbilang::make(round($totalAmt))) ?? '' }} Tk. Only
                                 </strong></p>
                             </div>
 
