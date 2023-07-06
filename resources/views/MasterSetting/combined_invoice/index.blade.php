@@ -9,40 +9,40 @@
 
 @section('content')
     <div class="box box-default">
-        <div class="box-header with-border">
-            <h3 class="box-title">Process Service List</h3>
-            <div class="box-tools pull-right">
-                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+        <form action="{{ url('/process_service_generate') }}" method="post" target="_blank">
+            <div class="box-header with-border">
+                <h3 class="box-title">Process Service List</h3>
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                </div>
+
+                <div class="row" style="margin-left:10px;">
+
+                    <div class="col-lg-2 col-md-2 col-xs-12 form-group" style="padding-left: 0px; padding-top: 10px;">
+                        <select class="form-control" id="year" name="year" style="width: 100%;">
+                            <option>{{ date('Y', strtotime('-1 year')) }}</option>
+                            <option selected>{{ date('Y') }}</option>
+                            <option>{{ date('Y', strtotime('+1 year')) }}</option>
+                        </select>
+                    </div>
+
+                    <div class="col-lg-2 col-md-2 col-xs-12 form-group" style="padding-left: 0px; padding-top: 10px;">
+                        <select class="form-control" id="month" name="month" multiple style="width: 100%;">
+                            @foreach ($months as $month)
+                                <option value="{{ $month->id }}" {{ date('F', strtotime('-1 month')) === $month->name ? 'selected' : null }}>{{ $month->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="col-lg-2 col-md-2 col-xs-12 form-group" style="padding-left: 0px; padding-top: 10px;">
+                        <select class="form-control" id="client_information_id" name="client_information_id" style="width: 100%;">
+                        </select>
+                    </div>
+                </div>
             </div>
 
-            <div class="row" style="margin-left:10px;">
-
-                <div class="col-lg-2 col-md-2 col-xs-12 form-group" style="padding-left: 0px; padding-top: 10px;">
-                    <select class="form-control" id="year" name="year" style="width: 100%;">
-                        <option>{{ date('Y', strtotime('-1 year')) }}</option>
-                        <option selected>{{ date('Y') }}</option>
-                        <option>{{ date('Y', strtotime('+1 year')) }}</option>
-                    </select>
-                </div>
-
-                <div class="col-lg-2 col-md-2 col-xs-12 form-group" style="padding-left: 0px; padding-top: 10px;">
-                    <select class="form-control" id="month" name="month" multiple style="width: 100%;">
-                        @foreach ($months as $month)
-                            <option value="{{ $month->id }}" {{ date('F', strtotime('-1 month')) === $month->name ? 'selected' : null }}>{{ $month->name }}</option>
-                        @endforeach
-                    </select>
-                </div>
-
-                <div class="col-lg-2 col-md-2 col-xs-12 form-group" style="padding-left: 0px; padding-top: 10px;">
-                    <select class="form-control" id="client_information_id" name="client_information_id" style="width: 100%;">
-                    </select>
-                </div>
-            </div>
-        </div>
-
-        <div class="box-body">
-            <div class="table-responsive">
-                <form action="{{ url('/process_service_generate') }}" method="post" target="_blank">
+            <div class="box-body">
+                <div class="table-responsive">
                     @csrf
 
                     <input type="hidden" name="client_id" id="client_id">
@@ -74,7 +74,6 @@
                         <button type="button" id="smbtBtn" data-toggle="modal" data-target="#exampleModal" class="btn btn-success" style="display: none"><i class="fa fa-envelope"></i> Configure Email</button>
                         <button type="submit" id="viewBtn" name="send_or_view" value="view" class="btn btn-primary" style="display: none">View</button>
                     </div>
-
 
                     <!-- Modal -->
                     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -124,9 +123,9 @@
                             </div>
                         </div>
                     </div>
-                </form>
+                </div>
             </div>
-        </div>
+        </form>
     </div>
 @endsection
 

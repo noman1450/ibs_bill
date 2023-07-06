@@ -16,7 +16,7 @@
 		</div>
 		<form method="POST" action="{{ route('services.store') }}" onkeypress = "return event.keyCode != 13;">
 			@php $form_type ='create' @endphp
-			@include('MasterSetting/service/_form')
+			@include('MasterSetting.service._form')
 		</form>
 
 

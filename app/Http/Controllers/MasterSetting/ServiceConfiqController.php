@@ -22,8 +22,9 @@ class ServiceConfiqController extends Controller
         $service  =  DB::SELECT("SELECT
             service_confiq.id,
             concat(client_information.client_name, coalesce(concat(' | ', client_information.client_code), '')) AS customer,
-            service_confiq.to_information,service_confiq.from_information,service_confiq.software_name,service_confiq.amount,service_confiq.send_to,service_confiq.valid,
-            CASE WHEN service_confiq.valid = 1 THEN 'Active' ELSE 'Inactive' END active_status
+            service_confiq.to_information,service_confiq.from_information,service_confiq.software_name,service_confiq.amount,vat,service_confiq.send_to,service_confiq.valid,
+            CASE WHEN service_confiq.valid = 1 THEN 'Active' ELSE 'Inactive' END active_status,
+            if(is_apply_vat = 1, 'Yes', 'No') is_apply_vat
             FROM service_confiq
             JOIN
             client_information ON service_confiq.client_information_id = client_information.id");
@@ -40,13 +41,13 @@ class ServiceConfiqController extends Controller
 
     public function create()
     {
-        $clients=Clients::all();
+        $clients = Clients::all();
 
         return view("MasterSetting.service.create", compact('clients'));
     }
 
     public function store(Request $request)
-    {
+    {dd($request->all());
         $validator = Validator::make($request->all(), [
             'to_information'             => 'nullable',
             'from_information'           => 'nullable',
@@ -70,6 +71,8 @@ class ServiceConfiqController extends Controller
             $insert_service->valid                   = 1;
             $insert_service->client_information_id   = $request->client_id;
             $insert_service->send_to                 = $request->send_to;
+            $insert_service->vat                     = $request->vat;
+            $insert_service->is_apply_vat            = $request->boolean('is_apply_vat');
             $insert_service->save();
 
             DB::commit();
@@ -116,6 +119,8 @@ class ServiceConfiqController extends Controller
             $insert_service->valid                   = $request->active_status;
             $insert_service->client_information_id   = $request->client_id;
             $insert_service->send_to                 = $request->send_to;
+            $insert_service->vat                     = $request->vat;
+            $insert_service->is_apply_vat            = $request->boolean('is_apply_vat');
             $insert_service->save();
 
             DB::commit();

@@ -31,7 +31,9 @@
 		                  	<th>To Information</th>
 		                  	<th>Software Name</th>
 		                  	<th>Amount</th>
-		                  	<th>Active Status</th>
+		                  	<th>Vat</th>
+		                  	<th>Vat Applicable</th>
+		                  	<th>Delete</th>
 		                  	<th>Action</th>
 		                </tr>
 	                </thead>
@@ -73,6 +75,8 @@
 				{ "data": "to_information" },
 			    { "data": "software_name" },
 				{ "data": "amount" },
+				{ "data": "vat" },
+				{ "data": "is_apply_vat" },
 				{ "data": "Link",
                 "mRender": function (data, type, full) {
 

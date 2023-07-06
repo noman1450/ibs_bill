@@ -42,7 +42,7 @@ return [
     */
 
     // 'debug' => (bool) env('APP_DEBUG', false),
-    'debug' => (bool) false,//env('APP_DEBUG', false),
+    'debug' => (bool) true,//env('APP_DEBUG', false),
 
     /*
     |--------------------------------------------------------------------------
@@ -167,7 +167,7 @@ return [
         Illuminate\View\ViewServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,
         Yajra\DataTables\DataTablesServiceProvider::class,
-      
+
 
         /*
          * Package Service Providers...

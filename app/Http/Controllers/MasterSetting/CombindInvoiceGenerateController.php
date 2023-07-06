@@ -74,10 +74,13 @@ class CombindInvoiceGenerateController extends Controller
                 b.from_email,
                 b.email as customer_email,
                 b.cc_email,
-                a.send_to
+                a.send_to,
+                a.vat,
+                a.is_apply_vat
             ")
             ->join('client_information as b', 'a.client_information_id', '=', 'b.id')
             ->where('b.id', $request->client_id)
+            ->where('a.month_id', $request->month)
             ->first();
 
         $data['details'] = DB::table('maintenace_bill as a')
@@ -112,7 +115,6 @@ class CombindInvoiceGenerateController extends Controller
 
 
             try {
-
                 Mail::send('mails.mail', $mailData, function($message) use ($mailData, $pdf) {
                     if (!empty($mailData['cc_email'])) {
                         $message->cc($mailData['cc_email']);

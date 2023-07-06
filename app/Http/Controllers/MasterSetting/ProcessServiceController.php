@@ -74,6 +74,8 @@ class ProcessServiceController extends Controller
                 a.id,
                 a.send_to,
                 a.bill_no,
+                a.vat,
+                a.is_apply_vat,
                 a.created_at,
                 b.client_name,
                 b.address as client_address
@@ -104,6 +106,8 @@ class ProcessServiceController extends Controller
                 a.id,
                 a.send_to,
                 a.bill_no,
+                a.vat,
+                a.is_apply_vat,
                 a.created_at,
                 b.client_name,
                 b.client_code,
@@ -145,7 +149,7 @@ class ProcessServiceController extends Controller
         $services = DB::select("
             select
                 a.id, a.from_information, c.client_name, c.address as client_address,
-                c.email as client_email, a.software_name, a.send_to, a.amount,
+                c.email as client_email, a.software_name, a.send_to, a.amount, a.vat, a.is_apply_vat,
                 c.id as client_information_id
             from
                 service_confiq as a
@@ -174,10 +178,12 @@ class ProcessServiceController extends Controller
                     $maintenance = new Maintenace;
 
                     $maintenance->client_information_id = $service->client_information_id;
-                    $maintenance->year_id = $request->year;
-                    $maintenance->month_id = $request->month;
-                    $maintenance->bill_no = 'IBS-'.$bill_no;
-                    $maintenance->send_to = $service->send_to;
+                    $maintenance->year_id               = $request->year;
+                    $maintenance->month_id              = $request->month;
+                    $maintenance->bill_no               = 'IBS-'.$bill_no;
+                    $maintenance->send_to               = $service->send_to;
+                    $maintenance->vat                   = $service->vat;
+                    $maintenance->is_apply_vat          = $service->is_apply_vat;
                     $maintenance->save();
 
                     $CheckClients_id = $service->client_information_id;

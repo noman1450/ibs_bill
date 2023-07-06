@@ -57,15 +57,53 @@
                     @php($totalAmt = $totalAmt += $item->amount)
                 @endforeach
 
-                <tr>
-                    <td colspan="3" style="text-align:right">
-                        <p style="font-weight:500;font-size:12px">TOTAL</p>
+                @if ($info->is_apply_vat)
+                    <tr>
+                        <td colspan="3" style="text-align:right">
+                            <p style="font-weight:900;font-size:12px">SUB TOTAL</p>
+                        </td>
 
-                        <p><em>(excluding vat & tax)</em></p>
-                    </td>
+                        <td class="text-center" style="vertical-align: middle">
+                            <strong>Tk. {{ number_format($totalAmt) ?? '' }}/=</strong>
+                        </td>
+                    </tr>
 
-                    <td><strong>Tk. {{ number_format($totalAmt) ?? '' }}/=</strong></td>
-                </tr>
+                    <tr>
+                        <td colspan="3" style="text-align:right">
+                            <p style="font-weight:900;font-size:12px">VAT ({{ $info->vat }} %)</p>
+                        </td>
+
+                        @php($vatAmount = $totalAmt * $info->vat / 100)
+
+                        <td class="text-center" style="vertical-align: middle">
+                            <strong>Tk. {{ number_format($vatAmount) ?? '' }}/=</strong>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td colspan="3" style="text-align:right">
+                            <p style="font-weight:900;font-size:12px">TOTAL</p>
+                        </td>
+
+                        @php($totalAmt = $totalAmt + $vatAmount)
+
+                        <td class="text-center" style="vertical-align: middle">
+                            <strong>Tk. {{ number_format($totalAmt) ?? '' }}/=</strong>
+                        </td>
+                    </tr>
+                @else
+                    <tr>
+                        <td colspan="3" style="text-align:right">
+                            <p style="font-weight:900;font-size:12px">TOTAL</p>
+
+                            <p><em>(excluding vat & tax)</em></p>
+                        </td>
+
+                        <td class="text-center" style="vertical-align: middle">
+                            <strong>Tk. {{ number_format($totalAmt) ?? '' }}/=</strong>
+                        </td>
+                    </tr>
+                @endif
             </tbody>
         </table>
 
