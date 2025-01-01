@@ -2,6 +2,75 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
+## 1.8.0
+
+- Deprecate HttplugFactory, use Psr17Factory instead
+- Make depencendy on php-http/message-factory optional
+
+## 1.7.0
+
+- Bump to PHP 7.2 minimum
+- Allow psr/http-message v2
+- Use copy-on-write for streams created from strings
+
+## 1.6.1
+
+- Security fix: CVE-2023-29197
+
+## 1.6.0
+
+### Changed
+
+- Seek to the begining of the string when using Stream::create()
+- Populate ServerRequest::getQueryParams() on instantiation
+- Encode [reserved characters](https://www.rfc-editor.org/rfc/rfc3986#appendix-A) in userinfo in Uri
+- Normalize leading slashes for Uri::getPath()
+- Make Stream's constructor public
+- Add some missing type checks on arguments
+
+## 1.5.1
+
+### Fixed
+
+- Fixed deprecations on PHP 8.1
+
+## 1.5.0
+
+### Added
+
+- Add explicit `@return mixed`
+- Add explicit return types to HttplugFactory
+
+### Fixed
+
+- Improve error handling with streams
+
+## 1.4.1
+
+### Fixed
+
+- `Psr17Factory::createStreamFromFile`, `UploadedFile::moveTo`, and
+  `UploadedFile::getStream` no longer throw `ValueError` in PHP 8.
+
+## 1.4.0
+
+### Removed
+
+The `final` keyword was replaced by `@final` annotation.
+
+## 1.3.2
+
+### Fixed
+
+- `Stream::read()` must not return boolean.
+- Improved exception message when using wrong HTTP status code.
+
+## 1.3.1
+
+### Fixed
+
+- Allow installation on PHP8
+
 ## 1.3.0
 
 ### Added
@@ -93,4 +162,3 @@ All notable changes to this project will be documented in this file, in reverse 
 ## 0.2.3
 
 No changelog before this release
-

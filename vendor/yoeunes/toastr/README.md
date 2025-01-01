@@ -1,5 +1,11 @@
 <h1 align="center">Toastr.js notifications for Laravel 5 and Lumen</h1>
-<h1 align="center" color="green" style='color:green;'>For more drivers (toastr, pnotify, sweetalers2) please try the new package <a href="https://github.com/yoeunes/notify">yoeunes/notify</a></h1>
+
+> I'm working on a more advanced and more flexible solution for Laravel and Symfony, that include more drivers like : Tailwindcss, bootstrap, Noty, Sweet ALert, Notyf and Pnotify
+
+> I'm currently documenting all parts, but if you have time go check it here : https://php-flasher.github.io/
+> <p align="center"><img width="600" alt="flasher" src="https://user-images.githubusercontent.com/10859693/102468596-03317180-4052-11eb-9df3-44dc6235b238.png"></p>
+
+
 <p align="center">:eyes: This package helps you to add <a href="https://github.com/CodeSeven/toastr">toastr.js</a> notifications to your Laravel 5 and Lumen projects.</p>
 
 <p align="center">
@@ -35,8 +41,19 @@ Then add the service provider to `config/app.php`. In Laravel versions 5.5 and b
 As optional if you want to modify the default configuration, you can publish the configuration file:
  
 ```sh
-$ php artisan vendor:publish --provider='Yoeunes\Toastr\ToastrServiceProvider' --tag="config"
+$ php artisan vendor:publish --provider='Yoeunes\Toastr\ToastrServiceProvider' --tag="toastr-config"
 ```
+
+For windows users if you get `Unable to locate publishable resources` 
+
+![Screenshot from 2020-12-29 11-28-38](https://user-images.githubusercontent.com/10859693/103277521-82676380-49c9-11eb-9b83-48e9620e7314.png)
+
+Run this command :
+```sh
+$ php artisan vendor:publish
+```
+
+And after that select `Yoeunes\Toastr\ToastrServiceProvider`
 
 ### For Lumen :
 
@@ -101,10 +118,10 @@ After that add the `@toastr_render` at the bottom of your view to actualy render
     </head>
     <body>
         
-    </body>
     @jquery
     @toastr_js
     @toastr_render
+    </body>
 </html>
 ```
 ### Other Options

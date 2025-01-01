@@ -3,10 +3,10 @@
 namespace Yoeunes\Toastr;
 
 use Illuminate\Container\Container;
+use Illuminate\Foundation\Application as LaravelApplication;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Lumen\Application as LumenApplication;
-use Illuminate\Foundation\Application as LaravelApplication;
 
 class ToastrServiceProvider extends ServiceProvider
 {
@@ -17,8 +17,8 @@ class ToastrServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        if ($this->app instanceof LaravelApplication && $this->app->runningInConsole()) {
-            $this->publishes([$this->configPath() => config_path('toastr.php')], 'config');
+        if ($this->app instanceof LaravelApplication) {
+            $this->publishes([$this->configPath() => config_path('toastr.php')], 'toastr-config');
         } elseif ($this->app instanceof LumenApplication) {
             $this->app->configure('toastr');
         }
@@ -27,13 +27,13 @@ class ToastrServiceProvider extends ServiceProvider
     }
 
     /**
-     * Set the config path
+     * Set the config path.
      *
      * @return string
      */
     protected function configPath()
     {
-        return __DIR__ . '/../config/toastr.php';
+        return toastr_path(__DIR__.'/../config/toastr.php');
     }
 
     /**
@@ -73,9 +73,11 @@ class ToastrServiceProvider extends ServiceProvider
 
         Blade::directive('jquery', function ($arguments) {
             $version = $arguments;
+
             if (strpos($arguments, ',')) {
-                list($version, $src) = explode(',', $arguments);
+                [$version, $src] = explode(',', $arguments);
             }
+
             if (isset($src)) {
                 return "<?php echo jquery($version, $src); ?>";
             }

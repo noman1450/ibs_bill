@@ -178,8 +178,8 @@
 <line>Regards,</line> <br/>
 <line><strong>Abdullah Al Noman</strong></line> <br/>
 <line><strong>Co-Founder,</strong></line> <br/>
-<line><strong><a href="https://i-infotechsolution.com/">i-infotech Business Solution</a></strong></line> <br/>
-<line>House:126,Road-01,Avenue-3 , Mirpur-DOHS, Dhaka-1216</line> <br/>
+<line><strong><a href="https://i-infotechsolution.com/">I-infotech Business Solution</a></strong></line> <br/>
+<line>House: 270, Road-03, Avenue-03 , Mirpur-DOHS, Dhaka-1216</line> <br/>
 <line><strong>Cell: +88 01722565045</strong></line>
                     `);
                 }).catch(err => {

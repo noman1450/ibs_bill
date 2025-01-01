@@ -138,10 +138,10 @@
 
     <div style="padding: 5px 20px 10px 10px">
         <p class="font-14px">
-            <strong>i-infotech Business Solution</strong>
+            <strong>I-infotech Business Solution</strong>
         </p>
         <p style="font-size: 11px">
-            House: 126, Road-01, Avenue-3 , Mirpur-DOHS, Dhaka-1216
+            House: 270, Road-03, Avenue-03 , Mirpur-DOHS, Dhaka-1216
         </p>
         <p style="font-size: 11px">
             E-mail: iinfotechbs@gmail.com, info@i-infotechsolution.com

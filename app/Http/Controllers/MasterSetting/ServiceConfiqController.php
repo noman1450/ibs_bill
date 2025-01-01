@@ -47,7 +47,9 @@ class ServiceConfiqController extends Controller
     }
 
     public function store(Request $request)
-    {dd($request->all());
+    {
+
+        // dd($request->all());
         $validator = Validator::make($request->all(), [
             'to_information'             => 'nullable',
             'from_information'           => 'nullable',

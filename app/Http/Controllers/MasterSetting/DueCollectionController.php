@@ -23,7 +23,7 @@ class DueCollectionController extends Controller
     public function customer_name_list(Request $request)
     {
         $data = DB::SELECT("SELECT id, CONCAT(ifnull(client_code,''),' | ', client_name) as text, from_email, email, cc_email  FROM client_information
-             WHERE client_name LIKE '%$request->term%' OR client_code LIKE '%$request->term%'");
+             WHERE activity=1 AND client_name LIKE '%$request->term%' OR client_code LIKE '%$request->term%'");
 
         return response()->json($data);
     }
@@ -37,6 +37,7 @@ class DueCollectionController extends Controller
             ->join('month as d', 'c.month_id', '=', 'd.id')
             ->join('maintenace_bill_ledger as e', 'e.maintenace_bill_id', '=', 'c.id')
             ->where('b.id', $request->customer)
+            ->where('b.activity', 1)
             ->selectRaw('c.id, a.id as service_confiq_id, b.client_name as customer, a.software_name, a.valid, sum(e.payableamount - e.receiving_amount) as collect_amount, d.name as month_name')
             ->groupBy('c.id')
             ->get();
