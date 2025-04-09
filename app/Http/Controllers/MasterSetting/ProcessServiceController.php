@@ -155,6 +155,7 @@ class ProcessServiceController extends Controller
                 service_confiq as a
                 join
                 client_information as c on c.id = a.client_information_id and c.activity = 1
+                AND a.valid=1
                 where a.id not in (
                     select a.service_confiq_id from maintenace_bill_ledger a JOIN maintenace_bill b ON a.maintenace_bill_id=b.id
                     where b.year_id = $request->year and b.month_id = $request->month
